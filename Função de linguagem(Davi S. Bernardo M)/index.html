@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Projeto de Portugues - Funcoes da Linguagem (Grupo 5)</title>
+    <style>
+        /* CSS basico de aluno */
+        body {
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background-color: #2a5298;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .secao {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        h2 {
+            color: #1e3c72;
+            border-bottom: 2px solid #2a5298;
+            padding-bottom: 5px;
+        }
+
+        .card-funcao {
+            background-color: #eef2f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #2a5298;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .resposta-gabarito {
+            display: none;
+            background-color: #d4edda;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+
+        .mapa-mental-box {
+            background: #ffffff;
+            border: 2px dashed #2a5298;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .grid-mapa {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .no-mapa {
+            background: #eef2f5;
+            border: 2px solid #2a5298;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 0.9em;
+        }
+
+        .no-mapa strong {
+            color: #1e3c72;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .audio-player-simulado {
+            background: #1e3c72;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .controles-audio {
+            margin: 15px 0;
+        }
+
+        .btn-audio {
+            background: #ffc107;
+            color: #000;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+        .transcricao-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Projeto Português em Jogo 🎮</h1>
+        <p>Grupo 05: Funções da Linguagem | Foco: PASSE / AVALIA II</p>
+        <p><b>Alunos:</b> Bernardo M. e Davi V. | 2º Ano do Ensino Médio</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">Início</a> |
+        <a href="#teoria">Aprenda</a> |
+        <a href="#exemplos">Exemplos</a> |
+        <a href="#midia">Multimídia</a> |
+        <a href="#quiz">Quiz Interativo</a> |
+        <a href="#gabarito">Gabarito</a> |
+        <a href="#desafio">Desafio Final</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- PAGINA 1 -->
+        <div id="inicio" class="secao">
+            <h2>Página 1: Apresentação do Projeto</h2>
+            <p>E aí pessoal! Sejam bem-vindos ao site do <b>Grupo 05</b>.</p>
+            <p>O nosso tema é <b>Funções da Linguagem</b>. Criámos este site para ajudar a galera a revisar o conteúdo para a prova do PASSE/AVALIA II de um jeito mais fácil e interativo.</p>
+            <p>Naveguem pelas abas para ler o resumo, ver os exemplos e depois jogarem o nosso Quiz para testarem o que aprenderam!</p>
+        </div>
+
+        <!-- PAGINA 2 -->
+        <div id="teoria" class="secao">
+            <h2>Página 2: Resumo da Matéria (Aprenda)</h2>
+            <p>As funções da linguagem dependem de qual elemento da comunicação o emissor quer dar mais destaque:</p>
+
+            <div class="card-funcao">
+                <h3>1. Função Referencial (Denotativa)</h3>
+                <p><b>Foco:</b> Assunto / Contexto.</p>
+                <p>Serve para informar sobre algo de forma neutra, objetiva e direta. Muito usada em notícias de jornal e artigos científicos.</p>
+            </div>
+
+            <div class="card-funcao">
+                <h3>2. Função Emotiva (Expressiva)</h3>
+                <p><b>Foco:</b> Emissor (quem fala).</p>
+                <p>Mostra as emoções, sentimentos e opiniões de quem escreve. Usa bastante a 1ª pessoa ("eu"). Ex: diários e cartas de amor.</p>
+            </div>
+
+            <div class="card-funcao">
+                <h3>3. Função Conativa (Apelativa)</h3>
+                <p><b>Foco:</b> Recetor (quem recebe a mensagem).</p>
+                <p>Tenta convencer, persuadir ou dar ordens ao leitor. Usa verbos no imperativo (compre, faça, veja). Ex: anúncios e propagandas.</p>
+            </div>
+
+            <div class="card-funcao">
+                <h3>4. Função Fática</h3>
+                <p><b>Foco:</b> Canal de comunicação.</p>
+                <p>Serve para testar, iniciar ou terminar uma conversa. Ex: "Alô?", "Tudo bem?", "Ainda estás aí?".</p>
+            </div>
+
+            <div class="card-funcao">
+                <h3>5. Função Metalinguística</h3>
+                <p><b>Foco:</b> Código.</p>
+                <p>É a linguagem a explicar a própria linguagem. Ex: o dicionário (uma palavra explicando outra palavra) ou um poema sobre como escrever poesias.</p>
+            </div>
+
+            <div class="card-funcao">
+                <h3>6. Função Poética</h3>
+                <p><b>Foco:</b> Mensagem.</p>
+                <p>Importa-se com a beleza do texto, escolha das palavras, rimas e ritmo. Muito comum na literatura, poemas e músicas.</p>
+            </div>
+        </div>
+
+        <!-- PAGINA 3 -->
+        <div id="exemplos" class="secao">
+            <h2>Página 3: Exemplos Práticos</h2>
+            <ul>
+                <li><b>Referencial:</b> "O jogo da seleção será às 16h no estádio." (Só está a dar uma informação objetiva).</li>
+                <li><b>Emotiva:</b> "Estou muito triste com o resultado da prova..." (Expressa o sentimento do emissor).</li>
+                <li><b>Conativa:</b> "Compre 2 e leve 3! Não perca esta promoção!" (Tenta convencer o comprador).</li>
+                <li><b>Fática:</b> "Ei, estás a ouvir-me?" (Apenas a testar o canal de som).</li>
+                <li><b>Metalinguística:</b> "A palavra 'substantivo' dá nome aos seres." (A língua a explicar a própria gramática).</li>
+                <li><b>Poética:</b> "A brisa leve canta uma canção de embalar." (Uso estilístico e poético das palavras).</li>
+            </ul>
+        </div>
+
+        <!-- PAGINA 4 -->
+        <div id="midia" class="secao">
+            <h2>Página 4: Recursos Multimídia</h2>
+            
+            <h3>Recurso 1: Mapa Mental Interativo</h3>
+            <div class="mapa-mental-box">
+                <div style="background: #1e3c72; color: white; padding: 10px; border-radius: 5px; font-weight: bold; display: inline-block;">
+                    ELEMENTOS DA COMUNICAÇÃO & FUNÇÕES DA LINGUAGEM
+                </div>
+                
+                <div class="grid-mapa">
+                    <div class="no-mapa">
+                        <strong>EMISSOR</strong>
+                        <hr>
+                        Função Emotiva / Expressiva<br>
+                        <i>(Sentimentos e 1ª pessoa)</i>
+                    </div>
+
+                    <div class="no-mapa">
+                        <strong>RECEPTOR</strong>
+                        <hr>
+                        Função Conativa / Apelativa<br>
+                        <i>(Ordens, conselhos e imperativo)</i>
+                    </div>
+
+                    <div class="no-mapa">
+                        <strong>CONTEXTO</strong>
+                        <hr>
+                        Função Referencial<br>
+                        <i>(Informação neutra e fatos)</i>
+                    </div>
+
+                    <div class="no-mapa">
+                        <strong>MENSAGEM</strong>
+                        <hr>
+                        Função Poética<br>
+                        <i>(Estética, ritmo e rimas)</i>
+                    </div>
+
+                    <div class="no-mapa">
+                        <strong>CANAL</strong>
+                        <hr>
+                        Função Fática<br>
+                        <i>(Testar a ligação/diálogo)</i>
+                    </div>
+
+                    <div class="no-mapa">
+                        <strong>CÓDIGO</strong>
+                        <hr>
+                        Função Metalinguística<br>
+                        <i>(Língua explicando a língua)</i>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Recurso 2: Podcast em Áudio do Grupo</h3>
+            <div class="audio-player-simulado">
+                <p>🎙️ <b>Podcast Grupo 05 - Resumão em Áudio (1 min)</b></p>
+                <div class="controles-audio">
+                    <button type="button" class="btn-audio" onclick="tocarPodcast()">▶ Play / Pause Áudio do Bernardo e Davi</button>
+                </div>
+                
+                <div class="transcricao-box">
+                    <p><b>Transcrição do Áudio:</b></p>
+                    <p id="textoPodcast"><i>Clique no botão Play acima para escutar a explicação dos alunos!</i></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGINA 5 -->
+        <div id="quiz" class="secao">
+            <h2>Página 5: Quiz de Treino (JavaScript)</h2>
+            <p>Respondam às 13 questões e cliquem no botão no final para verem a vossa nota!</p>
+
+            <form id="meuQuiz">
+                <p><b>1) Qual é a função da linguagem focada em dar ordens e convencer o leitor?</b></p>
+                <input type="radio" name="p1" value="errada"> a) Emotiva<br>
+                <input type="radio" name="p1" value="correta"> b) Conativa<br>
+                <input type="radio" name="p1" value="errada"> c) Fática<br>
+
+                <p><b>2) O dicionário é um exemplo clássico de qual função?</b></p>
+                <input type="radio" name="p2" value="correta"> a) Metalinguística<br>
+                <input type="radio" name="p2" value="errada"> b) Poética<br>
+                <input type="radio" name="p2" value="errada"> c) Referencial<br>
+
+                <p><b>3) A função Referencial é muito encontrada em qual tipo de texto?</b></p>
+                <input type="radio" name="p3" value="correta"> a) Notícias e jornais<br>
+                <input type="radio" name="p3" value="errada"> b) Poemas de amor<br>
+                <input type="radio" name="p3" value="errada"> c) Anúncios de TV<br>
+
+                <p><b>4) Em uma ligação telefónica, quando dizemos "Alô, estás a ouvir?", predomina a função:</b></p>
+                <input type="radio" name="p4" value="errada"> a) Poética<br>
+                <input type="radio" name="p4" value="correta"> b) Fática<br>
+                <input type="radio" name="p4" value="errada"> c) Conativa<br>
+
+                <p><b>5) Um diário pessoal, repleto de opiniões e sentimentos do autor na 1ª pessoa, utiliza a função:</b></p>
+                <input type="radio" name="p5" value="correta"> a) Emotiva<br>
+                <input type="radio" name="p5" value="errada"> b) Referencial<br>
+                <input type="radio" name="p5" value="errada"> c) Metalinguística<br>
+
+                <p><b>6) O elemento da comunicação associado diretamente à função Poética é:</b></p>
+                <input type="radio" name="p6" value="errada"> a) O canal<br>
+                <input type="radio" name="p6" value="correta"> b) A mensagem<br>
+                <input type="radio" name="p6" value="errada"> c) O recetor<br>
+
+                <p><b>7) "Vote em mim para representante de turma e melhore a escola!" apresenta predominantemente a função:</b></p>
+                <input type="radio" name="p7" value="correta"> a) Conativa<br>
+                <input type="radio" name="p7" value="errada"> b) Fática<br>
+                <input type="radio" name="p7" value="errada"> c) Poética<br>
+
+                <p><b>8) Quando um filme fala sobre a produção de outro filme, temos o uso da função:</b></p>
+                <input type="radio" name="p8" value="errada"> a) Referencial<br>
+                <input type="radio" name="p8" value="correta"> b) Metalinguística<br>
+                <input type="radio" name="p8" value="errada"> c) Emotiva<br>
+
+                <p><b>9) Qual função busca testar, prolongar ou interromper a comunicação entre dois falantes?</b></p>
+                <input type="radio" name="p9" value="errada"> a) Conativa<br>
+                <input type="radio" name="p9" value="correta"> b) Fática<br>
+                <input type="radio" name="p9" value="errada"> c) Metalinguística<br>
+
+                <p><b>10) Manuais de instrução de eletrodomésticos priorizam qual linguagem?</b></p>
+                <input type="radio" name="p10" value="correta"> a) Referencial<br>
+                <input type="radio" name="p10" value="errada"> b) Poética<br>
+                <input type="radio" name="p10" value="errada"> c) Emotiva<br>
+
+                <p><b>11) Músicas e poemas ricos em ritmo e figuras de linguagem destacam a função:</b></p>
+                <input type="radio" name="p11" value="errada"> a) Fática<br>
+                <input type="radio" name="p11" value="correta"> b) Poética<br>
+                <input type="radio" name="p11" value="errada"> c) Metalinguística<br>
+
+                <p><b>12) Uma aula de gramática que explica as regras de acentuação em português é um exemplo de:</b></p>
+                <input type="radio" name="p12" value="correta"> a) Metalinguística<br>
+                <input type="radio" name="p12" value="errada"> b) Conativa<br>
+                <input type="radio" name="p12" value="errada"> c) Emotiva<br>
+
+                <p><b>13) A expressão "Até logo, tenha um bom dia!" tem como objetivo principal manter a cortesia no canal, sendo:</b></p>
+                <input type="radio" name="p13" value="errada"> a) Referencial<br>
+                <input type="radio" name="p13" value="correta"> b) Fática<br>
+                <input type="radio" name="p13" value="errada"> c) Poética<br>
+
+                <br><br>
+                <button type="button" onclick="calcularResultado()">Corrigir Quiz</button>
+            </form>
+
+            <h3 id="resultadoJS" style="color: blue;"></h3>
+        </div>
+
+        <!-- PAGINA 6 -->
+        <div id="gabarito" class="secao">
+            <h2>Página 6: Gabarito Explicativo</h2>
+            <p>Cliquem nos botões abaixo para verem as respostas corretas com a explicação:</p>
+
+            <button onclick="mostrarGabarito('g1')">Ver Gabarito Q1 a Q3</button>
+            <div id="g1" class="resposta-gabarito">
+                <b>Q1: B (Conativa)</b> - Foca no recetor para persuadir.<br>
+                <b>Q2: A (Metalinguística)</b> - O código explica o próprio código.<br>
+                <b>Q3: A (Notícias)</b> - Linguagem neutra e objetiva.
+            </div>
+            <br><br>
+
+            <button onclick="mostrarGabarito('g2')">Ver Gabarito Q4 a Q7</button>
+            <div id="g2" class="resposta-gabarito">
+                <b>Q4: B (Fática)</b> - Serve para testar e manter o canal de comunicação aberto.<br>
+                <b>Q5: A (Emotiva)</b> - Foco na expressão de sentimentos do autor na 1ª pessoa.<br>
+                <b>Q6: B (Mensagem)</b> - A função poética trabalha a própria estrutura da mensagem.<br>
+                <b>Q7: A (Conativa)</b> - Uso de verbos no imperativo ("Vote", "melhore") para convencer.
+            </div>
+            <br><br>
+
+            <button onclick="mostrarGabarito('g3')">Ver Gabarito Q8 a Q13</button>
+            <div id="g3" class="resposta-gabarito">
+                <b>Q8: B (Metalinguística)</b> - Cinema a falar sobre cinema.<br>
+                <b>Q9: B (Fática)</b> - Interações cujo objetivo é estabelecer ou encerrar o contato.<br>
+                <b>Q10: A (Referencial)</b> - Transmissão clara de instruções sem subjetividade.<br>
+                <b>Q11: B (Poética)</b> - Foco na estética e sonoridade da mensagem.<br>
+                <b>Q12: A (Metalinguística)</b> - A língua portuguesa usada para ensinar gramática.<br>
+                <b>Q13: B (Fática)</b> - Saudação utilizada para fechar o canal de comunicação.
+            </div>
+        </div>
+
+        <!-- PAGINA 7 -->
+        <div id="desafio" class="secao">
+            <h2>Página 7: Desafio Final do Grupo</h2>
+            <p><b>Leiam a frase do anúncio abaixo:</b></p>
+            <blockquote style="background: #fff3cd; padding: 10px; border-left: 3px solid #ffc107;">
+                "Está com fome? Peça já a sua pizza no restaurante do João! Entrega rápida em 20 minutos."
+            </blockquote>
+            <p><b>Exercício:</b> Quais são as 2 funções da linguagem presentes na frase acima?</p>
+
+            <button onclick="mostrarGabarito('gFinal')">Ver Solução do Desafio</button>
+            <div id="gFinal" class="resposta-gabarito">
+                <b>Resolução:</b><br>
+                1) <b>Função Conativa:</b> Apresenta uma pergunta direta e o verbo no imperativo ("Peça já") para convencer o cliente.<br>
+                2) <b>Função Referencial:</b> Informa o tempo de entrega de forma objetiva ("em 20 minutos").
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Trabalho de Língua Portuguesa - 2º Ano | Desenvolvido por Bernardo M. e Davi V.</p>
+    </footer>
+
+    <!-- SCRIPT EM JAVASCRIPT BÁSICO -->
+    <script>
+        // Funcao para calcular a pontuacao do quiz (13 questoes)
+        function calcularResultado() {
+            var pontos = 0;
+            var form = document.forms["meuQuiz"];
+
+            for (var i = 1; i <= 13; i++) {
+                if (form["p" + i].value === "correta") {
+                    pontos++;
+                }
+            }
+
+            document.getElementById("resultadoJS").innerHTML = "A tua pontuação foi: " + pontos + " de 13!";
+        }
+
+        // Funcao simples para mostrar/esconder o gabarito
+        function mostrarGabarito(id) {
+            var elemento = document.getElementById(id);
+            if (elemento.style.display === "block") {
+                elemento.style.display = "none";
+            } else {
+                elemento.style.display = "block";
+            }
+        }
+
+        // Simulador de audio via Web Speech API
+        function tocarPodcast() {
+            var textoBox = document.getElementById("textoPodcast");
+            var falaTexto = "Fala galera! Aqui é o Bernardo e o Davi do Grupo 05. A dica principal para o PASSE é: lembrou de propaganda ou ordem, é Conativa. Lembrou de sentimento na primeira pessoa, é Emotiva. Dicionário ou gramática é Metalinguística. Boa sorte na prova!";
+            
+            textoBox.innerHTML = "<b>[A Tocar Áudio...]:</b> " + falaTexto;
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                var msg = new SpeechSynthesisUtterance();
+                msg.text = falaTexto;
+                msg.lang = 'pt-BR';
+                window.speechSynthesis.speak(msg);
+            } else {
+                alert("O teu navegador não suporta a síntese de voz, mas podes ler a transcrição!");
+            }
+        }
+    </script>
+
+</body>
+</html>
