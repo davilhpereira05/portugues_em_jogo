@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Denotação & Conotação — Grupo 07</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOPO: pontos, nível e progresso (aparece depois de clicar em COMEÇAR) -->
+<header id="top">
+  <strong class="brand">📚 D&amp;C</strong>
+  <div class="stats">
+    <span class="chip" id="pts">⭐ Pontos: 0</span>
+    <span class="chip" id="lvl">🌱 Nível 1 — Iniciante</span>
+    <span class="chip" id="prg">Progresso: 0%</span>
+  </div>
+  <div class="track" aria-hidden="true"><div class="fill" id="topFill"></div></div>
+</header>
+
+<!-- MENU PRINCIPAL -->
+<nav id="menu" aria-label="Menu principal">
+  <button data-go="inicio">🏠 Início</button>
+  <button data-go="aprenda">📚 Aprenda</button>
+  <button data-go="exemplos">💡 Exemplos</button>
+  <button data-go="quiz">🎮 Quiz</button>
+  <button data-go="desafio">🏆 Desafio Final</button>
+  <button data-go="progresso">📊 Meu Progresso</button>
+</nav>
+
+<main>
+
+<!-- PÁGINA INICIAL -->
+<section id="inicio" class="sec active hero">
+  <div class="float">🧠</div>
+  <h1>DENOTAÇÃO &amp; CONOTAÇÃO</h1>
+  <p class="sub">Descubra os sentidos escondidos nas palavras!</p>
+  <p class="group">Grupo 07 — Vitor S. e Calebe</p>
+  <button class="big" data-go="aprenda">🚀 COMEÇAR</button>
+  <p class="tags">📚 Português · 🎮 Gamificação · 🏆 Desafios · 💡 Aprendizado</p>
+</section>
+
+<!-- APRENDA: denotação, conotação, comparação e efeitos de sentido -->
+<section id="aprenda" class="sec">
+  <h2>📚 Aprenda</h2>
+
+  <article class="card">
+    <h3>📘 O que é Denotação?</h3>
+    <p>Denotação é quando uma palavra é usada em seu <b>sentido literal</b>, ou seja, no sentido mais comum e direto, como no dicionário.</p>
+    <p class="ex">Exemplo: “A menina está com dor no coração.” Nesse contexto, “coração” pode indicar o órgão do corpo.</p>
+    <div class="badge">DENOTAÇÃO = SENTIDO LITERAL</div>
+    <ul class="list"><li>“O cachorro está no quintal.”</li><li>“A água está quente.”</li><li>“O aluno abriu o livro.”</li></ul>
+  </article>
+
+  <article class="card alt">
+    <h3>🎨 O que é Conotação?</h3>
+    <p>Conotação acontece quando a palavra é usada em sentido <b>figurado</b>, simbólico, diferente do significado literal.</p>
+    <p class="ex">Exemplo: “Meu amigo tem um coração de ouro.” Não quer dizer que o coração é feito de ouro: a expressão indica que a pessoa é boa, generosa e bondosa.</p>
+    <div class="badge">CONOTAÇÃO = SENTIDO FIGURADO</div>
+    <ul class="list"><li>“Ele está com a cabeça nas nuvens.”</li><li>“Meu professor é uma fera.”</li><li>“Estou morrendo de rir.”</li></ul>
+  </article>
+
+  <h3 class="mt">⚖️ Denotação x Conotação</h3>
+  <div class="grid2">
+    <article class="card"><h4>DENOTAÇÃO</h4><p>📖 Sentido literal</p><p>🎯 Direto</p><p>🔎 Objetivo</p><p>📚 Próximo do significado do dicionário</p></article>
+    <article class="card alt"><h4>CONOTAÇÃO</h4><p>🎨 Sentido figurado</p><p>💭 Subjetivo</p><p>✨ Pode gerar várias interpretações</p><p>🗣️ Muito usada em textos literários, músicas, propagandas e expressões populares</p></article>
+  </div>
+
+  <article class="card mt">
+    <h3>🎭 Como o sentido das palavras muda um texto?</h3>
+    <p>Escolher entre o sentido literal e o figurado muda a interpretação da frase e o efeito que ela causa no leitor.</p>
+    <p class="ex"><b>“Ele é uma raposa.”</b><br>Literal: a pessoa seria realmente uma raposa.<br>Conotativo: a pessoa é esperta, astuta.</p>
+    <p class="ex"><b>“Ela tem um coração de pedra.”</b><br>O coração não é feito de pedra: a expressão indica alguém frio, sem sentimentos.</p>
+  </article>
+
+  <button class="big" id="learnBtn">✅ Concluí a leitura</button>
+</section>
+
+<!-- EXEMPLOS INTERATIVOS (gerados pelo JavaScript) -->
+<section id="exemplos" class="sec">
+  <h2>💡 Exemplos</h2>
+  <p>Leia a frase e clique para revelar o significado.</p>
+  <div class="grid2" id="exGrid"></div>
+</section>
+
+<!-- QUIZ (gerado pelo JavaScript) -->
+<section id="quiz" class="sec">
+  <h2>🎮 Quiz</h2>
+  <p>Cada acerto vale +100 pontos. Cada pergunta só pontua uma vez.</p>
+  <div id="quizBox"></div>
+</section>
+
+<!-- DESAFIO FINAL -->
+<section id="desafio" class="sec">
+  <h2>🔥 DESAFIO FINAL</h2>
+  <p>5 perguntas mais difíceis. Cada acerto vale 🏆 200 pontos.</p>
+  <div id="chBox"></div>
+</section>
+
+<!-- MEU PROGRESSO -->
+<section id="progresso" class="sec">
+  <h2>📊 Meu Progresso</h2>
+  <div class="track big-track"><div class="fill" id="bigFill"></div></div>
+  <div class="grid3" id="statGrid"></div>
+  <h3 class="mt">🏅 Conquistas</h3>
+  <div class="grid3" id="achGrid"></div>
+  <button class="reset" id="resetBtn">🔄 Reiniciar progresso</button>
+</section>
+
+</main>
+
+<footer>
+  <p><b>Projeto de Língua Portuguesa e Literatura</b></p>
+  <p>Grupo 07 — Denotação e Conotação</p>
+  <p>Integrantes: Vitor S. e Calebe</p>
+  <p>Ensino Médio · PASSE / AVALIA II</p>
+</footer>
+
+<div id="toasts" aria-live="polite"></div>
+<script src="script.js"></script>
+</body>
+</html>
