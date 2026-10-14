@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornada Literária: Trovadorismo, Humanismo e Classicismo | Grupo 15</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        medieval: {
+                            900: '#111827',
+                            800: '#1e1b4b',
+                            700: '#311b92',
+                            gold: '#d97706',
+                            goldlight: '#fbbf24',
+                            parchment: '#fef3c7',
+                            parchmentlight: '#fffbeb',
+                            wine: '#701a75',
+                            winelight: '#881337',
+                            emerald: '#047857'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parchment-bg {
+            background-color: #fffbeb;
+            background-image: radial-gradient(#d97706 0.5px, transparent 0.5px), radial-gradient(#d97706 0.5px, #fffbeb 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-opacity: 0.05;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #4c1d95 100%);
+        }
+        .gold-border {
+            border: 2px solid #d97706;
+        }
+        .gold-glow {
+            box-shadow: 0 0 15px rgba(217, 119, 6, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e1b4b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d97706;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-amber-500 selection:text-slate-900 custom-scrollbar">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-amber-600/40 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand / Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-slate-950 font-cinzel font-bold text-2xl shadow-md border border-amber-300">
+                        XV
+                    </div>
+                    <div>
+                        <span class="font-cinzel text-lg sm:text-xl font-bold tracking-wider text-amber-400 block">JORNADA LITERÁRIA</span>
+                        <span class="text-xs text-slate-400 font-sans tracking-wide">PASSE/AVALIA II • Grupo 15</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-1 xl:space-x-2 text-xs xl:text-sm font-medium">
+                    <button onclick="scrollToSection('inicio')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Início</button>
+                    <button onclick="scrollToSection('aprenda')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Aprenda</button>
+                    <button onclick="scrollToSection('exemplos')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Exemplos</button>
+                    <button onclick="scrollToSection('explore')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Explore</button>
+                    <button onclick="scrollToSection('desafio')" class="px-3 py-2 rounded-md bg-amber-600/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500 hover:text-slate-950 transition font-semibold">Quiz Game</button>
+                    <button onclick="scrollToSection('gabarito')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Gabarito</button>
+                    <button onclick="scrollToSection('desafio-final')" class="px-3 py-2 rounded-md hover:text-amber-400 hover:bg-slate-800 transition">Desafio Final</button>
+                </nav>
+
+                <!-- Action Button / Checklist Modal Trigger -->
+                <div class="hidden sm:flex items-center space-x-3">
+                    <button onclick="toggleModal('checklist-modal')" class="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 flex items-center gap-2 transition">
+                        <i class="fa-solid fa-list-check text-amber-400"></i> Registro & Checklist
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center gap-2">
+                    <button onclick="toggleModal('checklist-modal')" class="p-2 text-amber-400 hover:text-amber-300">
+                        <i class="fa-solid fa-list-check text-lg"></i>
+                    </button>
+                    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2 rounded-md text-slate-300 hover:text-amber-400 hover:bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-slate-950 border-b border-amber-600/30 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="scrollToSection('inicio'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Início</button>
+            <button onclick="scrollToSection('aprenda'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Aprenda (Teoria)</button>
+            <button onclick="scrollToSection('exemplos'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Exemplos Comentados</button>
+            <button onclick="scrollToSection('explore'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Explore (Multimídia)</button>
+            <button onclick="scrollToSection('desafio'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md bg-amber-600/30 text-amber-300 font-bold">Desafio (Quiz 15 Qs)</button>
+            <button onclick="scrollToSection('gabarito'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Gabarito Explicativo</button>
+            <button onclick="scrollToSection('desafio-final'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-md text-slate-200 hover:bg-slate-800">Desafio Final Discursivo</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+    <main>
+        <!-- SECTION 1: INÍCIO (HERO & APRESENTAÇÃO GAMIFICADA) -->
+        <section id="inicio" class="relative py-16 lg:py-24 hero-gradient overflow-hidden border-b border-amber-600/30">
+            <!-- Decorative background elements -->
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fbbf24_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Left Hero Info -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm font-semibold tracking-wide">
+                            <i class="fa-solid fa-scroll text-amber-400"></i> Foco Principal: PASSE / AVALIA II (2º Ano)
+                        </div>
+                        
+                        <h1 class="font-cinzel text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+                            Jornada Literária:<br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600">
+                                Trovadorismo, Humanismo & Classicismo
+                            </span>
+                        </h1>
+                        
+                        <p class="text-slate-300 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+                            Acompanhe a grande transição do pensamento medieval ao renascentista português. Um portal interativo e gamificado elaborado para dominar a teoria, os autores, os textos e gabaritar a avaliação do PASSE II.
+                        </p>
+
+                        <!-- Group Credits Badge -->
+                        <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-700/80 backdrop-blur-sm max-w-lg mx-auto lg:mx-0 shadow-lg">
+                            <div class="text-xs uppercase tracking-wider text-amber-400 font-bold mb-1">
+                                <i class="fa-solid fa-users text-amber-400 mr-1"></i> Desenvolvido por Integrantes do Grupo 15:
+                            </div>
+                            <div class="flex items-center gap-4 mt-2">
+                                <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                                    <i class="fa-solid fa-user-graduate text-amber-400"></i>
+                                    <span class="text-sm font-semibold text-slate-100">Arthur Becker</span>
+                                </div>
+                                <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                                    <i class="fa-solid fa-user-graduate text-amber-400"></i>
+                                    <span class="text-sm font-semibold text-slate-100">João Pedro</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="scrollToSection('aprenda')" class="px-6 py-3.5 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 transition shadow-lg shadow-amber-500/20 flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-compass"></i> Iniciar Missão de Revisão
+                            </button>
+                            <button onclick="scrollToSection('desafio')" class="px-6 py-3.5 rounded-xl font-bold text-amber-300 bg-slate-800/80 hover:bg-slate-800 border border-amber-500/40 hover:border-amber-400 transition flex items-center gap-2 text-base">
+                                <i class="fa-solid fa-gamepad"></i> Ir Direto ao Quiz Game
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Cards / Interactive Mission Dashboard -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-slate-900/90 border-2 border-amber-500/40 rounded-2xl p-6 shadow-2xl relative gold-glow">
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-800">
+                                <h3 class="font-cinzel text-lg font-bold text-amber-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-shield-halved text-amber-400"></i> Mapa da Missão
+                                </h3>
+                                <span class="text-xs bg-amber-500/20 text-amber-300 px-2.5 py-1 rounded-full font-semibold border border-amber-500/30">7 Módulos</span>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50 hover:border-amber-500/40 transition">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">1</div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-slate-200">Trovadorismo (Séc. XII - XIV)</div>
+                                            <div class="text-[10px] text-slate-400">Teocentrismo, Vassalagem & Cantigas</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-feather text-amber-400/80"></i>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50 hover:border-amber-500/40 transition">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">2</div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-slate-200">Humanismo (Séc. XIV - XVI)</div>
+                                            <div class="text-[10px] text-slate-400">Transição, Gil Vicente & Fernão Lopes</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-masks-theater text-purple-400/80"></i>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50 hover:border-amber-500/40 transition">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">3</div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-slate-200">Classicismo (Séc. XVI)</div>
+                                            <div class="text-[10px] text-slate-400">Renascimento, Camões & Os Lusíadas</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-ship text-emerald-400/80"></i>
+                                </div>
+
+                                <div class="flex items-center justify-between p-3 rounded-lg bg-slate-800/60 border border-slate-700/50 hover:border-amber-500/40 transition">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-sm">4</div>
+                                        <div>
+                                            <div class="text-xs font-semibold text-slate-200">Quiz de Fixação (15 Questões)</div>
+                                            <div class="text-[10px] text-slate-400">Feedback instantâneo & Pontuação</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-trophy text-red-400/80"></i>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 pt-4 border-t border-slate-800 text-center">
+                                <span class="text-xs text-slate-400">Totalmente otimizado para o modelo de prova PASSE / AVALIA II</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: APRENDA (TEORIA COMPLETA E RESUMIDA) -->
+        <section id="aprenda" class="py-16 bg-slate-900 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs uppercase tracking-widest font-bold text-amber-400 mb-2">Módulo Teórico</h2>
+                    <h3 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">Evolução Literária em 3 Eras</h3>
+                    <p class="text-slate-400 mt-3 text-sm sm:text-base">
+                        Clique nos períodos abaixo para alternar os conceitos essenciais, contexto histórico, características e principais autores cobrados na prova.
+                    </p>
+                </div>
+
+                <!-- Theory Navigation Tabs -->
+                <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8">
+                    <button onclick="switchTheoryTab('trovadorismo')" id="btn-tab-trovadorismo" class="theory-tab-btn px-5 py-3 rounded-xl font-cinzel font-bold text-sm sm:text-base bg-amber-500 text-slate-950 shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-feather"></i> 1. Trovadorismo
+                    </button>
+                    <button onclick="switchTheoryTab('humanismo')" id="btn-tab-humanismo" class="theory-tab-btn px-5 py-3 rounded-xl font-cinzel font-bold text-sm sm:text-base bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-masks-theater"></i> 2. Humanismo
+                    </button>
+                    <button onclick="switchTheoryTab('classicismo')" id="btn-tab-classicismo" class="theory-tab-btn px-5 py-3 rounded-xl font-cinzel font-bold text-sm sm:text-base bg-slate-800 text-slate-300 hover:bg-slate-700 transition flex items-center gap-2">
+                        <i class="fa-solid fa-anchor"></i> 3. Classicismo
+                    </button>
+                </div>
+
+                <!-- TAB CONTENT: TROVADORISMO -->
+                <div id="tab-trovadorismo" class="theory-content space-y-6">
+                    <div class="bg-slate-800/80 rounded-2xl p-6 lg:p-8 border border-amber-500/30 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-700">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Idade Média (Séculos XII a XIV)</span>
+                                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-white mt-1">O Trovadorismo em Portugal</h3>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40 w-max">
+                                Marco Inicial: 1189 (ou 1198) - Cantiga da Ribeirinha
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                            <!-- Card 1 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-landmark"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-amber-300 text-lg">Contexto Histórico</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside">
+                                    <li><strong>Feudalismo:</strong> Sociedade estamental dividida em Clero, Nobreza e Servos.</li>
+                                    <li><strong>Teocentrismo:</strong> Deus no centro do universo e regulador da vida moral.</li>
+                                    <li>Formação do Reino de Portugal e independência política.</li>
+                                    <li>Analfabetismo generalizado: a poesia era feita para ser cantada e ouvida (com acompanhamento musical).</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-music"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-amber-300 text-lg">Cantigas Líricas</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li><strong class="text-amber-400">Cantiga de Amor:</strong> Eu lírico masculino. Origem provençal. Vassalagem amorosa, senhora inalcançável ("senhor"), sofrimento amoroso ("coita"). Ambiente da corte.</li>
+                                    <li><strong class="text-amber-400">Cantiga de Amigo:</strong> Eu lírico feminino (escrita por homem). Origem autóctone/peninsular. Amigo = namorado. Saudade do amado na guerra/mar. Ambiente rural ou praiano (ex: ondas do mar). Tem refrão e paralelismo.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-masks-theater"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-amber-300 text-lg">Cantigas Satíricas & Prosa</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li><strong class="text-amber-400">Cantiga de Escarnecer:</strong> Sátira indireta, uso de trocadilhos e duplo sentido. Não cita explicitamente o nome do criticado.</li>
+                                    <li><strong class="text-amber-400">Cantiga de Maldizer:</strong> Sátira direta, linguagem vulgar/agressiva. Cita o nome da pessoa criticada.</li>
+                                    <li><strong class="text-amber-400">Novelas de Cavalaria:</strong> Prosa medieval (Ciclo Arturiano / Távola Redonda, busca do Santo Graal).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Authors highlight -->
+                        <div class="mt-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase text-amber-400">Principais Figuras Trovadorescas</span>
+                                <p class="text-xs sm:text-sm text-slate-200 mt-1">Paio Soares de Taveirós (autor da 1ª cantiga), Dom Dinis (o Rei Poeta), Martin Codax e Pero Meogo.</p>
+                            </div>
+                            <span class="text-xs text-amber-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-amber-500/30 font-mono">Cancioneiros: Ajuda, da Vaticana e da Biblioteca Nacional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: HUMANISMO -->
+                <div id="tab-humanismo" class="theory-content hidden space-y-6">
+                    <div class="bg-slate-800/80 rounded-2xl p-6 lg:p-8 border border-purple-500/30 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-700">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">A Era de Transição (Séculos XIV a XVI)</span>
+                                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-white mt-1">O Humanismo Português</h3>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/40 w-max">
+                                Marco Inicial: 1418 - Fernão Lopes nomeado Cronista-Mór
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                            <!-- Card 1 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-balance-scale"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-purple-300 text-lg">Contexto de Transição</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside">
+                                    <li>Declínio do Feudalismo e fortalecimento da Burguesia e do comércio.</li>
+                                    <li><strong>Transição Cultural:</strong> Do Teocentrismo em direção ao Antropocentrismo (o homem ganha relevância, mas a fé católica permanece forte).</li>
+                                    <li>Desenvolvimento do pensamento racionalista e científico nascente.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-book-journal-whills"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-purple-300 text-lg">Poesia Palaciana & Prosa</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li><strong class="text-purple-400">Poesia Palaciana:</strong> Separada da música! Feita para ser lida ou declamada nos palácios. Linguagem refinada, trocadilhos, motes e voltas. Reunida no <em>Cancioneiro Geral</em> (1516) de Garcia de Resende.</li>
+                                    <li><strong class="text-purple-400">Prosa Historiográfica:</strong> Fernão Lopes (Cronista-Mór do Reino). Inovação ao retratar o povo como agente da história, não apenas os reis. Rigor nos fatos.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-theater-masks"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-purple-300 text-lg">Teatro Vicentino (Gil Vicente)</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li>Pai do Teatro Português. Teatro popular, moralizador e satírico.</li>
+                                    <li>Lema: <em>"Ridendo castigat mores"</em> (Rindo corrigem-se os costumes).</li>
+                                    <li><strong>Tipos Sociais:</strong> Personagens alegóricos ou tipificados (o Fidalgo soberbo, o Padre corrupto, o Juiz subornado, o Povo sofredor).</li>
+                                    <li>Divisão: Autos (religiosos/morais, ex: <em>Auto da Barca do Inferno</em>) e Farsas (cômicas/cotidiano, ex: <em>Farsa de Inês Pereira</em>).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Authors highlight -->
+                        <div class="mt-6 p-4 rounded-xl bg-purple-500/10 border border-purple-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase text-purple-400">Mestres do Humanismo</span>
+                                <p class="text-xs sm:text-sm text-slate-200 mt-1">Gil Vicente (Teatro), Fernão Lopes (Historiografia) e Garcia de Resende (Poesia Palaciana).</p>
+                            </div>
+                            <span class="text-xs text-purple-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-purple-500/30 font-mono">Destaque PASSE II: Moral religiosa sem julgar a fé, mas criticando o clero corrupto.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB CONTENT: CLASSICISMO -->
+                <div id="tab-classicismo" class="theory-content hidden space-y-6">
+                    <div class="bg-slate-800/80 rounded-2xl p-6 lg:p-8 border border-emerald-500/30 shadow-xl">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-700">
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">O Renascimento Cultural (Século XVI)</span>
+                                <h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-white mt-1">O Classicismo Português</h3>
+                            </div>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 w-max">
+                                Marco Inicial: 1527 - Sá de Miranda introduz a Medida Nova
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+                            <!-- Card 1 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-compass-drafting"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-emerald-300 text-lg">Contexto & Valores</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside">
+                                    <li><strong>Grandes Navegações:</strong> Expansão marítima portuguesa (Vasco da Gama chega às Índias em 1498).</li>
+                                    <li><strong>Antropocentrismo & Racionalismo:</strong> O homem como centro da reflexão; valorização do intelecto e da ciência.</li>
+                                    <li><strong>Resgate da Antiguidade Clássica:</strong> Inspiração na mitologia grega e romana, na simetria, na razão e na harmonia estética.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-pen-nib"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-emerald-300 text-lg">A "Medida Nova" Formal</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li><strong class="text-emerald-400">Versos Decassílabos:</strong> Substituem as velhas redondilhas (Medida Velha).</li>
+                                    <li><strong class="text-emerald-400">O Soneto:</strong> Estrutura fixa perfeita de 14 versos (2 quartetos e 2 tercetos).</li>
+                                    <li>Busca do equilíbrio formal, clareza, universalismo e Neoplatonismo (o amor idealizado acima da matéria).</li>
+                                </ul>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 space-y-3">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-scroll"></i>
+                                </div>
+                                <h4 class="font-cinzel font-bold text-emerald-300 text-lg">Camões Lírico e Épico</h4>
+                                <ul class="text-xs sm:text-sm text-slate-300 space-y-2">
+                                    <li><strong class="text-emerald-400">Lírica Camoniana:</strong> Paradoxos amorosos ("Amor é um fogo que arde sem se ver"), efemeridade do tempo e o "desconcerto do mundo".</li>
+                                    <li><strong class="text-emerald-400">Épica - Os Lusíadas (1572):</strong> 10 cantos, 1.102 estrofes em Oitava Rima (ABABABCC), versos decassílabos. Canta a viagem de Vasco da Gama e a glória do povo português. Estrutura em 5 partes: Proposição, Invocação, Dedicatória, Narração e Epílogo.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Authors highlight -->
+                        <div class="mt-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div>
+                                <span class="text-xs font-bold uppercase text-emerald-400">Genio Supremo</span>
+                                <p class="text-xs sm:text-sm text-slate-200 mt-1">Luís Vaz de Camões (Poesia Lírica e Épica) e Sá de Miranda (introdutor do Renascimento em Portugal).</p>
+                            </div>
+                            <span class="text-xs text-emerald-300 bg-slate-900 px-3 py-1.5 rounded-lg border border-emerald-500/30 font-mono">Destaque PASSE II: Gigante Adamastor = personificação do Cabo das Tormentas.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 3: EXEMPLOS COMENTADOS -->
+        <section id="exemplos" class="py-16 bg-slate-950 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs uppercase tracking-widest font-bold text-amber-400 mb-2">Análise de Textos Fundamentais</h2>
+                    <h3 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">Exemplos Comentados para a Prova</h3>
+                    <p class="text-slate-400 mt-3 text-sm sm:text-base">
+                        Análise direta de trechos originais com destaque estrutural e comentários focados nas pegadinhas do PASSE/AVALIA II.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- EXEMPLO 1: Cantiga de Amigo -->
+                    <div class="bg-slate-900 rounded-2xl p-6 border border-amber-500/30 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                    Trovadorismo • Cantiga de Amigo
+                                </span>
+                                <span class="text-xs text-slate-400 italic">Martin Codax</span>
+                            </div>
+                            <h4 class="font-cinzel font-bold text-xl text-amber-300 mb-3">"Oondas do mar de Vigo"</h4>
+                            
+                            <!-- Poem Box -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-amber-100/90 font-serif text-sm leading-relaxed mb-4">
+                                <p class="italic">
+                                    "Oondas do mar de Vigo,<br>
+                                    se vistes meu amigo?<br>
+                                    E ai Deus, se verra cedo!<br><br>
+                                    Oondas do mar levado,<br>
+                                    se vistes meu amado?<br>
+                                    E ai Deus, se verra cedo!"
+                                </p>
+                            </div>
+
+                            <!-- Comment Breakdown -->
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                                    <p><strong>Eu Lírico Feminino:</strong> A jovem camponesa confida sua angústia às ondas do mar enquanto aguarda o retorno do seu amado ("amigo").</p>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                                    <p><strong>Recursos Formais:</strong> Presença marcante de <em>paralelismo</em> (estrofes simétricas) e <em>refrão</em> ("E ai Deus, se verra cedo!").</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-amber-400 font-semibold">
+                            💡 Dica PASSE II: Repare que, embora o autor seja um homem (Martin Codax), a voz do poema é de uma mulher.
+                        </div>
+                    </div>
+
+                    <!-- EXEMPLO 2: Cantiga de Amor -->
+                    <div class="bg-slate-900 rounded-2xl p-6 border border-amber-500/30 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                                    Trovadorismo • Cantiga de Amor
+                                </span>
+                                <span class="text-xs text-slate-400 italic">D. Dinis (Rei Poeta)</span>
+                            </div>
+                            <h4 class="font-cinzel font-bold text-xl text-amber-300 mb-3">"Quer' eu em maneira de proençal"</h4>
+                            
+                            <!-- Poem Box -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-amber-100/90 font-serif text-sm leading-relaxed mb-4">
+                                <p class="italic">
+                                    "Quer' eu em maneira de proençal<br>
+                                    fazer agora um cantar d'amor,<br>
+                                    e quer' i loar mia senhor<br>
+                                    a que prez nem fermosura non fal..."
+                                </p>
+                            </div>
+
+                            <!-- Comment Breakdown -->
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                                    <p><strong>Eu Lírico Masculino & Vassalagem:</strong> O trovador posiciona-se como vassalo e submisso à "mia senhor" (senhora nobre inalcançável).</p>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                                    <p><strong>Sofrimento ("Coita"):</strong> Amor cortês não correspondido que gera tormento e idealização da mulher.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-amber-400 font-semibold">
+                            💡 Dica PASSE II: Usa-se o termo "senhor" no masculino gramatical para se referir à mulher amada de posição elevada.
+                        </div>
+                    </div>
+
+                    <!-- EXEMPLO 3: Gil Vicente (Auto da Barca do Inferno) -->
+                    <div class="bg-slate-900 rounded-2xl p-6 border border-purple-500/30 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                                    Humanismo • Teatro Vicentino
+                                </span>
+                                <span class="text-xs text-slate-400 italic">Gil Vicente (1517)</span>
+                            </div>
+                            <h4 class="font-cinzel font-bold text-xl text-purple-300 mb-3">Auto da Barca do Inferno (O Fidalgo)</h4>
+                            
+                            <!-- Dialogue Box -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-purple-100/90 font-serif text-sm leading-relaxed mb-4 space-y-1">
+                                <p><strong>FIDALGO:</strong> <em>"Que barca é esta que vai mui leda?"</em></p>
+                                <p><strong>DIABO:</strong> <em>"Esta barca vai para o Inferno! Entrai, senhor!"</em></p>
+                                <p><strong>FIDALGO:</strong> <em>"Esta barca não é para o meu estado! Deixei na terra quem por mim rezasse..."</em></p>
+                            </div>
+
+                            <!-- Comment Breakdown -->
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-purple-400 mt-1"></i>
+                                    <p><strong>Sátira Social & Moral:</strong> O Fidalgo carrega símbolos terrenais (a manta, o tiracolo e um pajem) representando sua vaidade e exploração.</p>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-purple-400 mt-1"></i>
+                                    <p><strong>Condenação sem privilégios:</strong> Na hora do julgamento final, o título de nobreza de nada serve perante o Diabo e o Anjo.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-purple-400 font-semibold">
+                            💡 Dica PASSE II: Gil Vicente é categorizado como autor do Humanismo devido à transição e sátira aos costumes humanos.
+                        </div>
+                    </div>
+
+                    <!-- EXEMPLO 4: Camões Lírico (Soneto) -->
+                    <div class="bg-slate-900 rounded-2xl p-6 border border-emerald-500/30 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                                    Classicismo • Lírica Camoniana
+                                </span>
+                                <span class="text-xs text-slate-400 italic">Luís Vaz de Camões</span>
+                            </div>
+                            <h4 class="font-cinzel font-bold text-xl text-emerald-300 mb-3">Soneto "Amor é um fogo que arde sem se ver"</h4>
+                            
+                            <!-- Poem Box -->
+                            <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-emerald-100/90 font-serif text-sm leading-relaxed mb-4">
+                                <p class="italic">
+                                    "Amor é um fogo que arde sem se ver;<br>
+                                    É ferida que dói, e não se sente;<br>
+                                    É um contentamento descontente;<br>
+                                    É dor que desatina sem doer..."
+                                </p>
+                            </div>
+
+                            <!-- Comment Breakdown -->
+                            <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                    <p><strong>Figuras de Linguagem Predominantes:</strong> Abundância de <em>antíteses</em> (ideias opostas) e <em>paradoxos</em> (contradições lógicas que revelam a essência do amor).</p>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <i class="fa-solid fa-circle-check text-emerald-400 mt-1"></i>
+                                    <p><strong>Forma Clássica:</strong> Soneto construído estritamente em versos decassílabos com ritmo racional e medido.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-emerald-400 font-semibold">
+                            💡 Dica PASSE II: Preste atenção no uso do oxímoro/paradoxo para explicar o sentimento amoroso contraditório.
+                        </div>
+                    </div>
+
+                    <!-- EXEMPLO 5: Camões Épico (Os Lusíadas) -->
+                    <div class="bg-slate-900 rounded-2xl p-6 border border-emerald-500/30 lg:col-span-2 shadow-lg">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 w-max">
+                                Classicismo • Épica (Os Lusíadas - Canto I)
+                            </span>
+                            <span class="text-xs text-slate-400 italic">Luís Vaz de Camões (1572)</span>
+                        </div>
+                        <h4 class="font-cinzel font-bold text-xl text-emerald-300 mb-3">Estrofe 1 - A Proposição do Poema Épico</h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                            <div class="md:col-span-6 bg-slate-950 p-4 rounded-xl border border-slate-800 text-emerald-100/90 font-serif text-sm leading-relaxed italic">
+                                "As armas e os barões assinalados,<br>
+                                Que da ocidental praia Lusitana,<br>
+                                Por mares nunca dantes navegados,<br>
+                                Passaram ainda além da Taprobana,<br>
+                                Em perigos e guerras esforçados,<br>
+                                Mais do que prometia a força humana,<br>
+                                E entre gente remota edificaram<br>
+                                Novo Reino, que tanto sublimaram;"
+                            </div>
+                            
+                            <div class="md:col-span-6 space-y-3 text-xs sm:text-sm text-slate-300">
+                                <div class="p-3 bg-slate-800/80 rounded-lg border border-slate-700">
+                                    <strong class="text-emerald-400 block mb-1">Métrica & Rima da Épica:</strong>
+                                    Estrofe em <strong>Oitava Rima</strong> com esquema fixo de rimas cruzadas e emparelhadas (<strong>ABABABCC</strong>): <em>assinalados (A) / Lusitana (B) / navegados (A) / Taprobana (B) / esforçados (A) / humana (B) / edificaram (C) / sublimaram (C)</em>.
+                                </div>
+                                <div class="p-3 bg-slate-800/80 rounded-lg border border-slate-700">
+                                    <strong class="text-emerald-400 block mb-1">Herói Coletivo:</strong>
+                                    O verdadeiro herói de Os Lusíadas não é apenas Vasco da Gama, mas sim o povo português ("os barões assinalados / gente Lusitana").
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: EXPLORE (RECURSOS MULTIMÍDIA INTERATIVOS) -->
+        <section id="explore" class="py-16 bg-slate-900 border-b border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs uppercase tracking-widest font-bold text-amber-400 mb-2">Central Multimídia</h2>
+                    <h3 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">4 Recursos Interativos de Aprendizagem</h3>
+                    <p class="text-slate-400 mt-3 text-sm sm:text-base">
+                        Navegue pela linha do tempo, mapa de transição, matriz comparativa e áudio-resumo narrado.
+                    </p>
+                </div>
+
+                <!-- MULTIMEDIA RECURSO 1: LINHA DO TEMPO INTERATIVA -->
+                <div class="bg-slate-950 p-6 sm:p-8 rounded-2xl border border-amber-500/30 shadow-xl mb-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-timeline"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-cinzel text-xl font-bold text-white">Recurso 1: Linha do Tempo Cronológica do Período</h4>
+                            <p class="text-xs text-slate-400">Clique em qualquer marco histórico para revelar os fatos determinantes do momento.</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Buttons Line -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <button onclick="showTimelineDetail('1189')" id="tl-btn-1189" class="tl-btn p-4 rounded-xl border border-amber-500/40 bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 transition text-left">
+                            <div class="text-xs font-bold uppercase text-amber-400">1189</div>
+                            <div class="font-cinzel font-bold text-sm text-white mt-1">Cantiga da Ribeirinha</div>
+                            <div class="text-[10px] text-slate-300 mt-1">Início do Trovadorismo</div>
+                        </button>
+
+                        <button onclick="showTimelineDetail('1418')" id="tl-btn-1418" class="tl-btn p-4 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 transition text-left">
+                            <div class="text-xs font-bold uppercase text-purple-400">1418</div>
+                            <div class="font-cinzel font-bold text-sm text-white mt-1">Fernão Lopes Cronista</div>
+                            <div class="text-[10px] text-slate-300 mt-1">Início do Humanismo</div>
+                        </button>
+
+                        <button onclick="showTimelineDetail('1527')" id="tl-btn-1527" class="tl-btn p-4 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 transition text-left">
+                            <div class="text-xs font-bold uppercase text-emerald-400">1527</div>
+                            <div class="font-cinzel font-bold text-sm text-white mt-1">Retorno de Sá de Miranda</div>
+                            <div class="text-[10px] text-slate-300 mt-1">Início do Classicismo</div>
+                        </button>
+
+                        <button onclick="showTimelineDetail('1572')" id="tl-btn-1572" class="tl-btn p-4 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:bg-slate-800 transition text-left">
+                            <div class="text-xs font-bold uppercase text-emerald-400">1572</div>
+                            <div class="font-cinzel font-bold text-sm text-white mt-1">Publicação de Os Lusíadas</div>
+                            <div class="text-[10px] text-slate-300 mt-1">Ápice da Épica Camoniana</div>
+                        </button>
+                    </div>
+
+                    <!-- Timeline Detail Display Box -->
+                    <div id="timeline-detail-box" class="p-5 rounded-xl bg-slate-900 border border-slate-800 text-slate-200">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- GRID FOR RECURSO 2 & RECURSO 3 -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    
+                    <!-- MULTIMEDIA RECURSO 2: MAPA CONCEITUAL / TRANSIÇÃO -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-purple-500/30 shadow-xl">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fa-solid fa-diagram-project"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-cinzel text-xl font-bold text-white">Recurso 2: Diagrama de Transição Ideológica</h4>
+                                <p class="text-xs text-slate-400">A evolução do pensamento do Teocentrismo ao Antropocentrismo.</p>
+                            </div>
+                        </div>
+
+                        <!-- Diagram Stages -->
+                        <div class="space-y-4">
+                            <!-- Stage 1 -->
+                            <div class="p-4 rounded-xl bg-slate-900 border-l-4 border-amber-500">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold uppercase text-amber-400">Visão Medieval (Trovadorismo)</span>
+                                    <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">Séc. XII - XIV</span>
+                                </div>
+                                <p class="text-sm font-bold text-white">TEOCENTRISMO ABSOLUTO</p>
+                                <p class="text-xs text-slate-300 mt-1">Deus no centro de tudo. Razão subordinada à fé. Sociedade estamental imutável e vassalagem.</p>
+                            </div>
+
+                            <div class="flex justify-center my-1 text-purple-400">
+                                <i class="fa-solid fa-arrow-down text-lg animate-bounce"></i>
+                            </div>
+
+                            <!-- Stage 2 -->
+                            <div class="p-4 rounded-xl bg-slate-900 border-l-4 border-purple-500">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold uppercase text-purple-400">Ponte de Transição (Humanismo)</span>
+                                    <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Séc. XIV - XVI</span>
+                                </div>
+                                <p class="text-sm font-bold text-white">RACIONALISMO CRÍTICO & VALORIZAÇÃO HUMANA</p>
+                                <p class="text-xs text-slate-300 mt-1">O homem passa a ser valorizado. Crítica à corrupção da Igreja sem abandonar a crença em Deus.</p>
+                            </div>
+
+                            <div class="flex justify-center my-1 text-emerald-400">
+                                <i class="fa-solid fa-arrow-down text-lg animate-bounce"></i>
+                            </div>
+
+                            <!-- Stage 3 -->
+                            <div class="p-4 rounded-xl bg-slate-900 border-l-4 border-emerald-500">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-xs font-bold uppercase text-emerald-400">Renascimento (Classicismo)</span>
+                                    <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Séc. XVI</span>
+                                </div>
+                                <p class="text-sm font-bold text-white">ANTROPOCENTRISMO & NEOPLATONISMO</p>
+                                <p class="text-xs text-slate-300 mt-1">O Homem como medida de todas as coisas. Ciência, Mitologia Greco-Romana, Harmonia e Decassílabos.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MULTIMEDIA RECURSO 3: TABELA COMPARATIVA DINÂMICA -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-emerald-500/30 shadow-xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                    <i class="fa-solid fa-table-columns"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-cinzel text-xl font-bold text-white">Recurso 3: Infográfico Comparativo Dinâmico</h4>
+                                    <p class="text-xs text-slate-400">Resumo lado a lado para não confundir na prova.</p>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Table -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-700 bg-slate-900 text-slate-200 font-cinzel">
+                                            <th class="p-2.5">Critério</th>
+                                            <th class="p-2.5 text-amber-400">Trovadorismo</th>
+                                            <th class="p-2.5 text-purple-400">Humanismo</th>
+                                            <th class="p-2.5 text-emerald-400">Classicismo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                                        <tr>
+                                            <td class="p-2.5 font-bold text-slate-400">Visão de Mundo</td>
+                                            <td class="p-2.5">Teocentrismo</td>
+                                            <td class="p-2.5">Transição / Antropocentrismo incipiente</td>
+                                            <td class="p-2.5">Antropocentrismo pleno</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold text-slate-400">Métrica/Forma</td>
+                                            <td class="p-2.5">Cantigas cantadas (Redondilhas)</td>
+                                            <td class="p-2.5">Poesia Palaciana (Redondilhas sem música)</td>
+                                            <td class="p-2.5">Medida Nova (Decassílabo e Soneto)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold text-slate-400">Gênero Principal</td>
+                                            <td class="p-2.5">Lírico & Satírico (Cantigas)</td>
+                                            <td class="p-2.5">Teatro Moralizador & Crônicas</td>
+                                            <td class="p-2.5">Poesia Épica & Lírica Racional</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2.5 font-bold text-slate-400">Exemplo Maior</td>
+                                            <td class="p-2.5">Cantiga da Ribeirinha</td>
+                                            <td class="p-2.5">Auto da Barca do Inferno</td>
+                                            <td class="p-2.5">Os Lusíadas (Camões)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-3 bg-slate-900 rounded-lg text-[11px] text-slate-400 italic">
+                            * Tabela de memorização rápida elaborada pelo Grupo 15.
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- MULTIMEDIA RECURSO 4: PLAYER AUDIO GUIDE / RESUMO SONORO -->
+                <div class="bg-gradient-to-r from-slate-950 via-purple-950/40 to-slate-950 p-6 sm:p-8 rounded-2xl border border-amber-500/40 shadow-2xl">
+                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-slate-950 flex items-center justify-center font-bold text-2xl shadow-lg">
+                                <i class="fa-solid fa-headphones"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Recurso 4: Audio Guide & Resumo Sonoro</span>
+                                <h4 class="font-cinzel text-xl sm:text-2xl font-bold text-white mt-0.5">Player de Resumo Sintetizado</h4>
+                                <p class="text-xs text-slate-300 mt-1">Ouça a síntese narrada dos três períodos literários para revisão em áudio.</p>
+                            </div>
+                        </div>
+
+                        <!-- Audio Synthesis Controls -->
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            <button id="audio-play-btn" onclick="playAudioSummary()" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg w-full md:w-auto justify-center">
+                                <i class="fa-solid fa-play"></i> Reproduzir Resumo Narrado
+                            </button>
+                            <button id="audio-stop-btn" onclick="stopAudioSummary()" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs sm:text-sm transition flex items-center gap-2 border border-slate-700 hidden">
+                                <i class="fa-solid fa-stop"></i> Parar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Audio Text Narration Box -->
+                    <div class="mt-6 p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-slate-300 text-xs sm:text-sm leading-relaxed" id="audio-transcript">
+                        <span class="text-amber-400 font-bold">[Transcrição da Narração]:</span> "A literatura portuguesa evolui do Trovadorismo medieval, marcado pelo Teocentrismo e cantigas cantadas, passa pelo Humanismo de transição com o teatro satírico de Gil Vicente e as crônicas de Fernão Lopes, e atinge o ápice no Classicismo renascentista, no qual Luís Vaz de Camões introduz a medida nova decassílaba e a épica Os Lusíadas."
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 5: DESAFIO GAMIFICADO (QUIZ DE 15 QUESTÕES) -->
+        <section id="desafio" class="py-16 bg-slate-950 border-b border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-8">
+                    <span class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-block mb-3">
+                        <i class="fa-solid fa-gamepad mr-1"></i> Desafio Gamificado de Fixação
+                    </span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">Quiz PASSE / AVALIA II</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">
+                        Responda às 15 questões inéditas elaboradas pelo Grupo 15 para testar e consolidar seus conhecimentos.
+                    </p>
+                </div>
+
+                <!-- Quiz Container Dashboard -->
+                <div class="bg-slate-900 border-2 border-amber-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl relative gold-glow">
+                    
+                    <!-- Top Progress Bar & Score Board -->
+                    <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold text-slate-400">Progresso:</span>
+                            <span id="quiz-progress-text" class="text-xs font-bold text-amber-400 font-mono">Questão 1 de 15</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-1.5 bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/30">
+                                <i class="fa-solid fa-star text-amber-400 text-xs"></i>
+                                <span id="quiz-score" class="text-xs font-bold text-amber-300 font-mono">0 pts</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar Track -->
+                    <div class="w-full bg-slate-800 h-2.5 rounded-full mb-8 overflow-hidden">
+                        <div id="quiz-progress-bar" class="bg-gradient-to-r from-amber-500 to-amber-300 h-full w-[6.66%] transition-all duration-300"></div>
+                    </div>
+
+                    <!-- Question Wrapper Screen -->
+                    <div id="quiz-question-screen">
+                        <!-- Question Category Badge -->
+                        <div class="mb-3">
+                            <span id="quiz-cat-badge" class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-slate-800 text-amber-400 border border-slate-700">
+                                Carregando...
+                            </span>
+                        </div>
+
+                        <!-- Question Title Text -->
+                        <h3 id="quiz-question-title" class="font-cinzel text-lg sm:text-xl font-bold text-white mb-6 leading-snug">
+                            Pergunta aqui...
+                        </h3>
+
+                        <!-- Options List -->
+                        <div id="quiz-options-container" class="space-y-3 mb-6">
+                            <!-- Dynamic Options Buttons injected by JS -->
+                        </div>
+
+                        <!-- Immediate Explanation Box (Shown after selecting an answer) -->
+                        <div id="quiz-feedback-box" class="hidden p-4 rounded-xl mb-6 text-xs sm:text-sm leading-relaxed">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- Next Question Button -->
+                        <div class="flex justify-end">
+                            <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="hidden px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                                Próxima Questão <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Final Reward / Certificate Screen (Hidden by default) -->
+                    <div id="quiz-result-screen" class="hidden text-center py-8 space-y-6">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 flex items-center justify-center font-bold text-4xl mx-auto shadow-lg shadow-amber-500/20">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        
+                        <div>
+                            <span class="text-xs uppercase font-bold text-amber-400 tracking-widest">Missão Concluída!</span>
+                            <h3 class="font-cinzel text-3xl font-extrabold text-white mt-1">Parabéns pelo Desempenho!</h3>
+                            <p class="text-slate-300 text-sm mt-2">Sua pontuação final no Quiz de Revisão PASSE II:</p>
+                        </div>
+
+                        <!-- Score Cards -->
+                        <div class="p-6 rounded-xl bg-slate-950 border border-amber-500/40 max-w-sm mx-auto space-y-2">
+                            <div class="text-4xl font-extrabold text-amber-400 font-mono" id="quiz-final-score-display">0 / 15</div>
+                            <div class="text-xs text-slate-400 font-medium" id="quiz-final-message">Excelente domínio do conteúdo!</div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+                            <button onclick="resetQuiz()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 font-bold text-xs sm:text-sm transition flex items-center gap-2">
+                                <i class="fa-solid fa-rotate-left"></i> Refazer Quiz
+                            </button>
+                            <button onclick="scrollToSection('gabarito')" class="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg">
+                                <i class="fa-solid fa-book-open"></i> Ver Gabarito Completo
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 6: GABARITO EXPLICATIVO -->
+        <section id="gabarito" class="py-16 bg-slate-900 border-b border-slate-800">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-xs uppercase tracking-widest font-bold text-amber-400 mb-2">Gabarito Oficial & Comentado</h2>
+                    <h3 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">Gabarito Explicativo das 15 Questões</h3>
+                    <p class="text-slate-400 mt-3 text-sm sm:text-base">
+                        Confira as respostas corretas com fundamentação teórica completa para todas as questões.
+                    </p>
+                </div>
+
+                <!-- Search / Filter Input -->
+                <div class="mb-8 max-w-md mx-auto">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="gabarito-search" oninput="filterGabarito()" placeholder="Filtrar questão por termo (ex: Camões, Gil Vicente...)" class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 pl-11 pr-4 text-xs sm:text-sm text-slate-200 focus:outline-none focus:border-amber-500 transition">
+                    </div>
+                </div>
+
+                <!-- Answer Key Accordion Container -->
+                <div id="gabarito-list" class="space-y-4">
+                    <!-- Populated dynamically by JavaScript -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 7: DESAFIO FINAL (QUESTÃO ESTILO PASSE/AVALIA II) -->
+        <section id="desafio-final" class="py-16 bg-slate-950 border-b border-slate-800">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center mb-10">
+                    <span class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-block mb-3">
+                        <i class="fa-solid fa-crown mr-1"></i> Desafio Supremo do Grupo 15
+                    </span>
+                    <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-white">Questão Discursiva Avançada PASSE II</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm mt-2">
+                        Simulação de análise crítico-textual comparativa de alto nível para a prova oficial.
+                    </p>
+                </div>
+
+                <!-- Discursive Challenge Box -->
+                <div class="bg-slate-900 border-2 border-amber-500/40 rounded-2xl p-6 sm:p-8 shadow-2xl relative">
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 text-xs sm:text-sm leading-relaxed mb-6">
+                        <h4 class="font-cinzel font-bold text-amber-400 text-base mb-2">[ENUNCIADO DA QUESTÃO DISCURSIVA]</h4>
+                        <p class="mb-3">
+                            <em>"Compare a representação do amor no Trovadorismo (Cantigas de Amor) e no Classicismo (Sonetos de Camões). Em sua resposta, aborde obrigatoriamente: 1) A postura do eu lírico em relação à mulher amada; 2) A forma de estruturação do poema (métrica e linguagem)."</em>
+                        </p>
+                    </div>
+
+                    <!-- Interactive Solution Reveal Trigger -->
+                    <div class="text-center">
+                        <button onclick="toggleDiscursiveAnswer()" id="btn-reveal-discursive" class="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition shadow-lg flex items-center gap-2 mx-auto">
+                            <i class="fa-solid fa-key"></i> Revelar Resposta Modelo Comentada & Dicas de Prova
+                        </button>
+                    </div>
+
+                    <!-- Solution Hidden Box -->
+                    <div id="discursive-answer-box" class="hidden mt-6 p-6 rounded-xl bg-slate-950 border border-amber-500/30 text-xs sm:text-sm text-slate-300 space-y-4">
+                        <div class="border-b border-slate-800 pb-3">
+                            <span class="text-xs font-bold uppercase text-amber-400">1. Postura do Eu Lírico e Representação da Mulher:</span>
+                            <p class="mt-1">
+                                No <strong>Trovadorismo (Cantigas de Amor)</strong>, o eu lírico assume a postura de vassalagem amorosa perante uma senhora nobre inacessível ("mia senhor"), vivendo a "coita" (sofrimento físico e emocional). No <strong>Classicismo (Camões)</strong>, o amor é analisado sob a ótica do <em>Neoplatonismo</em> e do Racionalismo: o amor é concebido como uma ideia abstrata, idealizada, caracterizado por paradoxos mentais ("fogo que arde sem se ver") mais do que submissão feudal.
+                            </p>
+                        </div>
+
+                        <div class="border-b border-slate-800 pb-3">
+                            <span class="text-xs font-bold uppercase text-purple-400">2. Estrutura Métrica e Linguagem:</span>
+                            <p class="mt-1">
+                                O Trovadorismo utilizava a <em>Medida Velha</em> (versos em redondilha menor ou maior) e a poesia era obrigatoriamente cantada com acompanhamento musical. Já o Classicismo adota a <em>Medida Nova</em> (versos decassílabos eruditos), utilizando a forma fixa do Soneto (2 quartetos e 2 tercetos) focada no rigor estético e na leitura declamada.
+                            </p>
+                        </div>
+
+                        <div class="p-3 bg-amber-500/10 rounded-lg border border-amber-500/30 text-amber-300 font-semibold">
+                            📌 Dica de Ouro da Banca PASSE II: Sempre utilize os termos "Vassalagem Amorosa", "Coita Trovadoresca", "Medida Nova", "Decassílabo" e "Neoplatonismo" para garantir a pontuação máxima na questão!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER & REGISTRATION SECTION -->
+    <footer class="bg-slate-950 border-t border-amber-600/30 py-12 text-slate-400 text-xs sm:text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+                
+                <div class="md:col-span-6 space-y-2 text-center md:text-left">
+                    <div class="font-cinzel text-lg font-bold text-amber-400">JORNADA LITERÁRIA • GRUPO 15</div>
+                    <p class="text-slate-400 max-w-md">
+                        Projeto de Gamificação para revisão de Língua Portuguesa e Literatura do Ensino Médio — Foco PASSE / AVALIA II.
+                    </p>
+                    <div class="text-slate-400 font-mono text-[11px] pt-1">
+                        Tema: Trovadorismo, Humanismo e Classicismo
+                    </div>
+                </div>
+
+                <div class="md:col-span-6 flex flex-col sm:flex-row items-center justify-center md:justify-end gap-4">
+                    <button onclick="toggleModal('checklist-modal')" class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 font-bold transition flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check text-amber-400"></i> Ver Tabela de Registro & Checklist
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="mt-8 pt-6 border-t border-slate-800 text-center text-slate-400 text-[11px]">
+                Integrantes: Gregório e João Pedro • Grupo 15 • © 2026 Material Educativo Digital.
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: REGISTRO DO GRUPO E CHECKLIST OFICIAL DE ENTREGA -->
+    <div id="checklist-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-amber-500/40 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto custom-scrollbar p-6 shadow-2xl relative">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cinzel text-xl font-bold text-white">Registro do Grupo & Checklist</h3>
+                        <p class="text-xs text-slate-400">Documentação oficial do Projeto de Português PASSE II</p>
+                    </div>
+                </div>
+                <button onclick="toggleModal('checklist-modal')" class="text-slate-400 hover:text-white p-2 text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- REGISTRO OFICIAL TABLE -->
+            <div class="mt-6 space-y-6">
+                <div>
+                    <h4 class="font-cinzel text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">1. Ficha de Registro do Grupo</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <tbody class="divide-y divide-slate-800 bg-slate-950 text-slate-300">
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300 w-1/3 bg-slate-900/60">Grupo / Tema</td>
+                                    <td class="p-3">Grupo 15 — Trovadorismo, Humanismo e Classicismo</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300 bg-slate-900/60">Integrantes</td>
+                                    <td class="p-3 font-semibold text-white">Gregório e João Pedro</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300 bg-slate-900/60">Ferramenta Utilizada</td>
+                                    <td class="p-3">Aplicação Web Interativa Gamificada (HTML5, Tailwind, JS)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300 bg-slate-900/60">Foco Principal</td>
+                                    <td class="p-3">Preparação e Revisão para PASSE / AVALIA II (2º Ano Ensino Médio)</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300 bg-slate-900/60">Status do Projeto</td>
+                                    <td class="p-3 text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> 100% Concluído e Validado</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CHECKLIST OFICIAL VALIDADO -->
+                <div>
+                    <h4 class="font-cinzel text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">2. Checklist Oficial de Entrega</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-300">
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Explicação breve e correta do conteúdo
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Exemplos contextualizados com análises
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> 4 Recursos Multimídia Interativos
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Quiz Gamificado com 15 Questões
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Gabarito com explicações completas
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Identificação dos alunos (Gregório e João Pedro)
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Desafio Final Discursivo PASSE II
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-950 border border-emerald-500/30 flex items-center gap-2">
+                            <i class="fa-solid fa-square-check text-emerald-400 text-sm"></i> Design Responsivo Desktop e Celular
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="mt-6 pt-4 border-t border-slate-800 text-right">
+                <button onclick="toggleModal('checklist-modal')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & INTERACTIVITY -->
+    <script>
+        
+        // 1. TIMELINE DATA
+        const timelineData = {
+            '1189': {
+                title: '1189 - Cantiga da Ribeirinha (ou da Garvaia)',
+                period: 'Trovadorismo',
+                desc: 'Composta por Paio Soares de Taveirós e dedicada a D. Maria Pais Ribeiro. É historicamente reconhecida como o marco inicial da literatura em língua portuguesa.',
+                details: 'Caracteriza-se pela estrofe curta em redondilha e pela temática do amor cortês com influência provençal peninsular.'
+            },
+            '1418': {
+                title: '1418 - Nomeação de Fernão Lopes',
+                period: 'Humanismo',
+                desc: 'D. Duarte nomeia Fernão Lopes como Guarda-Mór da Torre do Tombo e Cronista do Reino.',
+                details: 'Marca o início da historiografia moderna em Portugal. Pela primeira vez, a massa popular ("arraia-miúda") é retratada como sujeito ativo da história nas crônicas de D. João I.'
+            },
+            '1527': {
+                title: '1527 - Retorno de Sá de Miranda da Itália',
+                period: 'Classicismo',
+                desc: 'O poeta Sá de Miranda regressa da Itália trazendo a "Medida Nova".',
+                details: 'Introduz formalmente em Portugal o verso decassílabo, a forma fixa do Soneto, a oitava rima e as tercinas renascentistas, marcando o fim do estilo medieval.'
+            },
+            '1572': {
+                title: '1572 - Publicação de Os Lusíadas',
+                period: 'Classicismo Épico',
+                desc: 'Luís Vaz de Camões publica a maior obra épica da língua portuguesa em Lisboa.',
+                details: 'Composta por 10 Cantos, 1.102 estrofes e 8.816 versos decassílabos heroicos, glorifica os feitos navegadores portugueses sob o modelo clássico de Virgílio e Homero.'
+            }
+        };
+
+        // 2. QUIZ DATA - 15 QUESTIONS FOR PASSE / AVALIA II
+        const quizQuestions = [
+            {
+                category: "Trovadorismo",
+                question: "Qual obra é considerada historicamente o marco inicial da literatura em língua portuguesa?",
+                options: [
+                    "Auto da Barca do Inferno",
+                    "Cantiga da Ribeirinha (ou da Garvaia)",
+                    "Os Lusíadas",
+                    "Cancioneiro Geral"
+                ],
+                correct: 1,
+                explanation: "A 'Cantiga da Ribeirinha', composta por Paio Soares de Taveirós em 1189 (ou 1198), é o texto poético mais antigo registrado em galego-português."
+            },
+            {
+                category: "Trovadorismo",
+                question: "Na Cantiga de Amigo, qual é a principal característica do eu lírico e do ambiente?",
+                options: [
+                    "Eu lírico masculino expressando a vassalagem amorosa na corte.",
+                    "Eu lírico feminino, de origem popular, manifestando a saudade do amado na praia/campo.",
+                    "Eu lírico de um guerreiro em busca do Santo Graal.",
+                    "Eu lírico satírico criticando reis e bispos pelo nome."
+                ],
+                correct: 1,
+                explanation: "A Cantiga de Amigo tem eu lírico feminino (embora escrita por um trovador homem), ambiente popular/rural e tema centrado na saudade do amado ('amigo')."
+            },
+            {
+                category: "Trovadorismo",
+                question: "Qual a diferença fundamental entre as Cantigas de Escarnecer e as de Maldizer?",
+                options: [
+                    "A de Escarnecer é religiosa; a de Maldizer é profana.",
+                    "A de Escarnecer faz sátira indireta sem nomear a pessoa; a de Maldizer faz crítica direta e nominal.",
+                    "A de Escarnecer foi escrita no Classicismo; a de Maldizer no Trovadorismo.",
+                    "Não há diferença, ambas usavam sempre linguagem erudita e cortesã."
+                ],
+                correct: 1,
+                explanation: "Nas Cantigas de Escarnecer a sátira é velada, com trocadilhos. Nas de Maldizer a crítica é direta, por vezes usando linguagem de baixo calão e citando o nome do atacado."
+            },
+            {
+                category: "Humanismo",
+                question: "O Humanismo é compreendido pela historiografia literária essencialmente como:",
+                options: [
+                    "Um período estritamente barroco focado na Contrarreforma.",
+                    "Uma era de transição entre o Teocentrismo medieval e o Antropocentrismo renascentista.",
+                    "O apogeu da poesia épica decassílaba e da mitologia grega.",
+                    "A rejeição total da religiosidade e o fim da monarquia em Portugal."
+                ],
+                correct: 1,
+                explanation: "O Humanismo (Séculos XIV a XVI) representa a ponte de transição entre a mentalidade medieval teocêntrica e o racionalismo renascentista antropocêntrico."
+            },
+            {
+                category: "Humanismo",
+                question: "Qual foi a inovação fundamental das crônicas historiográficas de Fernão Lopes?",
+                options: [
+                    "Escrever histórias fantasiosas de dragões e cavaleiros.",
+                    "Retratar a participação ativa do povo ('arraia-miúda') nos fatos históricos de Portugal.",
+                    "Adotar versos decassílabos em forma de sonetos.",
+                    "Criticar a independência política de Portugal."
+                ],
+                correct: 1,
+                explanation: "Fernão Lopes inovou ao buscar a verdade dos fatos e colocar o povo como protagonista e força transformadora nas crônicas do Reino."
+            },
+            {
+                category: "Humanismo",
+                question: "O lema do teatro vicentino 'Ridendo castigat mores' significa:",
+                options: [
+                    "Pela fé se conquista o céu.",
+                    "Rindo corrigem-se os costumes.",
+                    "O amor vence todas as guerras.",
+                    "A morte iguala reis e camponeses."
+                ],
+                correct: 1,
+                explanation: "'Ridendo castigat mores' traduz a função moralizadora do teatro de Gil Vicente, utilizando o riso e a sátira para expor os vícios da sociedade."
+            },
+            {
+                category: "Humanismo",
+                question: "No 'Auto da Barca do Inferno' de Gil Vicente, qual personagem é acolhido na Barca da Glória (do Anjo)?",
+                options: [
+                    "O Fidalgo vaidoso",
+                    "O Sapateiro desonesto",
+                    "O Parvo (Joane) e os Quatro Cavaleiros da Cruzada",
+                    "O Juiz subornado"
+                ],
+                correct: 2,
+                explanation: "O Parvo é salvo por sua simplicidade e ausência de malícia, e os Cavaleiros por terem lutado e morrido pela fé cristã."
+            },
+            {
+                category: "Classicismo",
+                question: "Qual acontecimento marca o início formal do Classicismo em Portugal no ano de 1527?",
+                options: [
+                    "A morte de Gil Vicente.",
+                    "O regresso de Sá de Miranda da Itália introduzindo a Medida Nova.",
+                    "A publicação de 'Os Lusíadas'.",
+                    "A chegada de Pedro Álvares Cabral ao Brasil."
+                ],
+                correct: 1,
+                explanation: "Sá de Miranda regressou da Itália em 1527 trazendo os versos decassílabos e os sonetos, inaugurando o estilo renascentista (Medida Nova)."
+            },
+            {
+                category: "Classicismo",
+                question: "O que caracteriza a chamada 'Medida Nova' no Classicismo?",
+                options: [
+                    "Uso de redondilhas de 5 e 7 sílabas poéticas.",
+                    "Emprego de versos decassílabos e estruturas fixas como o Soneto.",
+                    "Poesia cantada com alaúde.",
+                    "Uso exclusivo do latim medieval."
+                ],
+                correct: 1,
+                explanation: "A Medida Nova introduziu a métrica erudita decassílaba e formas elegantes como o Soneto, em oposição às redondilhas medievais (Medida Velha)."
+            },
+            {
+                category: "Classicismo",
+                question: "O famoso verso camoniano 'Amor é um fogo que arde sem se ver' exemplifica qual figura de linguagem marcante?",
+                options: [
+                    "Pleonasmo e Hipérbole",
+                    "Paradoxo (ou Oxímoro)",
+                    "Aliteração e Onomatopeia",
+                    "Metonímia simples"
+                ],
+                correct: 1,
+                explanation: "A união de ideias contraditórias que parecem anular-se logicamente (fogo que arde sem se ver, ferida que dói e não se sente) constitui o paradoxo."
+            },
+            {
+                category: "Classicismo",
+                question: "A estrutura poética formal da epopeia 'Os Lusíadas' é composta por:",
+                options: [
+                    "Versos livres sem rima divididos em 3 capítulos.",
+                    "10 Cantos, estrofes em Oitava Rima (ABABABCC) e versos decassílabos.",
+                    "14 versos distribuídos em 2 quartetos e 2 tercetos.",
+                    "Cantigas líricas com refrão e paralelismo."
+                ],
+                correct: 1,
+                explanation: "A obra de Camões possui rigor formal clássico: 10 cantos, 1.102 estrofes em oitava rima e métrica decassílaba."
+            },
+            {
+                category: "Classicismo",
+                question: "Qual das alternativas apresenta corretamente a ordem das 5 partes da estrutura de 'Os Lusíadas'?",
+                options: [
+                    "Introdução, Desenvolvimento, Clímax, Desfecho e Anexo.",
+                    "Proposição, Invocação, Dedicatória, Narração e Epílogo.",
+                    "Apresentação, Conflito, Canto Épico, Vitória e Morte.",
+                    "Soneto I, Soneto II, Elegia, Écloga e Ode."
+                ],
+                correct: 1,
+                explanation: "A estrutura épica canônica camoniana divide-se em: Proposição (apresentação do tema), Invocação (às Tágides), Dedicatória (a D. Sebastião), Narração e Epílogo."
+            },
+            {
+                category: "Verdadeiro ou Falso",
+                question: "Julgue a afirmativa: 'No Trovadorismo a poesia dependia do acompanhamento musical, enquanto na Poesia Palaciana do Humanismo o texto poético autonomizou-se da música'.",
+                options: [
+                    "Verdadeiro",
+                    "Falso"
+                ],
+                correct: 0,
+                explanation: "Exato! Na Poesia Palaciana (Humanismo) a poesia desvinculou-se da música, passando a ser feita para leitura/recitação nos saraus da corte."
+            },
+            {
+                category: "Associação Literária",
+                question: "Qual das seguintes relações entre Autor e Estilo/Obra está CORRETA?",
+                options: [
+                    "Paio Soares de Taveirós → Classicismo e Os Lusíadas",
+                    "Gil Vicente → Humanismo e Auto da Barca do Inferno",
+                    "Sá de Miranda → Trovadorismo e Cantiga de Amigo",
+                    "Luís de Camões → Humanismo e Crônica de D. João I"
+                ],
+                correct: 1,
+                explanation: "Gil Vicente é o grande dramaturgo do Humanismo português, autor do 'Auto da Barca do Inferno' (1517)."
+            },
+            {
+                category: "Classicismo Épico",
+                question: "Em 'Os Lusíadas', quem é a figura assustadora que personifica os perigos do Cabo das Tormentas?",
+                options: [
+                    "O Deus Baco",
+                    "O Gigante Adamastor",
+                    "A Deusa Vênus",
+                    "O Rei D. Sebastião"
+                ],
+                correct: 1,
+                explanation: "O Gigante Adamastor é a célebre personificação mítica do Cabo das Tormentas (depois Cabo da Boa Esperança), que profetiza desgraças aos navegadores portugueses."
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let currentScore = 0;
+        let selectedOptionIndex = null;
+        let speechSynth = window.speechSynthesis;
+        let currentSpeechUtterance = null;
+
+        
+        // Page Scrolling Helper
+        function scrollToSection(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Toggle Mobile Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Toggle Modals
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.toggle('hidden');
+            }
+        }
+
+        // Switch Theory Tabs
+        function switchTheoryTab(tabName) {
+            const tabs = ['trovadorismo', 'humanismo', 'classicismo'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`btn-tab-${t}`);
+                if (t === tabName) {
+                    content.classList.remove('hidden');
+                    btn.classList.add('bg-amber-500', 'text-slate-950');
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                } else {
+                    content.classList.add('hidden');
+                    btn.classList.remove('bg-amber-500', 'text-slate-950');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+        }
+
+        // Timeline Detail Function
+        function showTimelineDetail(yearKey) {
+            const data = timelineData[yearKey];
+            const box = document.getElementById('timeline-detail-box');
+            
+            // Highlight Active Button
+            document.querySelectorAll('.tl-btn').forEach(btn => {
+                btn.classList.remove('border-amber-500/40', 'bg-amber-500/20', 'text-amber-300');
+                btn.classList.add('border-slate-700', 'bg-slate-900', 'text-slate-300');
+            });
+            const activeBtn = document.getElementById(`tl-btn-${yearKey}`);
+            if (activeBtn) {
+                activeBtn.classList.add('border-amber-500/40', 'bg-amber-500/20', 'text-amber-300');
+                activeBtn.classList.remove('border-slate-700', 'bg-slate-900');
+            }
+
+            if (data && box) {
+                box.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-400">${data.period}</span>
+                        <span class="text-xs font-mono bg-slate-800 px-2 py-1 rounded text-slate-300">Ano ${yearKey}</span>
+                    </div>
+                    <h4 class="font-cinzel font-bold text-lg text-white mb-2">${data.title}</h4>
+                    <p class="text-xs sm:text-sm text-slate-300 mb-3">${data.desc}</p>
+                    <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 text-xs text-amber-200/90 italic">
+                        <strong>Impacto Literário:</strong> ${data.details}
+                    </div>
+                `;
+            }
+        }
+
+        // Audio Guide Synthesizer
+        function playAudioSummary() {
+            const playBtn = document.getElementById('audio-play-btn');
+            const stopBtn = document.getElementById('audio-stop-btn');
+            
+            if ('speechSynthesis' in window) {
+                speechSynth.cancel(); // Stop any existing speech
+                const text = "A literatura portuguesa evolui do Trovadorismo medieval, marcado pelo Teocentrismo e cantigas cantadas, passa pelo Humanismo de transição com o teatro satírico de Gil Vicente e as crônicas de Fernão Lopes, e atinge o ápice no Classicismo renascentista, no qual Luís Vaz de Camões introduz a medida nova decassílaba e a épica Os Lusíadas.";
+                
+                currentSpeechUtterance = new SpeechSynthesisUtterance(text);
+                currentSpeechUtterance.lang = 'pt-BR';
+                currentSpeechUtterance.rate = 1.0;
+
+                currentSpeechUtterance.onstart = function() {
+                    playBtn.classList.add('hidden');
+                    stopBtn.classList.remove('hidden');
+                };
+
+                currentSpeechUtterance.onend = function() {
+                    stopBtn.classList.add('hidden');
+                    playBtn.classList.remove('hidden');
+                };
+
+                currentSpeechUtterance.onerror = function() {
+                    stopBtn.classList.add('hidden');
+                    playBtn.classList.remove('hidden');
+                };
+
+                speechSynth.speak(currentSpeechUtterance);
+            } else {
+                alert("Seu navegador não suporta a síntese de voz nativa, mas você pode ler a transcrição do resumo!");
+            }
+        }
+
+        function stopAudioSummary() {
+            if ('speechSynthesis' in window) {
+                speechSynth.cancel();
+            }
+            document.getElementById('audio-stop-btn').classList.add('hidden');
+            document.getElementById('audio-play-btn').classList.remove('hidden');
+        }
+
+        
+        // Render Current Question
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            selectedOptionIndex = null;
+
+            // Update Progress UI
+            document.getElementById('quiz-progress-text').innerText = `Questão ${currentQuizIndex + 1} de ${quizQuestions.length}`;
+            document.getElementById('quiz-score').innerText = `${currentScore} pts`;
+            const pct = ((currentQuizIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+            // Update Question
+            document.getElementById('quiz-cat-badge').innerText = q.category;
+            document.getElementById('quiz-question-title').innerText = q.question;
+
+            // Options
+            const container = document.getElementById('quiz-options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-xl bg-slate-950 border border-slate-800 hover:border-amber-500/50 text-slate-200 text-xs sm:text-sm font-medium transition flex items-center justify-between option-btn-${idx}`;
+                btn.onclick = () => selectQuizOption(idx);
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-600"></i>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Reset Feedback Box & Next Button
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            feedbackBox.classList.add('hidden');
+            feedbackBox.className = 'hidden p-4 rounded-xl mb-6 text-xs sm:text-sm leading-relaxed';
+
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+        }
+
+        // Option Selected Handler
+        function selectQuizOption(optIdx) {
+            if (selectedOptionIndex !== null) return; // Prevent changing after selection
+            selectedOptionIndex = optIdx;
+
+            const q = quizQuestions[currentQuizIndex];
+            const isCorrect = optIdx === q.correct;
+
+            // Score logic
+            if (isCorrect) {
+                currentScore += 100;
+                document.getElementById('quiz-score').innerText = `${currentScore} pts`;
+            }
+
+            // Visual styling for options
+            q.options.forEach((_, idx) => {
+                const btn = document.querySelector(`.option-btn-${idx}`);
+                btn.disabled = true;
+                if (idx === q.correct) {
+                    btn.classList.remove('bg-slate-950', 'border-slate-800');
+                    btn.classList.add('bg-emerald-950/80', 'border-emerald-500', 'text-emerald-200');
+                    btn.querySelector('i').className = 'fa-solid fa-circle-check text-emerald-400';
+                } else if (idx === optIdx && !isCorrect) {
+                    btn.classList.remove('bg-slate-950', 'border-slate-800');
+                    btn.classList.add('bg-rose-950/80', 'border-rose-500', 'text-rose-200');
+                    btn.querySelector('i').className = 'fa-solid fa-circle-xmark text-rose-400';
+                } else {
+                    btn.classList.add('opacity-50');
+                }
+            });
+
+            // Feedback Box
+            const feedbackBox = document.getElementById('quiz-feedback-box');
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.classList.add('bg-emerald-500/10', 'border', 'border-emerald-500/40', 'text-emerald-200');
+                feedbackBox.innerHTML = `<strong><i class="fa-solid fa-check-circle mr-1"></i> Resposta Correta!</strong> (+100 pts)<br><span class="text-slate-300">${q.explanation}</span>`;
+            } else {
+                feedbackBox.classList.add('bg-rose-500/10', 'border', 'border-rose-500/40', 'text-rose-200');
+                feedbackBox.innerHTML = `<strong><i class="fa-solid fa-xmark-circle mr-1"></i> Resposta Incorreta!</strong><br><span class="text-slate-300">${q.explanation}</span>`;
+            }
+
+            // Show Next Button
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        // Next Question Handler
+        function nextQuizQuestion() {
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        // Show Results Screen
+        function showQuizResults() {
+            document.getElementById('quiz-question-screen').classList.add('hidden');
+            const resultScreen = document.getElementById('quiz-result-screen');
+            resultScreen.classList.remove('hidden');
+
+            const correctCount = currentScore / 100;
+            document.getElementById('quiz-final-score-display').innerText = `${correctCount} / ${quizQuestions.length}`;
+
+            let msg = "Aproveite para redefinir e revisar o conteúdo!";
+            if (correctCount >= 13) {
+                msg = "🏆 Nível Mestre! Excelente domínio para o PASSE / AVALIA II!";
+            } else if (correctCount >= 9) {
+                msg = "👏 Muito bom! Você tem uma boa base dos três períodos literários.";
+            } else {
+                msg = "📖 Continue praticando e consulte a seção 'Aprenda' e o 'Gabarito' para fixar!";
+            }
+            document.getElementById('quiz-final-message').innerText = msg;
+        }
+
+        // Reset Quiz
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            currentScore = 0;
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-question-screen').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        function renderGabaritoList() {
+            const container = document.getElementById('gabarito-list');
+            if (!container) return;
+
+            container.innerHTML = '';
+            quizQuestions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'gabarito-item bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-amber-500/30 transition space-y-2';
+                card.setAttribute('data-text', `${q.question} ${q.category} ${q.options[q.correct]}`.toLowerCase());
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/20">
+                            Q${idx + 1} • ${q.category}
+                        </span>
+                        <span class="text-xs font-semibold text-emerald-400"><i class="fa-solid fa-check"></i> Gabarito Oficial</span>
+                    </div>
+                    <h4 class="font-cinzel font-bold text-sm sm:text-base text-white pt-1">${q.question}</h4>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs text-amber-200">
+                        <strong>Resposta Correta:</strong> ${q.options[q.correct]}
+                    </div>
+                    <p class="text-xs text-slate-300 leading-relaxed pt-1">
+                        <strong>Explicação:</strong> ${q.explanation}
+                    </p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Filter Gabarito
+        function filterGabarito() {
+            const query = document.getElementById('gabarito-search').value.toLowerCase();
+            const items = document.querySelectorAll('.gabarito-item');
+
+            items.forEach(item => {
+                const text = item.getAttribute('data-text');
+                if (text.includes(query)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // Toggle Discursive Answer
+        function toggleDiscursiveAnswer() {
+            const box = document.getElementById('discursive-answer-box');
+            const btn = document.getElementById('btn-reveal-discursive');
+            box.classList.toggle('hidden');
+            if (!box.classList.contains('hidden')) {
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash"></i> Ocultar Resposta Modelo`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-key"></i> Revelar Resposta Modelo Comentada & Dicas de Prova`;
+            }
+        }
+
+        window.onload = function() {
+            // Initialize Timeline default display
+            showTimelineDetail('1189');
+            
+            // Initialize Quiz
+            renderQuizQuestion();
+
+            // Initialize Answer Key
+            renderGabaritoList();
+        };
+    </script>
+</body>
+</html>
