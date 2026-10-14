@@ -1,0 +1,4779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Detetives da Oração — PSP Style</title>
+
+<style>
+:root{
+    --bg:#2a2c31;
+    --panel:#3e4147;
+    --cream:#fffedf;
+    --gold:#dfba69;
+    --wine:#5a2e2e;
+    --black:#191a1e;
+    --green:#657c63;
+    --red:#a95757;
+    --shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 50% 10%,#4b4e55 0,#2a2c31 45%,#191a1e 100%);
+    color:var(--cream);
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+}
+
+button{
+    font:inherit;
+}
+
+button:focus,
+[tabindex]:focus{
+    outline:4px solid var(--gold);
+    outline-offset:3px;
+}
+
+#game{
+    min-height:100vh;
+}
+
+.topbar{
+    height:72px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    background:rgba(25,26,30,.94);
+    border-bottom:1px solid rgba(223,186,105,.25);
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(10px);
+}
+
+.logo{
+    border:0;
+    background:none;
+    color:var(--cream);
+    font-weight:900;
+    letter-spacing:2px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.logo span{
+    color:var(--gold);
+}
+
+.stats{
+    display:flex;
+    gap:12px;
+}
+
+.stat{
+    background:var(--panel);
+    border:1px solid rgba(255,254,223,.12);
+    padding:9px 14px;
+    border-radius:12px;
+    min-width:85px;
+    text-align:center;
+}
+
+.stat b{
+    color:var(--gold);
+}
+
+.screen{
+    display:none;
+    min-height:calc(100vh - 72px);
+    padding:35px 20px 60px;
+}
+
+.screen.active{
+    display:block;
+}
+
+.container{
+    width:min(1100px,100%);
+    margin:auto;
+}
+
+.center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.hero{
+    min-height:calc(100vh - 150px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--gold);
+    border:1px solid rgba(223,186,105,.4);
+    background:rgba(223,186,105,.08);
+    border-radius:100px;
+    padding:8px 15px;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+h1{
+    font-size:clamp(44px,9vw,100px);
+    line-height:.88;
+    margin:25px 0 20px;
+    letter-spacing:-4px;
+    text-shadow:8px 8px 0 rgba(90,46,46,.8);
+}
+
+.hero p{
+    max-width:600px;
+    line-height:1.7;
+    color:#d8d7cb;
+}
+
+.primary{
+    border:0;
+    background:var(--gold);
+    color:var(--black);
+    padding:17px 38px;
+    border-radius:12px;
+    font-weight:900;
+    letter-spacing:1px;
+    cursor:pointer;
+    margin-top:20px;
+    box-shadow:0 8px 0 #a98135;
+    transition:.15s;
+}
+
+.primary:hover{
+    transform:translateY(-2px);
+}
+
+.primary:active{
+    transform:translateY(4px);
+    box-shadow:0 4px 0 #a98135;
+}
+
+.secondary{
+    border:1px solid rgba(255,254,223,.2);
+    background:var(--panel);
+    color:var(--cream);
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.section-title{
+    text-align:center;
+    margin:10px 0 30px;
+}
+
+.section-title h2{
+    font-size:clamp(30px,5vw,50px);
+    margin:10px 0;
+}
+
+.section-title p{
+    color:#c9c8bd;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.04),rgba(0,0,0,.16)),
+        var(--panel);
+    border:1px solid rgba(255,254,223,.12);
+    border-radius:20px;
+    padding:26px;
+    min-height:190px;
+    cursor:pointer;
+    text-align:left;
+    color:var(--cream);
+    box-shadow:var(--shadow);
+    transition:.2s;
+    position:relative;
+    overflow:hidden;
+}
+
+.card:before{
+    content:"";
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:-35px;
+    top:-35px;
+    border-radius:50%;
+    background:rgba(223,186,105,.08);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    border-color:var(--gold);
+}
+
+.card .icon{
+    width:50px;
+    height:50px;
+    border-radius:14px;
+    background:var(--wine);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--gold);
+    font-size:22px;
+    font-weight:900;
+    margin-bottom:20px;
+}
+
+.card h3{
+    margin:0 0 8px;
+    font-size:23px;
+}
+
+.card p{
+    color:#c7c6bc;
+    line-height:1.5;
+    margin:0;
+}
+
+.back{
+    border:0;
+    background:none;
+    color:#d5d3c7;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+.difficulties{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:12px;
+}
+
+.difficulty{
+    border:1px solid rgba(255,254,223,.15);
+    border-radius:16px;
+    padding:25px 12px;
+    background:var(--panel);
+    color:var(--cream);
+    cursor:pointer;
+    text-align:center;
+    transition:.2s;
+}
+
+.difficulty:hover{
+    transform:translateY(-4px);
+    border-color:var(--gold);
+}
+
+.difficulty .letter{
+    display:block;
+    font-size:45px;
+    font-weight:900;
+    color:var(--gold);
+}
+
+.difficulty small{
+    color:#cccabd;
+}
+
+.story{
+    max-width:780px;
+    margin:auto;
+    background:linear-gradient(145deg,#41444a,#303238);
+    border:1px solid rgba(223,186,105,.2);
+    padding:35px;
+    border-radius:22px;
+    box-shadow:var(--shadow);
+}
+
+.story-icon{
+    font-size:50px;
+}
+
+.story h2{
+    font-size:34px;
+    margin:10px 0;
+}
+
+.story p{
+    line-height:1.8;
+    color:#d5d4c9;
+}
+
+.clue{
+    margin:20px 0;
+    background:rgba(223,186,105,.08);
+    border-left:4px solid var(--gold);
+    padding:16px 18px;
+    border-radius:8px;
+    color:#e7e4d4;
+}
+
+.map{
+    position:relative;
+    min-height:620px;
+    border-radius:30px;
+    overflow:hidden;
+    background:
+        linear-gradient(rgba(42,44,49,.35),rgba(42,44,49,.75)),
+        radial-gradient(circle at 20% 20%,#66583f 0 8%,transparent 9%),
+        radial-gradient(circle at 80% 70%,#4a5147 0 12%,transparent 13%),
+        #30332f;
+    border:2px solid rgba(223,186,105,.2);
+    box-shadow:var(--shadow);
+}
+
+.map:before{
+    content:"";
+    position:absolute;
+    inset:30px;
+    border:2px dashed rgba(255,254,223,.12);
+    border-radius:25px;
+    pointer-events:none;
+}
+
+.map-title{
+    position:absolute;
+    top:25px;
+    left:30px;
+    z-index:2;
+}
+
+.map-title h2{
+    margin:0;
+}
+
+.location{
+    position:absolute;
+    width:150px;
+    min-height:115px;
+    border:2px solid rgba(255,254,223,.15);
+    background:rgba(42,44,49,.92);
+    color:var(--cream);
+    border-radius:18px;
+    cursor:pointer;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+    transition:.2s;
+}
+
+.location:hover{
+    transform:scale(1.05);
+    border-color:var(--gold);
+}
+
+.location .building{
+    font-size:35px;
+}
+
+.location strong{
+    display:block;
+    margin-top:6px;
+}
+
+.location small{
+    color:#bdbbb0;
+}
+
+.loc-library{
+    left:10%;
+    top:25%;
+}
+
+.loc-school{
+    left:42%;
+    top:45%;
+}
+
+.loc-square{
+    right:9%;
+    top:24%;
+}
+
+.loc-lab{
+    right:12%;
+    bottom:13%;
+}
+
+.player{
+    position:absolute;
+    left:45%;
+    bottom:17%;
+    width:75px;
+    height:95px;
+    text-align:center;
+    z-index:3;
+}
+
+.player .head{
+    width:48px;
+    height:48px;
+    background:#c68c62;
+    border-radius:50%;
+    margin:auto;
+    border:4px solid var(--cream);
+}
+
+.player .body{
+    width:52px;
+    height:48px;
+    margin:auto;
+    background:var(--wine);
+    border-radius:14px 14px 8px 8px;
+}
+
+.player-name{
+    font-size:11px;
+    margin-top:3px;
+    color:var(--gold);
+    font-weight:bold;
+}
+
+.progress-wrap{
+    max-width:850px;
+    margin:0 auto 22px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:8px;
+    color:#cccabd;
+}
+
+.progress{
+    height:9px;
+    background:#191a1e;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--wine),var(--gold));
+    transition:.3s;
+}
+
+.quiz{
+    max-width:850px;
+    margin:auto;
+    background:#35383e;
+    border:1px solid rgba(255,254,223,.13);
+    border-radius:25px;
+    padding:30px;
+    box-shadow:var(--shadow);
+}
+
+.question-number{
+    color:var(--gold);
+    font-weight:bold;
+    font-size:13px;
+    letter-spacing:1px;
+}
+
+.question{
+    font-size:clamp(22px,3.5vw,32px);
+    line-height:1.35;
+    margin:20px 0 28px;
+}
+
+.options{
+    display:grid;
+    gap:12px;
+}
+
+.option{
+    width:100%;
+    text-align:left;
+    border:2px solid rgba(255,254,223,.12);
+    background:#2c2e33;
+    color:var(--cream);
+    padding:17px;
+    border-radius:13px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.option:hover{
+    border-color:var(--gold);
+    background:#3c3f45;
+}
+
+.option.correct{
+    background:#314532;
+    border-color:#83aa7e;
+}
+
+.option.wrong{
+    background:#4d2929;
+    border-color:#c56e6e;
+}
+
+.option:disabled{
+    cursor:default;
+}
+
+.feedback{
+    margin-top:20px;
+    padding:17px;
+    border-radius:12px;
+    display:none;
+    line-height:1.55;
+}
+
+.feedback.show{
+    display:block;
+}
+
+.feedback.correct{
+    background:rgba(101,124,99,.25);
+    border:1px solid #789b72;
+}
+
+.feedback.wrong{
+    background:rgba(169,87,87,.2);
+    border:1px solid #a95757;
+}
+
+.quiz-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-top:22px;
+}
+
+.hint{
+    border:1px solid rgba(223,186,105,.3);
+    background:rgba(223,186,105,.06);
+    color:var(--gold);
+    padding:10px 14px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.result{
+    max-width:700px;
+    margin:auto;
+    text-align:center;
+    background:linear-gradient(145deg,#42454b,#2d2f34);
+    border:1px solid rgba(223,186,105,.2);
+    border-radius:25px;
+    padding:40px 25px;
+    box-shadow:var(--shadow);
+}
+
+.result-medal{
+    font-size:75px;
+}
+
+.result h2{
+    font-size:40px;
+    margin:10px 0;
+}
+
+.result-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:25px 0;
+}
+
+.result-stat{
+    background:#282a2f;
+    border-radius:13px;
+    padding:18px;
+}
+
+.result-stat strong{
+    display:block;
+    font-size:25px;
+    color:var(--gold);
+}
+
+.result-stat span{
+    font-size:12px;
+    color:#bdbbb0;
+}
+
+.collection{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.skin{
+    background:var(--panel);
+    border:1px solid rgba(255,254,223,.12);
+    border-radius:18px;
+    padding:20px;
+    text-align:center;
+}
+
+.skin.locked{
+    opacity:.45;
+}
+
+.avatar{
+    margin:auto;
+    width:75px;
+    height:95px;
+    position:relative;
+}
+
+.avatar-head{
+    width:48px;
+    height:48px;
+    margin:auto;
+    border-radius:50%;
+    background:#c68c62;
+    border:4px solid var(--cream);
+}
+
+.avatar-body{
+    width:55px;
+    height:48px;
+    background:var(--wine);
+    margin:auto;
+    border-radius:15px 15px 7px 7px;
+}
+
+.skin button{
+    margin-top:12px;
+}
+
+.accessibility{
+    position:fixed;
+    right:15px;
+    bottom:15px;
+    z-index:200;
+    display:flex;
+    gap:5px;
+}
+
+.accessibility button{
+    width:43px;
+    height:43px;
+    border-radius:50%;
+    border:1px solid var(--gold);
+    background:var(--black);
+    color:var(--gold);
+    cursor:pointer;
+}
+
+.large-text{
+    font-size:115%;
+}
+
+.large-text h1{
+    letter-spacing:-2px;
+}
+
+.high-contrast{
+    --bg:#000;
+    --panel:#000;
+    --cream:#fff;
+    --gold:#ffff00;
+    --wine:#000;
+}
+
+.muted{
+    color:#aaa99f;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:30px;
+    transform:translate(-50%,20px);
+    background:#17181b;
+    border:1px solid var(--gold);
+    color:var(--cream);
+    padding:14px 20px;
+    border-radius:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:500;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+@media(max-width:700px){
+
+    .topbar{
+        padding:0 12px;
+        height:62px;
+    }
+
+    .logo{
+        font-size:11px;
+    }
+
+    .stats{
+        gap:5px;
+    }
+
+    .stat{
+        min-width:auto;
+        padding:7px 8px;
+        font-size:11px;
+    }
+
+    .screen{
+        padding:25px 12px 50px;
+    }
+
+    h1{
+        font-size:52px;
+    }
+
+    .difficulties{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .difficulty:last-child{
+        grid-column:1/-1;
+    }
+
+    .map{
+        min-height:650px;
+    }
+
+    .location{
+        width:125px;
+    }
+
+    .loc-library{
+        left:5%;
+        top:23%;
+    }
+
+    .loc-school{
+        left:34%;
+        top:47%;
+    }
+
+    .loc-square{
+        right:4%;
+        top:23%;
+    }
+
+    .loc-lab{
+        right:7%;
+        bottom:10%;
+    }
+
+    .player{
+        left:40%;
+        bottom:20%;
+    }
+
+    .quiz{
+        padding:20px 15px;
+    }
+
+    .quiz-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .result-stats{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    *{
+        scroll-behavior:auto!important;
+        transition:none!important;
+    }
+}
+
+/* =========================================================
+   VISUAL REFRESH — LOBBY INSPIRADO EM MENUS DE PORTÁTEIS
+   (não altera a lógica do jogo)
+========================================================= */
+
+:root{
+    --psp-blue:#173d73;
+    --psp-blue-2:#0b1b35;
+    --psp-cyan:#67d8ff;
+    --psp-white:#f5f7fb;
+    --psp-glass:rgba(9,23,44,.72);
+    --psp-line:rgba(103,216,255,.28);
+}
+
+body{
+    background:
+        radial-gradient(circle at 50% 5%,rgba(50,112,170,.55),transparent 30%),
+        radial-gradient(circle at 15% 85%,rgba(90,46,46,.35),transparent 35%),
+        linear-gradient(135deg,#081322 0%,#101c30 48%,#07101e 100%);
+    overflow-x:hidden;
+}
+
+/* textura / brilho de tela */
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-1;
+    opacity:.16;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 3px,
+            rgba(255,255,255,.035) 4px
+        );
+}
+
+.topbar{
+    height:64px;
+    padding:0 24px;
+    background:rgba(5,14,27,.88);
+    border-bottom:1px solid var(--psp-line);
+    box-shadow:0 8px 30px rgba(0,0,0,.28);
+}
+
+.logo{
+    font-size:14px;
+    letter-spacing:2.5px;
+    text-shadow:0 0 15px rgba(103,216,255,.18);
+}
+
+.logo span{
+    color:var(--psp-cyan);
+}
+
+.stat{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:8px;
+    backdrop-filter:blur(12px);
+}
+
+.stat b{
+    color:var(--psp-cyan);
+}
+
+/* ===== NOVO LOBBY ===== */
+
+#home{
+    position:relative;
+    min-height:calc(100vh - 64px);
+    padding:0;
+    overflow:hidden;
+}
+
+#home:before{
+    content:"";
+    position:absolute;
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    right:-160px;
+    top:80px;
+    background:radial-gradient(circle,rgba(103,216,255,.18),transparent 68%);
+    filter:blur(8px);
+    animation:lobbyGlow 6s ease-in-out infinite alternate;
+}
+
+#home:after{
+    content:"";
+    position:absolute;
+    width:650px;
+    height:220px;
+    left:-180px;
+    bottom:-90px;
+    background:linear-gradient(90deg,transparent,rgba(103,216,255,.08),transparent);
+    transform:rotate(-14deg);
+    pointer-events:none;
+}
+
+#home .hero{
+    width:min(1180px,100%);
+    min-height:calc(100vh - 64px);
+    margin:auto;
+    padding:45px 28px 70px;
+    display:grid;
+    grid-template-columns:minmax(330px,1fr) minmax(360px,500px);
+    grid-template-rows:auto 1fr auto;
+    gap:18px 55px;
+    align-items:center;
+    text-align:left;
+    position:relative;
+    z-index:2;
+}
+
+#home .hero:before{
+    content:"LOBBY  //  MODO INVESTIGAÇÃO";
+    position:absolute;
+    top:22px;
+    left:28px;
+    color:rgba(103,216,255,.72);
+    font-size:10px;
+    letter-spacing:3px;
+    font-weight:800;
+}
+
+#home .badge{
+    grid-column:1;
+    align-self:end;
+    justify-self:start;
+    margin-top:20px;
+    border-radius:4px;
+    padding:7px 11px;
+    color:var(--psp-cyan);
+    background:rgba(103,216,255,.07);
+    border:1px solid var(--psp-line);
+    letter-spacing:2px;
+}
+
+#home h1{
+    grid-column:1;
+    margin:0;
+    font-size:clamp(50px,7vw,94px);
+    line-height:.86;
+    letter-spacing:-5px;
+    color:#f4f7fb;
+    text-shadow:
+        0 2px 0 #0a1728,
+        0 0 35px rgba(103,216,255,.12);
+    align-self:start;
+}
+
+#home .hero p{
+    grid-column:1;
+    max-width:520px;
+    margin:-5px 0 0;
+    color:#b7c5d8;
+    line-height:1.65;
+    font-size:15px;
+}
+
+#home .primary{
+    grid-column:1;
+    justify-self:start;
+    margin:5px 0 0;
+    min-width:255px;
+    border-radius:6px;
+    padding:15px 28px;
+    background:linear-gradient(180deg,#73ddff,#2e8fc0);
+    color:#07121f;
+    box-shadow:0 4px 0 #155b7b,0 12px 30px rgba(46,143,192,.25);
+    letter-spacing:2px;
+}
+
+#home .primary:hover{
+    box-shadow:0 6px 0 #155b7b,0 15px 38px rgba(46,143,192,.34);
+    transform:translateY(-2px) scale(1.01);
+}
+
+/* painel lateral */
+#home .hero:after{
+    content:"";
+    position:absolute;
+    right:28px;
+    top:50%;
+    width:min(43%,500px);
+    height:420px;
+    transform:translateY(-50%);
+    border:1px solid var(--psp-line);
+    border-radius:18px;
+    background:
+        linear-gradient(135deg,rgba(103,216,255,.07),transparent 40%),
+        rgba(4,13,26,.56);
+    box-shadow:
+        inset 0 0 50px rgba(103,216,255,.035),
+        0 25px 70px rgba(0,0,0,.35);
+    z-index:-1;
+}
+
+/* Menu inferior */
+#home .hero > div:last-child{
+    grid-column:1/-1;
+    justify-content:flex-start!important;
+    margin:8px 0 0!important;
+    gap:8px!important;
+    position:relative;
+}
+
+#home .hero > div:last-child:before{
+    content:"MENU PRINCIPAL";
+    position:absolute;
+    left:0;
+    top:-28px;
+    color:#7890a9;
+    font-size:10px;
+    letter-spacing:2px;
+    font-weight:800;
+}
+
+#home .secondary{
+    min-width:145px;
+    border-radius:5px;
+    padding:11px 16px;
+    background:rgba(10,25,46,.78);
+    border:1px solid rgba(255,255,255,.13);
+    color:#dbe8f5;
+    box-shadow:inset 0 1px rgba(255,255,255,.05);
+}
+
+#home .secondary:hover{
+    color:#fff;
+    border-color:var(--psp-cyan);
+    background:rgba(103,216,255,.09);
+    transform:translateY(-2px);
+}
+
+/* HUD decorativo */
+#home .hero:global{}
+
+@keyframes lobbyGlow{
+    from{transform:scale(.94);opacity:.75}
+    to{transform:scale(1.08);opacity:1}
+}
+
+/* telas internas também ganham identidade */
+.screen:not(#home){
+    background:linear-gradient(180deg,rgba(5,13,25,.16),rgba(5,13,25,.38));
+}
+
+.screen:not(#home) .section-title h2{
+    text-shadow:0 0 25px rgba(103,216,255,.1);
+}
+
+.screen:not(#home) .card,
+.screen:not(#home) .quiz,
+.screen:not(#home) .story,
+.screen:not(#home) .result{
+    border-color:rgba(103,216,255,.16);
+    background:
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(0,0,0,.2)),
+        rgba(20,31,47,.9);
+}
+
+.screen:not(#home) .card:hover{
+    border-color:var(--psp-cyan);
+    box-shadow:0 15px 40px rgba(0,0,0,.35),0 0 25px rgba(103,216,255,.06);
+}
+
+.screen:not(#home) .card .icon{
+    background:linear-gradient(145deg,#153b61,#10243d);
+    color:var(--psp-cyan);
+    border:1px solid var(--psp-line);
+}
+
+.screen:not(#home) .primary{
+    border-radius:6px;
+    background:linear-gradient(180deg,#73ddff,#2e8fc0);
+    box-shadow:0 4px 0 #155b7b;
+}
+
+.screen:not(#home) .difficulty{
+    background:rgba(15,28,45,.9);
+    border-color:rgba(103,216,255,.13);
+}
+
+.screen:not(#home) .difficulty .letter{
+    color:var(--psp-cyan);
+}
+
+.back{
+    color:#8fa8c1;
+}
+
+.back:hover{
+    color:var(--psp-cyan);
+}
+
+.progress{
+    background:#081321;
+}
+
+.progress-bar{
+    background:linear-gradient(90deg,#2e8fc0,#73ddff);
+}
+
+.option:hover{
+    border-color:var(--psp-cyan);
+    background:#172a41;
+}
+
+@media(max-width:800px){
+    #home .hero{
+        grid-template-columns:1fr;
+        padding:60px 18px 45px;
+        gap:15px;
+    }
+
+    #home .hero:after{
+        right:5%;
+        width:90%;
+        height:270px;
+        top:52%;
+        opacity:.7;
+    }
+
+    #home .badge,
+    #home h1,
+    #home .hero p,
+    #home .primary{
+        grid-column:1;
+    }
+
+    #home .hero > div:last-child{
+        grid-column:1;
+    }
+
+    #home h1{
+        font-size:clamp(48px,15vw,76px);
+    }
+}
+
+\n/* CINEMATIC CONSOLE LOBBY — inspired by dramatic action-game menus */\nbody{background:radial-gradient(ellipse at 78% 48%,rgba(255,224,177,.16),transparent 23%),radial-gradient(ellipse at 65% 52%,rgba(125,20,20,.22),transparent 35%),linear-gradient(110deg,#080707 0%,#171111 45%,#25201e 100%);}\nbody:before{opacity:.12;background:repeating-linear-gradient(0deg,transparent 0 4px,rgba(255,255,255,.035) 5px),linear-gradient(90deg,transparent 0 68%,rgba(255,255,255,.035) 69%,transparent 70%);}\nbody:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.18;background-image:linear-gradient(105deg,transparent 0 48%,rgba(255,255,255,.2) 49%,transparent 50%),linear-gradient(102deg,transparent 0 72%,rgba(255,255,255,.14) 73%,transparent 74%);background-size:260px 220px,340px 280px;animation:rainMove 3s linear infinite;}\n.topbar{position:absolute;top:0;left:0;right:0;z-index:20;background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.2),transparent);border-bottom:1px solid rgba(255,255,255,.07);box-shadow:none;}\n.logo{color:#f1eee9;letter-spacing:3px;text-shadow:0 2px 8px #000}.logo span{color:#d21e24}\n#home{min-height:100vh;height:100vh;padding:0;background:radial-gradient(circle at 73% 48%,rgba(255,205,125,.2),transparent 12%),radial-gradient(circle at 72% 48%,rgba(230,65,25,.12),transparent 28%),linear-gradient(90deg,rgba(0,0,0,.97) 0%,rgba(0,0,0,.8) 27%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.32) 100%);overflow:hidden;}\n#home:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 73% 52%,rgba(255,220,170,.34) 0 3%,rgba(255,122,42,.13) 8%,transparent 28%),radial-gradient(ellipse at 88% 35%,rgba(220,220,210,.1),transparent 18%),linear-gradient(105deg,transparent 57%,rgba(120,20,15,.16) 70%,transparent 83%);animation:scenePulse 5s ease-in-out infinite alternate;}\n#home .hero{width:100%;min-height:100vh;margin:0;padding:120px 0 65px;display:block;position:relative;text-align:left;z-index:2;}\n#home .hero:before{content:"";position:absolute;left:-80px;top:90px;width:580px;height:560px;background:radial-gradient(ellipse at 48% 45%,rgba(181,18,22,.46),rgba(100,10,14,.19) 42%,transparent 70%);filter:blur(18px);z-index:-1;}\n#home .hero:after{display:none}\n#home .badge{position:absolute;left:82px;top:122px;margin:0;padding:0;border:0;background:none;color:#bcb7b1;font-size:11px;letter-spacing:4px;text-transform:uppercase;font-weight:700;text-shadow:0 2px 5px #000;}\n#home h1{position:absolute;left:78px;top:150px;width:600px;margin:0;font-size:clamp(52px,6vw,88px);line-height:.82;letter-spacing:-4px;color:#eee9e1;text-transform:uppercase;text-shadow:0 3px 0 #150a08,0 7px 20px rgba(0,0,0,.9),0 0 30px rgba(170,25,20,.16);}\n#home h1:after{content:"";display:block;width:250px;height:3px;margin-top:18px;background:linear-gradient(90deg,#c51b20,transparent);box-shadow:0 0 15px rgba(197,27,32,.55);}\n#home .hero p{position:absolute;left:82px;top:345px;width:365px;margin:0;color:#a8a29b;line-height:1.5;font-size:12px;text-transform:uppercase;letter-spacing:1px;text-shadow:0 2px 4px #000;}\n#home .primary{position:absolute;left:76px;top:410px;width:330px;min-width:0;margin:0;padding:12px 18px 12px 27px;border:0;border-left:5px solid #e9e5df;border-radius:0;background:linear-gradient(90deg,rgba(205,20,24,.92),rgba(106,8,12,.68),transparent);color:#fff;box-shadow:0 0 25px rgba(155,10,15,.25),inset 0 0 20px rgba(255,255,255,.03);text-align:left;font-size:18px;font-weight:900;letter-spacing:2px;text-shadow:0 2px 5px #000;}\n#home .primary:before{content:"▶";margin-right:12px;font-size:13px;color:#fff}\n#home .primary:hover{transform:translateX(8px);box-shadow:0 0 35px rgba(190,20,24,.38)}\n#home .hero > div:last-child{position:absolute;left:76px;top:462px;display:flex!important;flex-direction:column;align-items:stretch;justify-content:flex-start!important;width:330px;margin:0!important;gap:0!important;}\n#home .hero > div:last-child:before{display:none}\n#home .secondary{min-width:0;width:100%;padding:11px 18px 11px 31px;border:0;border-left:5px solid transparent;border-radius:0;background:linear-gradient(90deg,rgba(20,20,20,.78),transparent);color:#c5c0b9;text-align:left;font-size:16px;font-weight:800;letter-spacing:1px;box-shadow:none;}\n#home .secondary:hover{transform:translateX(8px);color:#fff;border-left-color:#d11d22;background:linear-gradient(90deg,rgba(122,12,17,.72),transparent)}\n#home .hero > div:last-child:after{content:"◉  SELECIONAR";position:fixed;left:76px;bottom:30px;color:#aaa49e;font-size:12px;letter-spacing:2px;font-weight:700;}\n@keyframes rainMove{from{background-position:0 0,0 0}to{background-position:-100px 240px,120px 300px}}\n@keyframes scenePulse{from{opacity:.78;transform:scale(1)}to{opacity:1;transform:scale(1.035)}}\n@media(max-width:800px){#home{height:auto;min-height:100vh}#home .hero{min-height:100vh;padding:0}.badge{left:28px!important;top:88px!important}#home h1{left:25px;top:120px;width:90%;font-size:clamp(43px,12vw,68px)}#home .hero p{left:29px;top:285px;width:78%}#home .primary{left:24px;top:365px;width:calc(100% - 48px)}#home .hero > div:last-child{left:24px;top:418px;width:calc(100% - 48px)}}\n
+</style>
+
+<style id="pixel-deluxe-style">
+/* =========================================================
+   PIXEL DELUXE LOBBY
+   Estética 16-bit / RPG investigativo, feita em CSS + canvas.
+   A lógica das outras telas não foi alterada.
+========================================================= */
+
+.pixel-lobby{
+    position:relative!important;
+    min-height:calc(100vh - 64px);
+    overflow:hidden;
+    isolation:isolate;
+    background:#090b13!important;
+    color:#eee7d7;
+    font-family:"Courier New",monospace;
+}
+
+#pixelLobbyCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    image-rendering:pixelated;
+    image-rendering:crisp-edges;
+    background:#0b1020;
+}
+
+.pixel-vignette{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 67% 48%,transparent 0 24%,rgba(3,5,11,.18) 52%,rgba(0,0,0,.82) 100%),
+        linear-gradient(90deg,rgba(3,4,9,.9) 0%,rgba(3,4,9,.62) 33%,rgba(3,4,9,.08) 67%,rgba(3,4,9,.45) 100%);
+}
+
+.scanlines{
+    position:absolute;
+    inset:0;
+    z-index:20;
+    pointer-events:none;
+    opacity:.12;
+    background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.12) 4px);
+    mix-blend-mode:screen;
+}
+
+.pixel-lobby .topbar{display:none!important}
+
+.lobby-top{
+    position:absolute;
+    left:30px;
+    right:30px;
+    top:24px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:start;
+    z-index:5;
+}
+
+.game-mark{
+    position:relative;
+    width:max-content;
+    line-height:.8;
+    filter:drop-shadow(4px 5px 0 #07070b);
+}
+
+.game-mark:after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-12px;
+    width:190px;
+    height:3px;
+    background:#c58a38;
+    box-shadow:5px 4px 0 #6e3420,0 0 0 1px #1c1110;
+}
+
+.mark-small{
+    display:block;
+    color:#c0a77a;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:7px;
+}
+
+.game-mark strong{
+    display:block;
+    font-size:36px;
+    letter-spacing:1px;
+    color:#f0e5cc;
+    text-shadow:2px 0 #7c211d,-2px 0 #111,0 4px 0 #1b1110;
+}
+
+.game-mark em{
+    display:block;
+    font-style:normal;
+    color:#c78b38;
+    font-size:22px;
+    letter-spacing:7px;
+    margin-left:42px;
+    text-shadow:2px 2px #1b0d0d;
+}
+
+.save-slot{
+    min-width:170px;
+    padding:8px 13px;
+    border:2px solid #4b4035;
+    background:rgba(8,9,14,.82);
+    box-shadow:inset 0 0 0 1px #17151b,4px 4px 0 rgba(0,0,0,.4);
+    text-align:center;
+    text-transform:uppercase;
+}
+
+.save-slot span{
+    color:#7f756b;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+.save-slot b{
+    display:block;
+    color:#e2bf70;
+    font-size:13px;
+    margin:2px 0;
+}
+
+.save-slot small{
+    color:#68716a;
+    font-size:7px;
+    letter-spacing:1px;
+}
+
+.hud{
+    justify-self:end;
+    display:flex;
+    gap:8px;
+}
+
+.hud-box{
+    min-width:100px;
+    padding:8px 10px;
+    display:flex;
+    gap:9px;
+    align-items:center;
+    background:rgba(7,8,13,.84);
+    border:2px solid #37343a;
+    box-shadow:inset 0 0 0 1px #12131a,3px 3px 0 rgba(0,0,0,.35);
+}
+
+.hud-icon{
+    color:#78a9e8;
+    font-size:18px;
+}
+
+.hud-icon.coin{color:#d9a83d}
+
+.hud-box small{
+    display:block;
+    color:#76747c;
+    font-size:7px;
+    letter-spacing:1px;
+}
+
+.hud-box b{
+    color:#f0e7d2;
+    font-size:15px;
+}
+
+.lobby-main{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:330px minmax(430px,610px);
+    gap:48px;
+    align-items:center;
+    width:min(1120px,calc(100% - 60px));
+    margin:0 auto;
+    padding-top:105px;
+}
+
+.menu-panel{
+    position:relative;
+    padding:18px 0 15px;
+    background:
+        linear-gradient(90deg,rgba(8,8,13,.97),rgba(8,8,13,.88) 85%,transparent);
+}
+
+.menu-caption{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 16px 12px;
+    color:#857d73;
+    font-size:9px;
+    letter-spacing:3px;
+}
+
+.menu-caption i{
+    height:1px;
+    flex:1;
+    background:#3d3028;
+}
+
+.pixel-menu{
+    position:relative;
+    width:100%;
+    height:63px;
+    display:grid;
+    grid-template-columns:34px 30px 1fr 20px;
+    align-items:center;
+    gap:7px;
+    padding:0 16px;
+    border:0;
+    border-top:1px solid rgba(255,255,255,.025);
+    border-bottom:1px solid rgba(0,0,0,.45);
+    background:linear-gradient(90deg,rgba(21,21,28,.94),rgba(12,12,17,.72));
+    color:#aaa7a0;
+    font-family:inherit;
+    text-align:left;
+    cursor:pointer;
+    transition:transform .13s ease,background .13s ease,color .13s ease;
+}
+
+.pixel-menu:before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:7px;
+    bottom:7px;
+    width:3px;
+    background:transparent;
+}
+
+.pixel-menu:hover,
+.pixel-menu:focus-visible{
+    transform:translateX(6px);
+    color:#fff;
+    background:linear-gradient(90deg,rgba(77,25,25,.92),rgba(19,17,22,.76));
+    outline:none;
+}
+
+.pixel-menu.selected{
+    color:#fff6e4;
+    background:
+        linear-gradient(90deg,#70211d 0,#40171a 46%,rgba(18,14,19,.72) 100%);
+    box-shadow:inset 0 0 25px rgba(176,47,32,.16),0 4px 14px rgba(0,0,0,.3);
+}
+
+.pixel-menu.selected:before{
+    background:#e0a044;
+    box-shadow:0 0 9px rgba(224,160,68,.65);
+}
+
+.pixel-menu.selected:after{
+    content:"";
+    position:absolute;
+    right:-9px;
+    top:22px;
+    width:0;
+    height:0;
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+    border-left:9px solid #c08a3c;
+}
+
+.menu-number{
+    color:#5b5651;
+    font-size:8px;
+}
+
+.selected .menu-number{color:#d3a34f}
+
+.menu-symbol{
+    color:#837d72;
+    font-size:18px;
+    text-align:center;
+}
+
+.selected .menu-symbol{color:#e0a044}
+
+.menu-text b{
+    display:block;
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+.menu-text small{
+    display:block;
+    margin-top:4px;
+    color:#69666a;
+    font-size:8px;
+    letter-spacing:.5px;
+}
+
+.selected .menu-text small{color:#b9997b}
+
+.menu-arrow{
+    color:#514d4b;
+    font-size:23px;
+}
+
+.selected .menu-arrow{color:#dca044}
+
+.menu-footer{
+    padding:16px 16px 0;
+    color:#625e59;
+    font-size:8px;
+    letter-spacing:1px;
+}
+
+.menu-footer span{color:#b9a16f}
+.menu-footer .sep{margin:0 6px;color:#3e3935}
+
+.case-board{
+    position:relative;
+    padding:19px;
+    background:
+        linear-gradient(135deg,rgba(23,21,25,.96),rgba(9,10,16,.93));
+    border:2px solid #4c4540;
+    box-shadow:
+        inset 0 0 0 1px #11121a,
+        9px 9px 0 rgba(0,0,0,.42),
+        0 20px 60px rgba(0,0,0,.42);
+}
+
+.case-board:before,
+.case-board:after{
+    content:"";
+    position:absolute;
+    width:12px;
+    height:12px;
+    border-color:#9b713d;
+    pointer-events:none;
+}
+
+.case-board:before{
+    left:-2px;
+    top:-2px;
+    border-left:3px solid;
+    border-top:3px solid;
+}
+
+.case-board:after{
+    right:-2px;
+    bottom:-2px;
+    border-right:3px solid;
+    border-bottom:3px solid;
+}
+
+.case-header{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:flex-start;
+    padding:2px 3px 14px;
+}
+
+.case-label{
+    color:#bd8738;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+.case-header h1{
+    margin:7px 0 0;
+    color:#d9d2c4;
+    font-size:28px;
+    line-height:.95;
+    letter-spacing:1px;
+    text-shadow:2px 2px #08080b;
+}
+
+.case-header h1 strong{color:#f0b84f}
+
+.stamp{
+    color:#c8513e;
+    border:2px solid #8b3c31;
+    padding:5px 8px;
+    font-size:8px;
+    letter-spacing:2px;
+    transform:rotate(-4deg);
+    opacity:.9;
+}
+
+.case-image{
+    position:relative;
+    height:205px;
+    overflow:hidden;
+    border:2px solid #38333a;
+    background:
+        linear-gradient(180deg,#171b31 0,#222642 56%,#10131c 57%,#090a0e 100%);
+    image-rendering:pixelated;
+}
+
+.moon{
+    position:absolute;
+    right:70px;
+    top:25px;
+    width:74px;
+    height:74px;
+    border-radius:50%;
+    background:#e4d7b5;
+    box-shadow:0 0 0 4px rgba(228,215,181,.08),0 0 25px rgba(229,215,175,.22);
+}
+
+.cloud{
+    position:absolute;
+    height:10px;
+    background:#303450;
+    box-shadow:20px 8px #303450,42px 0 #303450,65px 9px #303450;
+    opacity:.7;
+}
+
+.cloud-a{top:50px;left:40px;width:50px}
+.cloud-b{top:90px;right:155px;width:38px;opacity:.5}
+
+.pixel-city{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:38px;
+    height:70px;
+    display:flex;
+    align-items:flex-end;
+    gap:4px;
+    padding:0 22px;
+}
+
+.pixel-city i{
+    display:block;
+    width:34px;
+    height:40px;
+    background:#11121a;
+    border-top:6px solid #181a24;
+    box-shadow:
+        7px -18px 0 -2px #11121a,
+        16px -8px 0 -2px #11121a;
+}
+
+.pixel-city i:nth-child(2){height:63px;width:45px}
+.pixel-city i:nth-child(3){height:34px;width:29px}
+.pixel-city i:nth-child(4){height:52px;width:39px}
+.pixel-city i:nth-child(5){height:30px;width:27px}
+.pixel-city i:nth-child(6){height:58px;width:44px}
+.pixel-city i:nth-child(7){height:39px;width:32px}
+.pixel-city i:nth-child(8){height:51px;width:38px}
+
+.case-location{
+    position:absolute;
+    left:18px;
+    bottom:14px;
+    color:#7b7d89;
+    font-size:7px;
+    letter-spacing:2px;
+}
+
+.case-location b{
+    display:block;
+    color:#d2a453;
+    font-size:10px;
+    margin-top:3px;
+}
+
+.case-info{
+    display:grid;
+    grid-template-columns:1fr 145px;
+    gap:14px;
+    padding:14px 2px 13px;
+    border-bottom:1px solid #302c31;
+}
+
+.brief span,
+.difficulty-mini span{
+    color:#756e68;
+    font-size:7px;
+    letter-spacing:2px;
+}
+
+.brief p{
+    margin:5px 0 0;
+    color:#aaa6a0;
+    font-size:9px;
+    line-height:1.55;
+}
+
+.difficulty-mini b{
+    display:block;
+    margin-top:5px;
+    color:#caa159;
+    font-size:8px;
+}
+
+.difficulty-mini div{
+    display:flex;
+    gap:4px;
+    margin-top:7px;
+}
+
+.difficulty-mini i{
+    display:block;
+    width:16px;
+    height:5px;
+    background:#c88d38;
+    box-shadow:0 0 4px rgba(200,141,56,.2);
+}
+
+.difficulty-mini i.off{background:#37333a;box-shadow:none}
+
+.case-start{
+    width:100%;
+    margin-top:14px;
+    min-height:48px;
+    border:2px solid #9a682d;
+    background:
+        linear-gradient(90deg,#7a2b24,#4c1c1d 52%,#241519);
+    color:#f6dfad;
+    font-family:inherit;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:2px;
+    cursor:pointer;
+    box-shadow:inset 0 0 0 1px #321616,0 5px 0 #241012;
+    text-shadow:2px 2px #2a1010;
+}
+
+.case-start:hover,
+.case-start:focus-visible{
+    background:linear-gradient(90deg,#a13a2b,#632321 52%,#2d171b);
+    border-color:#e0a044;
+    outline:none;
+}
+
+.case-start span{
+    margin-right:8px;
+    color:#f0b84f;
+}
+
+.lobby-bottom{
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:22px;
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    z-index:5;
+}
+
+.mentor-tip{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    max-width:430px;
+    padding:9px 12px;
+    background:rgba(8,8,13,.88);
+    border-left:3px solid #9b713d;
+    box-shadow:3px 3px 0 rgba(0,0,0,.35);
+}
+
+.mentor-icon{
+    width:27px;
+    height:27px;
+    display:grid;
+    place-items:center;
+    color:#1b1110;
+    background:#d1a04b;
+    font-weight:900;
+}
+
+.mentor-tip span{
+    color:#cda254;
+    font-size:8px;
+    letter-spacing:2px;
+}
+
+.mentor-tip p{
+    margin:3px 0 0;
+    color:#7f7b79;
+    font-size:8px;
+    line-height:1.35;
+}
+
+.version{
+    text-align:right;
+    color:#504b49;
+    font-size:8px;
+    line-height:1.5;
+    letter-spacing:1px;
+}
+
+.version span{color:#35343a;font-size:7px}
+
+@media(max-width:900px){
+    .lobby-main{
+        grid-template-columns:290px minmax(330px,1fr);
+        gap:25px;
+    }
+
+    .case-header h1{font-size:23px}
+    .game-mark strong{font-size:28px}
+    .game-mark em{font-size:17px}
+}
+
+@media(max-width:700px){
+    .pixel-lobby{overflow:auto!important;min-height:100vh}
+    .lobby-top{
+        position:relative;
+        left:auto;
+        right:auto;
+        top:auto;
+        padding:18px;
+        grid-template-columns:1fr auto;
+        gap:10px;
+    }
+
+    .save-slot{display:none}
+    .hud{grid-column:2;grid-row:1}
+
+    .lobby-main{
+        width:calc(100% - 30px);
+        margin:0 15px;
+        padding-top:20px;
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .menu-panel{order:2}
+    .case-board{order:1}
+
+    .pixel-menu{height:55px}
+    .case-image{height:170px}
+
+    .lobby-bottom{
+        position:relative;
+        left:auto;
+        right:auto;
+        bottom:auto;
+        margin:20px 15px;
+        align-items:stretch;
+    }
+
+    .version{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important}
+}
+
+
+</style>
+
+<style id="pixel-game-global-theme">
+/* =========================================================
+   PIXEL DELUXE — TEMA GLOBAL
+   O mesmo acabamento do lobby agora se estende ao jogo inteiro.
+========================================================= */
+
+:root{
+    --px-bg:#090b13;
+    --px-panel:#11121a;
+    --px-panel2:#171821;
+    --px-line:#4c4540;
+    --px-gold:#d0a04b;
+    --px-gold2:#f0c36a;
+    --px-red:#79251f;
+    --px-red2:#a33a2b;
+    --px-text:#eee7d7;
+    --px-muted:#8a837b;
+    --px-blue:#78a9e8;
+}
+
+body{
+    background:#090b13!important;
+    color:var(--px-text)!important;
+    font-family:"Courier New",monospace!important;
+}
+
+.screen{
+    background:
+        radial-gradient(circle at 70% 20%,rgba(113,55,38,.10),transparent 28%),
+        linear-gradient(180deg,#090b13,#0c0d14 55%,#08090f)!important;
+}
+
+/* Cabeçalhos */
+.screen h1,
+.screen h2,
+.screen h3{
+    color:var(--px-text)!important;
+    font-family:"Courier New",monospace!important;
+    text-shadow:2px 2px #050509;
+    letter-spacing:1px;
+}
+
+.screen p,
+.screen span,
+.screen label{
+    font-family:"Courier New",monospace;
+}
+
+/* Painéis/cards */
+.card,
+.quiz,
+.story,
+.result,
+.panel,
+.modal,
+.difficulty,
+.case-card,
+.question-card{
+    background:
+        linear-gradient(135deg,rgba(28,27,34,.98),rgba(10,11,17,.96))!important;
+    border:2px solid var(--px-line)!important;
+    border-radius:0!important;
+    box-shadow:
+        inset 0 0 0 1px #101118,
+        6px 6px 0 rgba(0,0,0,.38)!important;
+}
+
+/* Botões */
+button,
+.primary,
+.secondary,
+.option{
+    font-family:"Courier New",monospace!important;
+    border-radius:0!important;
+}
+
+button.primary,
+.primary{
+    background:linear-gradient(90deg,#79251f,#4b1b1d)!important;
+    color:#f5dfad!important;
+    border:2px solid #9b6a30!important;
+    box-shadow:inset 0 0 0 1px #321616,0 4px 0 #241012!important;
+    text-shadow:2px 2px #281010;
+}
+
+button.primary:hover,
+.primary:hover{
+    background:linear-gradient(90deg,#a03a2b,#642321)!important;
+    border-color:#e0a044!important;
+    transform:translateY(-1px);
+}
+
+.secondary{
+    background:#11121a!important;
+    color:#bcb6ad!important;
+    border:2px solid #49444a!important;
+    box-shadow:3px 3px 0 rgba(0,0,0,.35)!important;
+}
+
+.secondary:hover{
+    color:#fff!important;
+    border-color:#bd8738!important;
+    background:#1c1820!important;
+}
+
+/* Opções do quiz */
+.option{
+    position:relative;
+    background:
+        linear-gradient(90deg,#151620,#0f1017)!important;
+    color:#d0cbc1!important;
+    border:2px solid #3d3940!important;
+    padding:14px!important;
+    text-align:left!important;
+    box-shadow:3px 3px 0 rgba(0,0,0,.28)!important;
+}
+
+.option:hover{
+    background:linear-gradient(90deg,#3d1d1d,#17131a)!important;
+    color:#fff!important;
+    border-color:#bd8738!important;
+    transform:translateX(3px);
+}
+
+.option.correct,
+.option.selected.correct{
+    background:linear-gradient(90deg,#3e4b28,#22271b)!important;
+    border-color:#a8a34e!important;
+    color:#f2ebc7!important;
+}
+
+.option.incorrect,
+.option.selected.incorrect{
+    background:linear-gradient(90deg,#5a211d,#241316)!important;
+    border-color:#a44a3c!important;
+    color:#f1cbc2!important;
+}
+
+/* Barras */
+.progress{
+    background:#08090e!important;
+    border:1px solid #3d3940!important;
+    border-radius:0!important;
+}
+
+.progress-bar{
+    background:linear-gradient(90deg,#8a2c25,#d0a04b)!important;
+    border-radius:0!important;
+}
+
+/* Ícones */
+.icon{
+    border-radius:0!important;
+    background:#171821!important;
+    border:2px solid #4c4540!important;
+    color:#d0a04b!important;
+}
+
+/* Títulos de seção */
+.section-title{
+    border-bottom:2px solid #403831!important;
+    padding-bottom:12px!important;
+}
+
+.section-title:after{
+    background:#bd8738!important;
+}
+
+/* Links / voltar */
+.back{
+    color:#8d857d!important;
+    font-family:"Courier New",monospace!important;
+}
+
+.back:hover{
+    color:#d0a04b!important;
+}
+
+/* Badges e tags */
+.badge,
+.tag,
+.label{
+    border-radius:0!important;
+    border:1px solid #76532d!important;
+    background:#1c1715!important;
+    color:#d0a04b!important;
+}
+
+/* Inputs / selects */
+input,
+select,
+textarea{
+    background:#0c0d14!important;
+    color:#eee7d7!important;
+    border:2px solid #403b42!important;
+    border-radius:0!important;
+    font-family:"Courier New",monospace!important;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    outline:none!important;
+    border-color:#bd8738!important;
+    box-shadow:0 0 0 1px #bd8738!important;
+}
+
+/* Tabelas / listas */
+table{
+    border-collapse:collapse;
+    background:#101118!important;
+}
+
+th{
+    background:#241b1b!important;
+    color:#d0a04b!important;
+}
+
+td,th{
+    border:1px solid #39343a!important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:#08090e}
+::-webkit-scrollbar-thumb{
+    background:#493b32;
+    border:2px solid #08090e;
+}
+::-webkit-scrollbar-thumb:hover{background:#8b6637}
+
+/* Feedback */
+.feedback,
+.message,
+.toast{
+    border-radius:0!important;
+    background:#11121a!important;
+    border:2px solid #4c4540!important;
+    box-shadow:5px 5px 0 rgba(0,0,0,.35)!important;
+}
+
+/* Tela de mapa */
+.map,
+.map-area{
+    background:
+        radial-gradient(circle at 50% 50%,rgba(73,53,35,.12),transparent 40%),
+        #090b13!important;
+    border:2px solid #39343a!important;
+}
+
+/* Mobile */
+@media(max-width:700px){
+    .card,.quiz,.story,.result{
+        box-shadow:4px 4px 0 rgba(0,0,0,.38)!important;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div id="game">
+
+<header class="topbar">
+
+    <button class="logo" onclick="goHome()">
+        DETETIVES <span>DA ORAÇÃO</span>
+    </button>
+
+    <div class="stats" aria-label="Progresso do jogador">
+        <div class="stat">⭐ <b id="xp">0</b> XP</div>
+        <div class="stat">🪙 <b id="coins">0</b></div>
+    </div>
+
+</header>
+
+
+<!-- ================= INÍCIO ================= -->
+
+<section id="home" class="screen active pixel-lobby">
+
+    <canvas id="pixelLobbyCanvas" aria-hidden="true"></canvas>
+
+    <div class="pixel-vignette"></div>
+    <div class="scanlines"></div>
+
+    <div class="lobby-top">
+        <div class="game-mark">
+            <span class="mark-small">SESI • INVESTIGAÇÃO</span>
+            <strong>DETETIVES</strong>
+            <em>DA ORAÇÃO</em>
+        </div>
+
+        <div class="save-slot">
+            <span>ARQUIVO</span>
+            <b>CASO 01</b>
+            <small>AUTOSAVE • PRONTO</small>
+        </div>
+
+        <div class="hud">
+            <div class="hud-box">
+                <span class="hud-icon">◆</span>
+                <div><small>XP</small><b id="lobbyXP">0</b></div>
+            </div>
+            <div class="hud-box">
+                <span class="hud-icon coin">●</span>
+                <div><small>MOEDAS</small><b id="lobbyCoins">0</b></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lobby-main">
+
+        <aside class="menu-panel" aria-label="Menu principal">
+
+            <div class="menu-caption">
+                <span>MENU PRINCIPAL</span>
+                <i></i>
+            </div>
+
+            <button class="pixel-menu selected" onclick="showScreen('learn')">
+                <span class="menu-number">01</span>
+                <span class="menu-symbol">▶</span>
+                <span class="menu-text"><b>NOVO CASO</b><small>Iniciar investigação</small></span>
+                <span class="menu-arrow">›</span>
+            </button>
+
+            <button class="pixel-menu" onclick="showScreen('learn')">
+                <span class="menu-number">02</span>
+                <span class="menu-symbol">▣</span>
+                <span class="menu-text"><b>CASOS</b><small>Escolher investigação</small></span>
+                <span class="menu-arrow">›</span>
+            </button>
+
+            <button class="pixel-menu" onclick="showScreen('collection')">
+                <span class="menu-number">03</span>
+                <span class="menu-symbol">♙</span>
+                <span class="menu-text"><b>PERSONAGENS</b><small>Ver investigadores</small></span>
+                <span class="menu-arrow">›</span>
+            </button>
+
+            <button class="pixel-menu" onclick="showScreen('learn')">
+                <span class="menu-number">04</span>
+                <span class="menu-symbol">⌖</span>
+                <span class="menu-text"><b>MAPA</b><small>Explorar pistas</small></span>
+                <span class="menu-arrow">›</span>
+            </button>
+
+            <button class="pixel-menu" onclick="showScreen('access')">
+                <span class="menu-number">05</span>
+                <span class="menu-symbol">⚙</span>
+                <span class="menu-text"><b>OPÇÕES</b><small>Acessibilidade</small></span>
+                <span class="menu-arrow">›</span>
+            </button>
+
+            <div class="menu-footer">
+                <span>↑ ↓</span> NAVEGAR
+                <span class="sep">•</span>
+                <span>ENTER</span> SELECIONAR
+            </div>
+        </aside>
+
+        <section class="case-board">
+
+            <div class="case-header">
+                <div>
+                    <span class="case-label">ARQUIVO CONFIDENCIAL // 001</span>
+                    <h1>O MISTÉRIO<br><strong>DA ORAÇÃO</strong></h1>
+                </div>
+                <div class="stamp">ATIVO</div>
+            </div>
+
+            <div class="case-image">
+                <div class="moon"></div>
+                <div class="cloud cloud-a"></div>
+                <div class="cloud cloud-b"></div>
+                <div class="pixel-city">
+                    <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                </div>
+                <div class="case-location">
+                    <span>LOCALIZAÇÃO</span>
+                    <b>DISTRITO DAS ORAÇÕES</b>
+                </div>
+            </div>
+
+            <div class="case-info">
+                <div class="brief">
+                    <span>BRIEFING</span>
+                    <p>As frases escondem pistas. Descubra quem pratica a ação, encontre o núcleo e reconstrua cada oração.</p>
+                </div>
+            </div>
+
+
+        </section>
+
+    </div>
+
+    <div class="lobby-bottom">
+        <div class="mentor-tip">
+            <div class="mentor-icon">!</div>
+            <div>
+                <span>DICA DO DETETIVE</span>
+                <p>Leia a oração inteira antes de apontar o suspeito. A pista principal quase sempre está no verbo.</p>
+            </div>
+        </div>
+
+        <div class="version">
+            DETETIVES DA ORAÇÃO<br>
+            <span>EDIÇÃO INVESTIGAÇÃO • 2º EM</span>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- ================= APRENDA ================= -->
+
+<section id="learn" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="goHome()">← Voltar</button>
+
+        <div class="section-title">
+
+            <span class="badge">APRENDA</span>
+
+            <h2>Escolha sua investigação</h2>
+
+            <p>
+                Primeiro escolha se o caso envolve sujeito ou predicado.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <button class="card" onclick="selectCategory('sujeito')">
+
+                <div class="icon">S</div>
+
+                <h3>Sujeito</h3>
+
+                <p>
+                    Investigue sujeito simples, composto, oculto,
+                    indeterminado e oração sem sujeito.
+                </p>
+
+            </button>
+
+
+            <button class="card" onclick="selectCategory('predicado')">
+
+                <div class="icon">P</div>
+
+                <h3>Predicado</h3>
+
+                <p>
+                    Investigue predicado verbal, nominal
+                    e verbo-nominal.
+                </p>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TIPOS ================= -->
+
+<section id="types" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="showScreen('learn')">
+            ← Voltar
+        </button>
+
+        <div class="section-title">
+
+            <span class="badge" id="typeBadge">SUJEITO</span>
+
+            <h2>Escolha o caso</h2>
+
+            <p>
+                Escolha exatamente o conteúdo que deseja estudar.
+            </p>
+
+        </div>
+
+        <div id="typeCards" class="cards"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DIFICULDADE ================= -->
+
+<section id="difficulty" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="showScreen('types')">
+            ← Voltar
+        </button>
+
+        <div class="section-title">
+
+            <span class="badge">NÍVEL</span>
+
+            <h2>Escolha a dificuldade</h2>
+
+            <p id="selectedCaseText"></p>
+
+        </div>
+
+        <div class="difficulties">
+
+            <button class="difficulty" onclick="startInvestigation('D')">
+                <span class="letter">D</span>
+                <small>Iniciante</small>
+            </button>
+
+            <button class="difficulty" onclick="startInvestigation('C')">
+                <span class="letter">C</span>
+                <small>Intermediário</small>
+            </button>
+
+            <button class="difficulty" onclick="startInvestigation('B')">
+                <span class="letter">B</span>
+                <small>Normal</small>
+            </button>
+
+            <button class="difficulty" onclick="startInvestigation('A')">
+                <span class="letter">A</span>
+                <small>Difícil</small>
+            </button>
+
+            <button class="difficulty" onclick="startInvestigation('S')">
+                <span class="letter">S</span>
+                <small>Extremamente difícil</small>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HISTÓRIA ================= -->
+
+<section id="story" class="screen">
+
+    <div class="container center" style="min-height:70vh">
+
+        <div class="story">
+
+            <div class="story-icon">🔎</div>
+
+            <span class="badge">NOVO CASO</span>
+
+            <h2 id="storyTitle">
+                O caso começou.
+            </h2>
+
+            <p id="storyText"></p>
+
+            <div class="clue">
+                <strong>PISTA DE ESTUDO</strong>
+                <p id="storyClue" style="margin-bottom:0"></p>
+            </div>
+
+            <button class="primary" onclick="openMap()">
+                ENTRAR NA INVESTIGAÇÃO
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MAPA ================= -->
+
+<section id="mapScreen" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="showScreen('difficulty')">
+            ← Sair da investigação
+        </button>
+
+        <div class="section-title">
+
+            <span class="badge">MODO INVESTIGAÇÃO</span>
+
+            <h2>Distrito das Orações</h2>
+
+            <p>
+                Encontre uma pista e avance para o desafio.
+            </p>
+
+        </div>
+
+        <div class="map">
+
+            <div class="map-title">
+                <strong>CASO:</strong>
+                <span id="mapCase"></span>
+            </div>
+
+            <button class="location loc-library" onclick="openClue('library')">
+                <div class="building">📚</div>
+                <strong>Biblioteca</strong>
+                <small>Pista</small>
+            </button>
+
+            <button class="location loc-school" onclick="openClue('school')">
+                <div class="building">🏫</div>
+                <strong>Escola</strong>
+                <small>Investigação</small>
+            </button>
+
+            <button class="location loc-square" onclick="openClue('square')">
+                <div class="building">🏛️</div>
+                <strong>Praça</strong>
+                <small>Pista</small>
+            </button>
+
+            <button class="location loc-lab" onclick="openClue('lab')">
+                <div class="building">🔬</div>
+                <strong>Laboratório</strong>
+                <small>Quiz</small>
+            </button>
+
+            <div class="player">
+                <div class="head"></div>
+                <div class="body"></div>
+                <div class="player-name">DETETIVE</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PISTA ================= -->
+
+<section id="clueScreen" class="screen">
+
+    <div class="container center" style="min-height:70vh">
+
+        <div class="story">
+
+            <div class="story-icon" id="clueIcon">🔎</div>
+
+            <span class="badge">PISTA ENCONTRADA</span>
+
+            <h2 id="clueTitle"></h2>
+
+            <p id="clueText"></p>
+
+            <div class="clue">
+                <strong>O QUE OBSERVAR</strong>
+                <p id="clueTip" style="margin-bottom:0"></p>
+            </div>
+
+            <button class="primary" onclick="startQuiz()">
+                IR PARA O QUIZ
+            </button>
+
+            <br><br>
+
+            <button class="secondary" onclick="openMap()">
+                VOLTAR AO MAPA
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= QUIZ ================= -->
+
+<section id="quizScreen" class="screen">
+
+    <div class="container">
+
+        <div class="progress-wrap">
+
+            <div class="progress-info">
+
+                <span id="questionCounter">
+                    Questão 1 de 15
+                </span>
+
+                <span id="difficultyLabel">
+                    Nível D
+                </span>
+
+            </div>
+
+            <div class="progress">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+        </div>
+
+        <div class="quiz">
+
+            <div class="question-number" id="questionNumber">
+                QUESTÃO 01
+            </div>
+
+            <div
+                id="question"
+                class="question"
+                aria-live="polite"
+            ></div>
+
+            <div
+                id="options"
+                class="options"
+            ></div>
+
+            <div
+                id="feedback"
+                class="feedback"
+                aria-live="polite"
+            ></div>
+
+            <div class="quiz-actions">
+
+                <button
+                    id="hintButton"
+                    class="hint"
+                    onclick="showHint()"
+                >
+                    💡 Ver pista
+                </button>
+
+                <button
+                    id="nextButton"
+                    class="primary"
+                    onclick="nextQuestion()"
+                    style="display:none;margin-top:0"
+                >
+                    PRÓXIMA
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RESULTADO ================= -->
+
+<section id="resultScreen" class="screen">
+
+    <div class="container center" style="min-height:70vh">
+
+        <div class="result">
+
+            <div class="result-medal" id="resultMedal">
+                🏆
+            </div>
+
+            <span class="badge">CASO ENCERRADO</span>
+
+            <h2 id="resultTitle">
+                Investigação concluída
+            </h2>
+
+            <p id="resultMessage"></p>
+
+            <div class="result-stats">
+
+                <div class="result-stat">
+                    <strong id="resultCorrect">0</strong>
+                    <span>ACERTOS</span>
+                </div>
+
+                <div class="result-stat">
+                    <strong id="resultXP">0</strong>
+                    <span>XP GANHO</span>
+                </div>
+
+                <div class="result-stat">
+                    <strong id="resultCoins">0</strong>
+                    <span>MOEDAS</span>
+                </div>
+
+            </div>
+
+            <button class="primary" onclick="showScreen('learn')">
+                NOVA INVESTIGAÇÃO
+            </button>
+
+            <br><br>
+
+            <button class="secondary" onclick="showScreen('collection')">
+                VER PERSONAGENS
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PERSONAGEM ================= -->
+
+<section id="collection" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="goHome()">
+            ← Voltar
+        </button>
+
+        <div class="section-title">
+
+            <span class="badge">PERSONAGEM</span>
+
+            <h2>Arquivo de Detetives</h2>
+
+            <p>
+                Use moedas para desbloquear skins.
+            </p>
+
+        </div>
+
+        <div id="skinCollection" class="collection"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ACESSIBILIDADE ================= -->
+
+<section id="access" class="screen">
+
+    <div class="container">
+
+        <button class="back" onclick="goHome()">
+            ← Voltar
+        </button>
+
+        <div class="section-title">
+
+            <span class="badge">ACESSIBILIDADE</span>
+
+            <h2>Configurações</h2>
+
+            <p>
+                O jogo não depende apenas de cores ou sons para transmitir informações.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">A+</div>
+                <h3>Tamanho do texto</h3>
+                <p>Amplia os textos do jogo.</p>
+                <br>
+                <button class="secondary" onclick="toggleLargeText()">
+                    Aumentar / normalizar
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="icon">◐</div>
+                <h3>Alto contraste</h3>
+                <p>Usa uma apresentação de maior contraste.</p>
+                <br>
+                <button class="secondary" onclick="toggleContrast()">
+                    Ativar / desativar
+                </button>
+            </div>
+
+            <div class="card">
+                <div class="icon">⌨</div>
+                <h3>Teclado</h3>
+                <p>
+                    Os controles principais podem ser alcançados pelo teclado.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">◉</div>
+                <h3>Informação visual</h3>
+                <p>
+                    Acertos e erros aparecem por texto e cor.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<div id="toast" class="toast" aria-live="polite"></div>
+
+<div class="accessibility">
+
+    <button
+        title="Aumentar texto"
+        aria-label="Aumentar texto"
+        onclick="toggleLargeText()"
+    >A+</button>
+
+    <button
+        title="Alto contraste"
+        aria-label="Alto contraste"
+        onclick="toggleContrast()"
+    >◐</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ESTADO DO JOGO
+========================================================= */
+
+const state = {
+
+    category:null,
+    type:null,
+    difficulty:null,
+
+    questions:[],
+    currentQuestion:0,
+    correct:0,
+    answered:false,
+
+    xp:Number(localStorage.getItem("do_xp") || 0),
+    coins:Number(localStorage.getItem("do_coins") || 0),
+
+    skins:JSON.parse(
+        localStorage.getItem("do_skins") ||
+        '["detetive"]'
+    ),
+
+    equipped:localStorage.getItem("do_equipped") || "detetive"
+
+};
+
+
+/* =========================================================
+   DADOS DOS TIPOS
+========================================================= */
+
+const categories = {
+
+    sujeito:{
+
+        label:"Sujeito",
+
+        types:{
+
+            simples:{
+                title:"Sujeito simples",
+                icon:"1",
+                description:"Possui apenas um núcleo.",
+                clue:"Procure o termo que exerce a função de sujeito e observe quantos núcleos ele possui."
+            },
+
+            composto:{
+                title:"Sujeito composto",
+                icon:"2",
+                description:"Possui dois ou mais núcleos.",
+                clue:"Observe se o sujeito apresenta dois ou mais núcleos."
+            },
+
+            oculto:{
+                title:"Sujeito oculto",
+                icon:"?",
+                description:"Não aparece escrito, mas pode ser identificado pelo contexto ou pela forma verbal.",
+                clue:"O sujeito não está expresso na oração, mas pode ser identificado."
+            },
+
+            indeterminado:{
+                title:"Sujeito indeterminado",
+                icon:"∅",
+                description:"A oração apresenta um sujeito cuja identidade não é determinada.",
+                clue:"Não confunda sujeito indeterminado com sujeito oculto: aqui não é possível determinar quem pratica a ação."
+            },
+
+            sem_sujeito:{
+                title:"Oração sem sujeito",
+                icon:"—",
+                description:"Não há sujeito na oração.",
+                clue:"Observe especialmente verbos impessoais, como haver no sentido de existir e fazer indicando tempo."
+            }
+
+        }
+
+    },
+
+    predicado:{
+
+        label:"Predicado",
+
+        types:{
+
+            verbal:{
+                title:"Predicado verbal",
+                icon:"V",
+                description:"Tem como núcleo um verbo significativo.",
+                clue:"Procure o núcleo do predicado e observe se ele é um verbo."
+            },
+
+            nominal:{
+                title:"Predicado nominal",
+                icon:"N",
+                description:"Tem como núcleo um nome, geralmente predicativo do sujeito.",
+                clue:"Observe a característica atribuída ao sujeito e o verbo de ligação."
+            },
+
+            verbo_nominal:{
+                title:"Predicado verbo-nominal",
+                icon:"VN",
+                description:"Apresenta núcleo verbal e núcleo nominal.",
+                clue:"Procure simultaneamente uma ação e uma característica atribuída a um termo."
+            }
+
+        }
+
+    }
+
+};
+
+
+/* =========================================================
+   BANCO DE QUESTÕES
+   15 PARA CADA TIPO
+========================================================= */
+
+const questionBank = {
+
+sujeito_simples:[
+
+{
+q:"Em “O aluno estudou para a prova”, qual é o sujeito?",
+o:["O aluno","estudou","para a prova","a prova"],
+a:0,
+e:"“O aluno” é o sujeito. Seu núcleo é “aluno”."
+},
+
+{
+q:"Em “A professora explicou a matéria”, qual é o sujeito?",
+o:["A professora","explicou","a matéria","matéria"],
+a:0,
+e:"“A professora” é o sujeito. Seu núcleo é “professora”."
+},
+
+{
+q:"Em “O cachorro correu pelo jardim”, qual é o sujeito?",
+o:["O cachorro","correu","pelo jardim","jardim"],
+a:0,
+e:"“O cachorro” é o sujeito da oração."
+},
+
+{
+q:"Em “A menina encontrou o livro”, qual é o sujeito?",
+o:["A menina","encontrou","o livro","livro"],
+a:0,
+e:"“A menina” é o sujeito. Seu núcleo é “menina”."
+},
+
+{
+q:"Em “O professor corrigiu as provas”, qual é o sujeito?",
+o:["O professor","corrigiu","as provas","provas"],
+a:0,
+e:"“O professor” exerce a função de sujeito."
+},
+
+{
+q:"Em “A chuva caiu durante a noite”, qual é o sujeito?",
+o:["A chuva","caiu","durante a noite","noite"],
+a:0,
+e:"“A chuva” é o sujeito da oração."
+},
+
+{
+q:"Em “O estudante terminou a atividade”, qual é o sujeito?",
+o:["O estudante","terminou","a atividade","atividade"],
+a:0,
+e:"“O estudante” é o sujeito."
+},
+
+{
+q:"Em “A equipe venceu a competição”, qual é o sujeito?",
+o:["A equipe","venceu","a competição","competição"],
+a:0,
+e:"“A equipe” é o sujeito."
+},
+
+{
+q:"Em “O menino abriu a porta”, qual é o sujeito?",
+o:["O menino","abriu","a porta","porta"],
+a:0,
+e:"“O menino” é o sujeito."
+},
+
+{
+q:"Em “A turma realizou a atividade”, qual é o sujeito?",
+o:["A turma","realizou","a atividade","atividade"],
+a:0,
+e:"“A turma” é o sujeito."
+},
+
+{
+q:"Em “O atleta treinou pela manhã”, qual é o sujeito?",
+o:["O atleta","treinou","pela manhã","manhã"],
+a:0,
+e:"“O atleta” é o sujeito."
+},
+
+{
+q:"Em “A criança desenhou uma casa”, qual é o sujeito?",
+o:["A criança","desenhou","uma casa","casa"],
+a:0,
+e:"“A criança” é o sujeito."
+},
+
+{
+q:"Em “O estudante respondeu à questão”, qual é o sujeito?",
+o:["O estudante","respondeu","à questão","questão"],
+a:0,
+e:"“O estudante” é o sujeito."
+},
+
+{
+q:"Em “A diretora anunciou a novidade”, qual é o sujeito?",
+o:["A diretora","anunciou","a novidade","novidade"],
+a:0,
+e:"“A diretora” é o sujeito."
+},
+
+{
+q:"Em “O jogador marcou um gol”, qual é o sujeito?",
+o:["O jogador","marcou","um gol","gol"],
+a:0,
+e:"“O jogador” é o sujeito."
+}
+
+],
+
+
+sujeito_composto:[
+
+{
+q:"Em “Pedro e Ana estudaram juntos”, qual é o sujeito?",
+o:["Pedro e Ana","estudaram","juntos","Ana estudaram"],
+a:0,
+e:"“Pedro” e “Ana” são dois núcleos. Portanto, o sujeito é composto."
+},
+
+{
+q:"Em “João e Maria chegaram cedo”, qual é o sujeito?",
+o:["João e Maria","chegaram","cedo","Maria chegaram"],
+a:0,
+e:"“João” e “Maria” formam o sujeito composto."
+},
+
+{
+q:"Em “O pai e a mãe viajaram”, qual é o sujeito?",
+o:["O pai e a mãe","viajaram","a mãe","viajaram a mãe"],
+a:0,
+e:"Os núcleos são “pai” e “mãe”."
+},
+
+{
+q:"Em “Professor e aluno conversaram”, qual é o sujeito?",
+o:["Professor e aluno","conversaram","aluno","professor conversaram"],
+a:0,
+e:"Há dois núcleos no sujeito: “professor” e “aluno”."
+},
+
+{
+q:"Em “A chuva e o vento chegaram”, qual é o sujeito?",
+o:["A chuva e o vento","chegaram","o vento","chegaram o vento"],
+a:0,
+e:"“Chuva” e “vento” são os dois núcleos."
+},
+
+{
+q:"Em “Lucas e Pedro fizeram a atividade”, qual é o sujeito?",
+o:["Lucas e Pedro","fizeram","a atividade","Pedro fizeram"],
+a:0,
+e:"Lucas e Pedro formam um sujeito composto."
+},
+
+{
+q:"Em “O gato e o cachorro brincaram”, qual é o sujeito?",
+o:["O gato e o cachorro","brincaram","o cachorro","gato brincaram"],
+a:0,
+e:"Os núcleos são “gato” e “cachorro”."
+},
+
+{
+q:"Em “A professora e os alunos conversaram”, qual é o sujeito?",
+o:["A professora e os alunos","conversaram","os alunos","professora conversaram"],
+a:0,
+e:"Há dois núcleos: “professora” e “alunos”."
+},
+
+{
+q:"Em “Sol e chuva fazem parte do clima”, qual é o sujeito?",
+o:["Sol e chuva","fazem","parte do clima","clima"],
+a:0,
+e:"“Sol” e “chuva” formam o sujeito composto."
+},
+
+{
+q:"Em “Maria e seus amigos chegaram”, qual é o sujeito?",
+o:["Maria e seus amigos","chegaram","seus amigos","amigos chegaram"],
+a:0,
+e:"O sujeito possui mais de um núcleo."
+},
+
+{
+q:"Em “O diretor e a coordenadora organizaram o evento”, qual é o sujeito?",
+o:["O diretor e a coordenadora","organizaram","o evento","coordenadora"],
+a:0,
+e:"“Diretor” e “coordenadora” são os núcleos."
+},
+
+{
+q:"Em “A música e a dança animaram a festa”, qual é o sujeito?",
+o:["A música e a dança","animaram","a festa","dança"],
+a:0,
+e:"“Música” e “dança” formam o sujeito composto."
+},
+
+{
+q:"Em “Carlos, Ana e João participaram”, qual é o sujeito?",
+o:["Carlos, Ana e João","participaram","Ana e João","Carlos participaram"],
+a:0,
+e:"O sujeito possui três núcleos."
+},
+
+{
+q:"Em “O professor e a turma prepararam a apresentação”, qual é o sujeito?",
+o:["O professor e a turma","prepararam","a apresentação","turma prepararam"],
+a:0,
+e:"“Professor” e “turma” são os núcleos."
+},
+
+{
+q:"Em “Pais e filhos participaram da reunião”, qual é o sujeito?",
+o:["Pais e filhos","participaram","da reunião","filhos participaram"],
+a:0,
+e:"“Pais” e “filhos” formam o sujeito composto."
+}
+
+],
+
+
+sujeito_oculto:[
+
+{
+q:"Em “Estudamos para a prova”, qual é o sujeito oculto?",
+o:["Nós","Eles","A prova","Indeterminado"],
+a:0,
+e:"A forma verbal “estudamos” indica a primeira pessoa do plural: nós."
+},
+
+{
+q:"Em “Fui ao mercado ontem”, qual é o sujeito oculto?",
+o:["Eu","Nós","Mercado","Indeterminado"],
+a:0,
+e:"“Fui” está na primeira pessoa do singular: eu."
+},
+
+{
+q:"Em “Chegamos cedo à escola”, qual é o sujeito?",
+o:["Nós","Eles","A escola","Indeterminado"],
+a:0,
+e:"“Chegamos” está na primeira pessoa do plural."
+},
+
+{
+q:"Em “Fizemos o trabalho”, qual é o sujeito oculto?",
+o:["Nós","Eles","O trabalho","Indeterminado"],
+a:0,
+e:"“Fizemos” indica nós."
+},
+
+{
+q:"Em “Estudei durante a tarde”, qual é o sujeito?",
+o:["Eu","Ele","A tarde","Indeterminado"],
+a:0,
+e:"“Estudei” indica a primeira pessoa do singular."
+},
+
+{
+q:"Em “Voltaremos amanhã”, qual é o sujeito oculto?",
+o:["Nós","Eles","Amanhã","Indeterminado"],
+a:0,
+e:"“Voltaremos” indica nós."
+},
+
+{
+q:"Em “Terminamos a atividade”, qual é o sujeito?",
+o:["Nós","A atividade","Eles","Indeterminado"],
+a:0,
+e:"“Terminamos” permite identificar o sujeito nós."
+},
+
+{
+q:"Em “Comprei um livro”, qual é o sujeito oculto?",
+o:["Eu","Um livro","Ele","Indeterminado"],
+a:0,
+e:"“Comprei” está na primeira pessoa do singular."
+},
+
+{
+q:"Em “Iremos ao cinema”, qual é o sujeito?",
+o:["Nós","Eles","O cinema","Indeterminado"],
+a:0,
+e:"“Iremos” indica nós."
+},
+
+{
+q:"Em “Faremos a atividade amanhã”, qual é o sujeito?",
+o:["Nós","A atividade","Eles","Indeterminado"],
+a:0,
+e:"“Faremos” indica a primeira pessoa do plural."
+},
+
+{
+q:"Em “Estudei muito para a avaliação”, qual é o sujeito?",
+o:["Eu","A avaliação","Nós","Indeterminado"],
+a:0,
+e:"“Estudei” indica eu."
+},
+
+{
+q:"Em “Voltamos para casa”, qual é o sujeito?",
+o:["Nós","A casa","Eles","Indeterminado"],
+a:0,
+e:"“Voltamos” indica nós."
+},
+
+{
+q:"Em “Fiz a tarefa”, qual é o sujeito?",
+o:["Eu","A tarefa","Nós","Indeterminado"],
+a:0,
+e:"“Fiz” indica eu."
+},
+
+{
+q:"Em “Terminaremos o projeto”, qual é o sujeito?",
+o:["Nós","O projeto","Eles","Indeterminado"],
+a:0,
+e:"“Terminaremos” indica nós."
+},
+
+{
+q:"Em “Visitamos a biblioteca”, qual é o sujeito?",
+o:["Nós","A biblioteca","Eles","Indeterminado"],
+a:0,
+e:"“Visitamos” permite identificar o sujeito nós."
+}
+
+],
+
+
+sujeito_indeterminado:[
+
+{
+q:"Em “Disseram que haverá prova”, o sujeito é:",
+o:["Indeterminado","Eles","A prova","Oculto"],
+a:0,
+e:"A oração informa que alguém disse, mas não identifica quem."
+},
+
+{
+q:"Em “Falaram sobre o assunto”, o sujeito é:",
+o:["Indeterminado","Eles","O assunto","Oculto"],
+a:0,
+e:"Não é possível determinar quem falou."
+},
+
+{
+q:"Em “Bateram à porta”, o sujeito é:",
+o:["Indeterminado","A porta","Eles","Oculto"],
+a:0,
+e:"A oração não identifica quem bateu."
+},
+
+{
+q:"Em “Vive-se bem nesta cidade”, o sujeito é:",
+o:["Indeterminado","Nesta cidade","A cidade","Oculto"],
+a:0,
+e:"A oração não determina quem vive bem."
+},
+
+{
+q:"Em “Necessita-se de ajuda”, o sujeito é:",
+o:["Indeterminado","Ajuda","Ele","Oculto"],
+a:0,
+e:"Não é identificado quem necessita de ajuda."
+},
+
+{
+q:"Em “Comentaram a notícia”, o sujeito é:",
+o:["Indeterminado","A notícia","Eles","Oculto"],
+a:0,
+e:"A oração não identifica quem comentou."
+},
+
+{
+q:"Em “Falaram muito sobre a escola”, o sujeito é:",
+o:["Indeterminado","A escola","Eles","Oculto"],
+a:0,
+e:"Não é possível identificar quem falou."
+},
+
+{
+q:"Em “Precisa-se de profissionais”, o sujeito é:",
+o:["Indeterminado","Profissionais","Ele","Oculto"],
+a:0,
+e:"A construção com “se” indetermina o sujeito."
+},
+
+{
+q:"Em “Disseram a verdade”, o sujeito é:",
+o:["Indeterminado","A verdade","Eles","Oculto"],
+a:0,
+e:"A oração não informa quem disse."
+},
+
+{
+q:"Em “Trabalha-se muito aqui”, o sujeito é:",
+o:["Indeterminado","Aqui","Ele","Oculto"],
+a:0,
+e:"A oração não determina quem trabalha."
+},
+
+{
+q:"Em “Comentaram o resultado”, o sujeito é:",
+o:["Indeterminado","O resultado","Eles","Oculto"],
+a:0,
+e:"Não é identificado quem comentou."
+},
+
+{
+q:"Em “Necessita-se de novos funcionários”, o sujeito é:",
+o:["Indeterminado","Novos funcionários","Eles","Oculto"],
+a:0,
+e:"O sujeito não é identificado."
+},
+
+{
+q:"Em “Disseram coisas importantes”, o sujeito é:",
+o:["Indeterminado","Coisas importantes","Eles","Oculto"],
+a:0,
+e:"Não sabemos quem disse."
+},
+
+{
+q:"Em “Precisa-se de ajuda”, o sujeito é:",
+o:["Indeterminado","Ajuda","Ele","Oculto"],
+a:0,
+e:"A oração não identifica quem precisa de ajuda."
+},
+
+{
+q:"Em “Falaram sobre o resultado”, o sujeito é:",
+o:["Indeterminado","O resultado","Eles","Oculto"],
+a:0,
+e:"A identidade de quem falou não é determinada."
+}
+
+],
+
+
+sujeito_sem_sujeito:[
+
+{
+q:"Em “Há muitos alunos na sala”, a oração é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Há”, com sentido de existir, é verbo impessoal."
+},
+
+{
+q:"Em “Há muitas dúvidas sobre o assunto”, temos:",
+o:["Oração sem sujeito","Sujeito simples","Sujeito oculto","Sujeito composto"],
+a:0,
+e:"“Há”, no sentido de existir, é impessoal."
+},
+
+{
+q:"Em “Faz dois anos que estudo aqui”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Faz”, indicando tempo decorrido, é impessoal."
+},
+
+{
+q:"Em “Há problemas na escola”, a oração é:",
+o:["Sem sujeito","Sujeito simples","Sujeito oculto","Sujeito composto"],
+a:0,
+e:"“Há” possui sentido de existir."
+},
+
+{
+q:"Em “Faz três meses que ele chegou”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Faz” indicando tempo decorrido é impessoal."
+},
+
+{
+q:"Em “Há muitas pessoas no local”, a oração é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"O verbo haver, no sentido de existir, é impessoal."
+},
+
+{
+q:"Em “Há livros sobre a mesa”, temos:",
+o:["Oração sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Há” significa existir e é impessoal."
+},
+
+{
+q:"Em “Faz cinco anos que moramos aqui”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Faz” indica tempo decorrido."
+},
+
+{
+q:"Em “Há uma solução para o problema”, a oração é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Há” tem sentido de existir."
+},
+
+{
+q:"Em “Faz muito tempo que não o vejo”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Faz” indica tempo decorrido e é impessoal."
+},
+
+{
+q:"Em “Há muitos motivos para estudar”, temos:",
+o:["Oração sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Há”, com sentido de existir, é impessoal."
+},
+
+{
+q:"Em “Faz dois dias que chove”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"O verbo fazer indicando tempo é impessoal."
+},
+
+{
+q:"Em “Há estudantes na biblioteca”, a oração é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Há” tem sentido de existir."
+},
+
+{
+q:"Em “Faz dez anos que ele se formou”, a oração com “faz” é:",
+o:["Sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"“Faz” indica tempo decorrido."
+},
+
+{
+q:"Em “Há dúvidas sobre a questão”, temos:",
+o:["Oração sem sujeito","Sujeito simples","Sujeito composto","Sujeito oculto"],
+a:0,
+e:"O verbo haver, no sentido de existir, é impessoal."
+}
+
+],
+
+
+predicado_verbal:[
+
+{
+q:"Em “O aluno estudou para a prova”, qual é o tipo de predicado?",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O núcleo do predicado é o verbo “estudou”."
+},
+
+{
+q:"Em “A professora explicou a matéria”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O núcleo do predicado é “explicou”."
+},
+
+{
+q:"Em “O cachorro correu pelo jardim”, temos predicado:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O verbo “correu” é o núcleo do predicado."
+},
+
+{
+q:"Em “A menina encontrou o livro”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O núcleo é o verbo “encontrou”."
+},
+
+{
+q:"Em “O professor corrigiu as provas”, temos:",
+o:["Predicado verbal","Predicado nominal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"O verbo “corrigiu” é o núcleo."
+},
+
+{
+q:"Em “A equipe venceu a competição”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O núcleo do predicado é “venceu”."
+},
+
+{
+q:"Em “O estudante terminou a atividade”, temos:",
+o:["Predicado verbal","Predicado nominal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"O verbo “terminou” é o núcleo."
+},
+
+{
+q:"Em “O menino abriu a porta”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O núcleo é “abriu”."
+},
+
+{
+q:"Em “A turma realizou a atividade”, temos predicado:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"O verbo “realizou” é o núcleo."
+},
+
+{
+q:"Em “O atleta treinou pela manhã”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Treinou” é o núcleo verbal."
+},
+
+{
+q:"Em “A criança desenhou uma casa”, temos:",
+o:["Predicado verbal","Predicado nominal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"O verbo “desenhou” é o núcleo."
+},
+
+{
+q:"Em “O estudante respondeu à questão”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Respondeu” é o núcleo verbal."
+},
+
+{
+q:"Em “A diretora anunciou a novidade”, temos:",
+o:["Predicado verbal","Predicado nominal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"O núcleo é “anunciou”."
+},
+
+{
+q:"Em “O jogador marcou um gol”, o predicado é:",
+o:["Verbal","Nominal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Marcou” é o núcleo do predicado."
+},
+
+{
+q:"Em “Os alunos resolveram a questão”, temos:",
+o:["Predicado verbal","Predicado nominal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Resolveram” é o núcleo verbal."
+}
+
+],
+
+
+predicado_nominal:[
+
+{
+q:"Em “O aluno está cansado”, qual é o tipo de predicado?",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Cansado” é o predicativo do sujeito e é o núcleo nominal."
+},
+
+{
+q:"Em “A professora está feliz”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Feliz” caracteriza o sujeito por meio do verbo de ligação “está”."
+},
+
+{
+q:"Em “O céu está nublado”, temos predicado:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Nublado” é o predicativo do sujeito."
+},
+
+{
+q:"Em “A menina parecia cansada”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Cansada” caracteriza o sujeito."
+},
+
+{
+q:"Em “O estudante estava preocupado”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Preocupado” é o predicativo do sujeito."
+},
+
+{
+q:"Em “A sala ficou silenciosa”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Silenciosa” é o núcleo nominal."
+},
+
+{
+q:"Em “O atleta estava cansado”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Cansado” é o predicativo do sujeito."
+},
+
+{
+q:"Em “A criança ficou contente”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Contente” caracteriza o sujeito."
+},
+
+{
+q:"Em “O professor parece preocupado”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Preocupado” é o predicativo do sujeito."
+},
+
+{
+q:"Em “A equipe estava preparada”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Preparada” é o predicativo."
+},
+
+{
+q:"Em “O menino ficou triste”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Triste” é o núcleo nominal."
+},
+
+{
+q:"Em “A cidade permanece tranquila”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Tranquila” caracteriza o sujeito."
+},
+
+{
+q:"Em “O aluno ficou atento”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Atento” é o predicativo do sujeito."
+},
+
+{
+q:"Em “A professora continua satisfeita”, o predicado é:",
+o:["Nominal","Verbal","Verbo-nominal","Sem predicado"],
+a:0,
+e:"“Satisfeita” caracteriza o sujeito."
+},
+
+{
+q:"Em “O resultado foi positivo”, temos:",
+o:["Predicado nominal","Predicado verbal","Predicado verbo-nominal","Oração sem predicado"],
+a:0,
+e:"“Positivo” é o predicativo do sujeito."
+}
+
+],
+
+
+predicado_verbo_nominal:[
+
+{
+q:"Em “O aluno chegou cansado”, qual é o tipo de predicado?",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"Há o verbo “chegou” e o predicativo “cansado”."
+},
+
+{
+q:"Em “A menina saiu feliz”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"Há ação em “saiu” e característica em “feliz”."
+},
+
+{
+q:"Em “O atleta terminou a prova cansado”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"Há ação verbal e característica atribuída ao sujeito."
+},
+
+{
+q:"Em “O professor chegou preocupado”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"“Chegou” é núcleo verbal e “preocupado” é núcleo nominal."
+},
+
+{
+q:"Em “A criança voltou feliz”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"O predicado possui verbo e predicativo."
+},
+
+{
+q:"Em “O jogador saiu machucado”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"“Saiu” indica ação e “machucado” caracteriza o sujeito."
+},
+
+{
+q:"Em “A equipe voltou satisfeita”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"Há verbo e predicativo do sujeito."
+},
+
+{
+q:"Em “O aluno terminou a prova tranquilo”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"“Terminou” é núcleo verbal e “tranquilo” é núcleo nominal."
+},
+
+{
+q:"Em “A professora saiu satisfeita”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"O predicado apresenta ação e característica."
+},
+
+{
+q:"Em “O estudante chegou animado”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"“Chegou” é verbo e “animado” é predicativo."
+},
+
+{
+q:"Em “A criança voltou cansada”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"Há verbo e característica do sujeito."
+},
+
+{
+q:"Em “O atleta chegou exausto”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"“Chegou” é núcleo verbal e “exausto” é núcleo nominal."
+},
+
+{
+q:"Em “O professor saiu satisfeito”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"O predicado reúne verbo e predicativo."
+},
+
+{
+q:"Em “A equipe terminou a partida cansada”, o predicado é:",
+o:["Verbo-nominal","Verbal","Nominal","Sem predicado"],
+a:0,
+e:"Há ação e característica atribuída ao sujeito."
+},
+
+{
+q:"Em “O aluno voltou satisfeito”, temos:",
+o:["Predicado verbo-nominal","Predicado verbal","Predicado nominal","Oração sem predicado"],
+a:0,
+e:"“Voltou” é núcleo verbal e “satisfeito” é núcleo nominal."
+}
+
+]
+
+};
+
+
+/* =========================================================
+   DIFICULDADE
+========================================================= */
+
+const difficultyInfo = {
+
+D:{
+    name:"Iniciante",
+    xp:10,
+    coins:2
+},
+
+C:{
+    name:"Intermediário",
+    xp:15,
+    coins:3
+},
+
+B:{
+    name:"Normal",
+    xp:20,
+    coins:5
+},
+
+A:{
+    name:"Difícil",
+    xp:30,
+    coins:7
+},
+
+S:{
+    name:"Extremamente difícil",
+    xp:45,
+    coins:10
+}
+
+};
+
+
+/* =========================================================
+   PISTAS
+========================================================= */
+
+const clues = {
+
+library:{
+    icon:"📚",
+    title:"A Biblioteca",
+    text:"Os arquivos antigos mostram que uma oração precisa ser observada antes de qualquer resposta.",
+    tip:"Leia toda a oração. Depois procure o elemento pedido pela pergunta."
+},
+
+school:{
+    icon:"🏫",
+    title:"A Escola",
+    text:"As anotações encontradas mostram que uma palavra isolada não deve ser analisada fora da oração.",
+    tip:"Observe a relação entre os termos da oração."
+},
+
+square:{
+    icon:"🏛️",
+    title:"A Praça",
+    text:"Uma segunda pista lembra que a forma verbal pode ajudar a identificar o sujeito em algumas construções.",
+    tip:"No sujeito oculto, por exemplo, a forma verbal ajuda a descobrir quem pratica a ação."
+},
+
+lab:{
+    icon:"🔬",
+    title:"O Laboratório",
+    text:"O último registro indica que chegou a hora de testar o conhecimento adquirido.",
+    tip:"O desafio possui 15 perguntas. Leia com calma antes de escolher."
+}
+
+};
+
+
+/* =========================================================
+   FUNÇÕES DE TELA
+========================================================= */
+
+function showScreen(id){
+
+    document.querySelectorAll(".screen").forEach(screen=>{
+        screen.classList.remove("active");
+    });
+
+    const screen=document.getElementById(id);
+
+    if(screen){
+        screen.classList.add("active");
+        window.scrollTo(0,0);
+
+        setTimeout(()=>{
+            screen.focus?.();
+        },50);
+    }
+}
+
+
+function goHome(){
+    showScreen("home");
+}
+
+
+/* =========================================================
+   ESCOLHA DA CATEGORIA
+========================================================= */
+
+function selectCategory(category){
+
+    state.category=category;
+
+    const data=categories[category];
+
+    document.getElementById("typeBadge").textContent=
+        data.label.toUpperCase();
+
+    const container=document.getElementById("typeCards");
+
+    container.innerHTML="";
+
+    Object.entries(data.types).forEach(([key,type])=>{
+
+        const button=document.createElement("button");
+
+        button.className="card";
+
+        button.innerHTML=`
+            <div class="icon">${type.icon}</div>
+            <h3>${type.title}</h3>
+            <p>${type.description}</p>
+        `;
+
+        button.onclick=()=>selectType(key);
+
+        container.appendChild(button);
+
+    });
+
+    showScreen("types");
+}
+
+
+/* =========================================================
+   ESCOLHA DO TIPO
+========================================================= */
+
+function selectType(type){
+
+    state.type=type;
+
+    const data=categories[state.category].types[type];
+
+    document.getElementById("selectedCaseText").textContent=
+        `${data.title} — ${data.description}`;
+
+    showScreen("difficulty");
+}
+
+
+/* =========================================================
+   COMEÇAR INVESTIGAÇÃO
+========================================================= */
+
+function startInvestigation(difficulty){
+
+    state.difficulty=difficulty;
+
+    const typeData=
+        categories[state.category].types[state.type];
+
+    document.getElementById("storyTitle").textContent=
+        `Caso: ${typeData.title}`;
+
+    document.getElementById("storyText").textContent=
+        `Você entrou em uma investigação de ${typeData.title.toLowerCase()}. Antes de avançar, observe as pistas e analise cada oração com atenção.`;
+
+    document.getElementById("storyClue").textContent=
+        typeData.clue;
+
+    showScreen("story");
+}
+
+
+/* =========================================================
+   MAPA
+========================================================= */
+
+function openMap(){
+
+    const typeData=
+        categories[state.category].types[state.type];
+
+    document.getElementById("mapCase").textContent=
+        `${typeData.title} • Nível ${state.difficulty}`;
+
+    showScreen("mapScreen");
+}
+
+
+/* =========================================================
+   PISTAS
+========================================================= */
+
+function openClue(location){
+
+    const clue=clues[location];
+
+    document.getElementById("clueIcon").textContent=clue.icon;
+
+    document.getElementById("clueTitle").textContent=clue.title;
+
+    document.getElementById("clueText").textContent=clue.text;
+
+    document.getElementById("clueTip").textContent=clue.tip;
+
+    showScreen("clueScreen");
+}
+
+
+/* =========================================================
+   PREPARAR QUIZ
+========================================================= */
+
+function startQuiz(){
+
+    const key=
+        `${state.category}_${state.type}`;
+
+    if(!questionBank[key]){
+        showToast("Este caso ainda não possui questões cadastradas.");
+        showScreen("types");
+        return;
+    }
+
+    state.questions=
+        [...questionBank[key]];
+
+    state.currentQuestion=0;
+    state.previousCorrectPosition=-1;
+    state.correct=0;
+    state.answered=false;
+
+    document.getElementById("difficultyLabel").textContent=
+        `Nível ${state.difficulty} — ${difficultyInfo[state.difficulty].name}`;
+
+    showScreen("quizScreen");
+
+    renderQuestion();
+}
+
+
+/* =========================================================
+   RENDER QUESTÃO
+========================================================= */
+
+function renderQuestion(){
+
+    const question=
+        state.questions[state.currentQuestion];
+
+    if(!question){
+        finishQuiz();
+        return;
+    }
+
+    state.answered=false;
+
+    /* =====================================================
+       EMBARALHAMENTO DAS ALTERNATIVAS
+       A pergunta mantém o mesmo conteúdo, mas as opções
+       mudam de posição. A correta nunca fica na mesma
+       posição da questão anterior.
+    ===================================================== */
+
+    if(!question._shuffled){
+
+        const originalOptions=[...question.o];
+        const correctValue=question.a;
+
+        // Identifica a resposta correta pelo índice original.
+        const correctText=originalOptions[correctValue];
+
+        let indexed=originalOptions.map((text,index)=>({
+            text,
+            originalIndex:index
+        }));
+
+        const previousPosition=
+            state.previousCorrectPosition ?? -1;
+
+        let shuffled;
+        let newCorrectPosition;
+
+        do{
+
+            shuffled=[...indexed];
+
+            for(let i=shuffled.length-1;i>0;i--){
+
+                const j=
+                    Math.floor(Math.random()*(i+1));
+
+                [shuffled[i],shuffled[j]]=
+                [shuffled[j],shuffled[i]];
+            }
+
+            newCorrectPosition=
+                shuffled.findIndex(
+                    item=>item.text===correctText
+                );
+
+        }while(
+            shuffled.length>1 &&
+            newCorrectPosition===previousPosition
+        );
+
+        question.o=
+            shuffled.map(item=>item.text);
+
+        question.a=
+            newCorrectPosition;
+
+        question._shuffled=true;
+
+        state.previousCorrectPosition=
+            newCorrectPosition;
+    }
+
+    const number=state.currentQuestion+1;
+
+    document.getElementById("questionCounter").textContent=
+        `Questão ${number} de 15`;
+
+    document.getElementById("questionNumber").textContent=
+        `QUESTÃO ${String(number).padStart(2,"0")}`;
+
+    document.getElementById("progressBar").style.width=
+        `${((number-1)/15)*100}%`;
+
+    document.getElementById("question").textContent=
+        question.q;
+
+    const options=document.getElementById("options");
+
+    options.innerHTML="";
+
+    question.o.forEach((option,index)=>{
+
+        const button=document.createElement("button");
+
+        button.className="option";
+
+        button.textContent=
+            `${String.fromCharCode(65+index)}) ${option}`;
+
+        button.onclick=()=>answerQuestion(index,button);
+
+        options.appendChild(button);
+
+    });
+
+    const feedback=document.getElementById("feedback");
+
+    feedback.className="feedback";
+
+    feedback.innerHTML="";
+
+    document.getElementById("nextButton").style.display="none";
+
+    document.getElementById("hintButton").style.display="block";
+
+}
+
+
+/* =========================================================
+   RESPONDER
+========================================================= */
+
+function answerQuestion(index,selectedButton){
+
+    if(state.answered)return;
+
+    state.answered=true;
+
+    const question=
+        state.questions[state.currentQuestion];
+
+    const buttons=
+        document.querySelectorAll(".option");
+
+    buttons.forEach(button=>{
+        button.disabled=true;
+    });
+
+    const correct=index===question.a;
+
+    if(correct){
+
+        state.correct++;
+
+        selectedButton.classList.add("correct");
+
+        showFeedback(
+            true,
+            `Correto! ${question.e}`
+        );
+
+        addXP(
+            difficultyInfo[state.difficulty].xp
+        );
+
+        addCoins(
+            difficultyInfo[state.difficulty].coins
+        );
+
+    }else{
+
+        selectedButton.classList.add("wrong");
+
+        buttons[question.a].classList.add("correct");
+
+        showFeedback(
+            false,
+            `Não foi dessa vez. ${question.e}`
+        );
+
+    }
+
+    document.getElementById("nextButton").style.display=
+        "block";
+
+    document.getElementById("hintButton").style.display=
+        "none";
+
+    document.getElementById("progressBar").style.width=
+        `${(state.currentQuestion/15)*100}%`;
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+function showFeedback(correct,text){
+
+    const feedback=document.getElementById("feedback");
+
+    feedback.className=
+        `feedback show ${correct?"correct":"wrong"}`;
+
+    feedback.textContent=
+        `${correct?"✓":"✗"} ${text}`;
+}
+
+
+/* =========================================================
+   PRÓXIMA
+========================================================= */
+
+function nextQuestion(){
+
+    state.currentQuestion++;
+
+    if(state.currentQuestion>=15){
+
+        finishQuiz();
+
+    }else{
+
+        renderQuestion();
+
+    }
+
+}
+
+
+/* =========================================================
+   PISTA DO QUIZ
+========================================================= */
+
+function showHint(){
+
+    const question=
+        state.questions[state.currentQuestion];
+
+    showToast(
+        question.e
+    );
+
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function finishQuiz(){
+
+    document.getElementById("progressBar").style.width="100%";
+
+    const total=15;
+
+    const percentage=
+        Math.round((state.correct/total)*100);
+
+    let medal="";
+
+    if(percentage>=90){
+        medal="🏆";
+    }else if(percentage>=70){
+        medal="🥇";
+    }else if(percentage>=50){
+        medal="🥈";
+    }else{
+        medal="🎖️";
+    }
+
+    document.getElementById("resultMedal").textContent=medal;
+
+    document.getElementById("resultCorrect").textContent=
+        `${state.correct}/15`;
+
+    const gainedXP=
+        state.correct*
+        difficultyInfo[state.difficulty].xp;
+
+    const gainedCoins=
+        state.correct*
+        difficultyInfo[state.difficulty].coins;
+
+    document.getElementById("resultXP").textContent=
+        `+${gainedXP}`;
+
+    document.getElementById("resultCoins").textContent=
+        `+${gainedCoins}`;
+
+    document.getElementById("resultTitle").textContent=
+        percentage>=70
+        ?"Caso resolvido!"
+        :"Investigação concluída";
+
+    document.getElementById("resultMessage").textContent=
+        `Você acertou ${state.correct} de ${total} questões.`;
+
+    unlockSkins();
+
+    renderSkins();
+
+    save();
+
+    showScreen("resultScreen");
+}
+
+
+/* =========================================================
+   XP
+========================================================= */
+
+function addXP(amount){
+
+    state.xp+=amount;
+
+    save();
+
+    updateStats();
+}
+
+
+/* =========================================================
+   MOEDAS
+========================================================= */
+
+function addCoins(amount){
+
+    state.coins+=amount;
+
+    save();
+
+    updateStats();
+
+}
+
+
+/* =========================================================
+   SALVAR
+========================================================= */
+
+function save(){
+
+    localStorage.setItem(
+        "do_xp",
+        state.xp
+    );
+
+    localStorage.setItem(
+        "do_coins",
+        state.coins
+    );
+
+    localStorage.setItem(
+        "do_skins",
+        JSON.stringify(state.skins)
+    );
+
+    localStorage.setItem(
+        "do_equipped",
+        state.equipped
+    );
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateStats(){
+
+    const xpNodes = document.querySelectorAll("#xp, #lobbyXP");
+    const coinNodes = document.querySelectorAll("#coins, #lobbyCoins");
+
+    xpNodes.forEach(node => node.textContent = state.xp);
+    coinNodes.forEach(node => node.textContent = state.coins);
+
+}
+
+
+/* =========================================================
+   SKINS
+========================================================= */
+
+const skins={
+
+detetive:{
+    name:"Detetive",
+    price:0,
+    color:"#5a2e2e"
+},
+
+estudante:{
+    name:"Estudante",
+    price:50,
+    color:"#657c63"
+},
+
+pesquisador:{
+    name:"Pesquisador",
+    price:100,
+    color:"#66523b"
+},
+
+investigador:{
+    name:"Investigador",
+    price:200,
+    color:"#343b4a"
+},
+
+mestre:{
+    name:"Mestre da Oração",
+    price:400,
+    color:"#7a5b25"
+}
+
+};
+
+
+function unlockSkins(){
+
+    const thresholds=[
+        ["estudante",100],
+        ["pesquisador",250],
+        ["investigador",500],
+        ["mestre",1000]
+    ];
+
+    thresholds.forEach(([skin,xp])=>{
+
+        if(
+            state.xp>=xp &&
+            !state.skins.includes(skin)
+        ){
+
+            state.skins.push(skin);
+
+            showToast(
+                `Nova skin desbloqueada: ${skins[skin].name}`
+            );
+
+        }
+
+    });
+
+    save();
+
+}
+
+
+function renderSkins(){
+
+    const container=
+        document.getElementById("skinCollection");
+
+    container.innerHTML="";
+
+    Object.entries(skins).forEach(([id,skin])=>{
+
+        const unlocked=
+            state.skins.includes(id);
+
+        const equipped=
+            state.equipped===id;
+
+        const card=document.createElement("div");
+
+        card.className=
+            `skin ${unlocked?"":"locked"}`;
+
+        card.innerHTML=`
+
+            <div class="avatar">
+
+                <div
+                    class="avatar-head"
+                ></div>
+
+                <div
+                    class="avatar-body"
+                    style="background:${skin.color}"
+                ></div>
+
+            </div>
+
+            <h3>${skin.name}</h3>
+
+            <p>
+                ${
+                    unlocked
+                    ?"Desbloqueada"
+                    :`Desbloqueia com ${skin.price} moedas`
+                }
+            </p>
+
+            ${
+                unlocked
+                ?
+                `<button class="secondary">
+                    ${equipped?"EQUIPADA":"EQUIPAR"}
+                 </button>`
+                :
+                `<button class="secondary">
+                    🔒 Bloqueada
+                 </button>`
+            }
+
+        `;
+
+        const button=
+            card.querySelector("button");
+
+        if(unlocked){
+
+            button.onclick=()=>{
+
+                state.equipped=id;
+
+                save();
+
+                renderSkins();
+
+                showToast(
+                    `${skin.name} equipada.`
+                );
+
+            };
+
+        }
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   ACESSIBILIDADE
+========================================================= */
+
+function toggleLargeText(){
+
+    document.body.classList.toggle("large-text");
+
+    localStorage.setItem(
+        "do_large",
+        document.body.classList.contains("large-text")
+    );
+
+}
+
+
+function toggleContrast(){
+
+    document.body.classList.toggle("high-contrast");
+
+    localStorage.setItem(
+        "do_contrast",
+        document.body.classList.contains("high-contrast")
+    );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+    const toast=
+        document.getElementById("toast");
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer=setTimeout(()=>{
+        toast.classList.remove("show");
+    },3500);
+
+}
+
+
+/* =========================================================
+   RESTAURAR CONFIGURAÇÕES
+========================================================= */
+
+function restoreSettings(){
+
+    if(
+        localStorage.getItem("do_large")==="true"
+    ){
+        document.body.classList.add("large-text");
+    }
+
+    if(
+        localStorage.getItem("do_contrast")==="true"
+    ){
+        document.body.classList.add("high-contrast");
+    }
+
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+updateStats();
+
+restoreSettings();
+
+renderSkins();
+
+</script>
+
+
+<script>
+(function(){
+    const canvas = document.getElementById('pixelLobbyCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return;
+
+    let raf = 0;
+    let t = 0;
+
+    function resize(){
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+        const w = Math.max(640, window.innerWidth);
+        const h = Math.max(500, window.innerHeight);
+        canvas.width = Math.floor(w*dpr);
+        canvas.height = Math.floor(h*dpr);
+        canvas.style.width = w+'px';
+        canvas.style.height = h+'px';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        draw(w,h);
+    }
+
+    function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
+
+    function draw(w,h){
+        t += 0.01;
+        ctx.clearRect(0,0,w,h);
+
+        // pixelated night sky
+        rect(0,0,w,h,'#080b15');
+        rect(0,h*.38,w,h*.62,'#0a0b12');
+
+        // moon
+        const mx=w*.74, my=h*.25, mr=Math.max(38,Math.min(70,w*.045));
+        ctx.fillStyle='#d8cfad';
+        ctx.beginPath();
+        ctx.arc(mx,my,mr,0,Math.PI*2);
+        ctx.fill();
+
+        // moon pixels
+        rect(mx-mr*.35,my-mr*.2,12,8,'#c1b89a');
+        rect(mx+mr*.15,my+mr*.18,15,9,'#c1b89a');
+        rect(mx-mr*.05,my+mr*.38,8,7,'#b9b093');
+
+        // distant clouds
+        const cloudY=h*.25;
+        for(let i=0;i<9;i++){
+            const x=((i*170 - (t*18)%170)+w)%w;
+            rect(x,cloudY+(i%3)*18,70,8,'#20243a');
+            rect(x+22,cloudY-7+(i%3)*18,42,8,'#20243a');
+        }
+
+        // distant mountains
+        ctx.fillStyle='#0c101b';
+        ctx.beginPath();
+        ctx.moveTo(0,h*.55);
+        for(let x=0;x<=w;x+=40){
+            const peak=h*.48+(x%120)*.0007*h;
+            ctx.lineTo(x,peak);
+        }
+        ctx.lineTo(w,h*.7);
+        ctx.lineTo(0,h*.7);
+        ctx.closePath();
+        ctx.fill();
+
+        // city blocks
+        const base=h*.76;
+        for(let x=0;x<w;x+=48){
+            const bh=35+((x*17)%75);
+            const bw=28+((x*7)%28);
+            rect(x,base-bh,bw,bh,'#11131d');
+            for(let yy=base-bh+12;yy<base-8;yy+=14){
+                if(((x+yy)/7)%3<1.2) rect(x+7,yy,4,5,'#d4a84b');
+                if(((x+yy)/11)%3<1.1) rect(x+18,yy,4,5,'#c58d3f');
+            }
+        }
+
+        // central chapel
+        const cx=w*.72, cy=base-72;
+        rect(cx-32,cy+28,64,48,'#171821');
+        ctx.fillStyle='#202331';
+        ctx.beginPath();
+        ctx.moveTo(cx-43,cy+28);
+        ctx.lineTo(cx,cy-9);
+        ctx.lineTo(cx+43,cy+28);
+        ctx.closePath();
+        ctx.fill();
+        rect(cx-4,cy+8,8,28,'#b88435');
+        rect(cx-18,cy+39,36,37,'#0b0c12');
+        rect(cx-3,cy+45,6,15,'#d09c3d');
+        rect(cx-8,cy+18,16,4,'#d09c3d');
+
+        // road
+        ctx.fillStyle='#0d0e14';
+        ctx.beginPath();
+        ctx.moveTo(w*.55,h);
+        ctx.lineTo(w*.67,base);
+        ctx.lineTo(w*.76,base);
+        ctx.lineTo(w*.95,h);
+        ctx.closePath();
+        ctx.fill();
+
+        // road pixels
+        for(let i=0;i<8;i++){
+            rect(w*.72+i*8,h-28-i*30,3,12,'#8f7344');
+        }
+
+        // rain, deliberately pixel blocks
+        for(let i=0;i<85;i++){
+            const x=(i*97+t*180)%w;
+            const y=(i*53+t*260)%(h*.88);
+            rect(x,y,1,7,'rgba(153,169,198,.22)');
+        }
+    }
+
+    function loop(){
+        if(!document.hidden){
+            const w=Math.max(640,window.innerWidth);
+            const h=Math.max(500,window.innerHeight);
+            draw(w,h);
+        }
+        raf=requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize',resize,{passive:true});
+    resize();
+    loop();
+})();
+</script>
+</body>
+</html>
