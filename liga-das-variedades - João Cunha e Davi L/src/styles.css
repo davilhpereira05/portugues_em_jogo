@@ -1,0 +1,49 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme inline {
+  --font-display: "Fredoka", sans-serif;
+  --font-body: "Nunito", sans-serif;
+  --color-background: var(--background); --color-foreground: var(--foreground);
+  --color-card: var(--card); --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary); --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary); --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted); --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent); --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success); --color-success-foreground: var(--success-foreground);
+  --color-border: var(--border); --color-input: var(--input); --color-ring: var(--ring);
+}
+:root {
+  --background: oklch(0.98 0.025 80); --foreground: oklch(0.22 0.08 285);
+  --card: oklch(1 0 0); --card-foreground: oklch(0.22 0.08 285);
+  --primary: oklch(0.66 0.22 35); --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.88 0.17 89); --secondary-foreground: oklch(0.22 0.08 285);
+  --muted: oklch(0.93 0.025 80); --muted-foreground: oklch(0.48 0.04 285);
+  --accent: oklch(0.86 0.17 88); --accent-foreground: oklch(0.22 0.08 285);
+  --success: oklch(0.74 0.17 160); --success-foreground: oklch(0.22 0.08 285);
+  --border: oklch(0.22 0.08 285); --input: oklch(0.22 0.08 285); --ring: oklch(0.66 0.22 35);
+}
+* { border-color: var(--border); letter-spacing: 0; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--background); color: var(--foreground); font-family: var(--font-body); }
+button, a { -webkit-tap-highlight-color: transparent; }
+.logo-tile { display:grid; place-items:center; width:2.25rem; height:2.25rem; border:2px solid var(--foreground); border-radius:.75rem; background:var(--primary); color:var(--primary-foreground); box-shadow:3px 3px 0 var(--foreground); }
+.nav-link { display:inline-flex; align-items:center; gap:.3rem; border-radius:999px; padding:.45rem .7rem; font-size:.78rem; font-weight:900; transition:background .2s, transform .2s; }
+.nav-link:hover { background:color-mix(in oklab,var(--accent) 60%,transparent); transform:translateY(-1px); }
+.nav-link-active { background:var(--primary); color:var(--primary-foreground); }
+.nav-link span { opacity:.65; font-size:.65rem; }
+.score-pill { display:flex; align-items:center; gap:.35rem; border:2px solid var(--foreground); border-radius:999px; background:var(--accent); padding:.4rem .7rem; font-weight:900; font-size:.8rem; }
+.icon-button { display:grid; place-items:center; width:2.35rem; height:2.35rem; border:2px solid var(--foreground); border-radius:.65rem; background:var(--card); }
+.game-button { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; border:2px solid var(--foreground); border-radius:999px; padding:.8rem 1.4rem; font-family:var(--font-display); font-size:1rem; font-weight:700; box-shadow:4px 4px 0 var(--foreground); transition:transform .2s, box-shadow .2s; }
+.game-button:hover { transform:translateY(-2px); box-shadow:6px 6px 0 var(--foreground); }
+.game-button:focus-visible,.choice:focus-visible,.icon-button:focus-visible { outline:3px solid var(--ring); outline-offset:3px; }
+.phase-chip { display:inline-block; border:2px solid var(--foreground); border-radius:999px; background:var(--primary); color:var(--primary-foreground); padding:.4rem 1rem; font-family:var(--font-display); font-weight:700; font-size:.8rem; }
+.game-card { border:4px solid var(--foreground); border-radius:1.25rem; background:var(--card); padding:1.5rem; box-shadow:6px 6px 0 var(--foreground); }
+.choice { width:100%; border:2px solid var(--foreground); border-radius:.9rem; background:var(--card); padding:.8rem 1rem; text-align:left; font-weight:700; transition:background .15s,transform .15s; }
+.choice:hover { background:color-mix(in oklab,var(--accent) 45%,var(--card)); transform:translateX(2px); }
+.choice-selected { background:var(--accent); }
+.ruled { background-image:linear-gradient(var(--muted) 1px, transparent 1px); background-size:100% 2rem; }
+@keyframes pop { 0%{transform:scale(.96);opacity:0} 100%{transform:scale(1);opacity:1} }
+.animate-pop { animation:pop .35s ease-out both; }
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
