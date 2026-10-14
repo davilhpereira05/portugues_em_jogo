@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lupi e as Figuras de Linguagem</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav id="menu" aria-label="Menu principal">
+  <button data-go="inicio">🏠<span>Início</span></button>
+  <button data-go="aprenda">📚<span>Aprenda</span></button>
+  <button data-go="jogue">🎮<span>Jogue</span></button>
+  <button data-go="quiz">🧠<span>Quiz</span></button>
+  <button data-go="resultado">🏆<span>Resultado</span></button>
+</nav>
+<main>
+  <section id="inicio">
+    <h1>Lupi e as Figuras de Linguagem</h1>
+    <p class="grande">Vem explorar as palavras comigo!</p>
+    <div class="herói" aria-hidden="true">🐺🧭</div>
+    <button class="btn" data-go="aprenda">Começar a aprender</button>
+  </section>
+  <section id="aprenda" hidden>
+    <h2 id="a-nome"></h2>
+    <div class="cartao">
+      <div class="ilu" id="a-ilu" aria-hidden="true"></div>
+      <p id="a-exp"></p>
+      <p class="exemplo" id="a-ex"></p>
+      <button class="btn peq" id="a-ouvir">🔊 Ouvir</button>
+    </div>
+    <div class="linha">
+      <button class="btn" id="a-ant">◀ Anterior</button>
+      <span id="a-pts" aria-hidden="true"></span>
+      <button class="btn" id="a-prox">Próximo ▶</button>
+    </div>
+  </section>
+  <section id="jogue" hidden>
+    <h2>Vamos brincar!</h2>
+    <div class="cartao">
+      <h3>1. Leve a frase para a figura certa</h3>
+      <p class="mini">Toque na frase e depois na figura (ou arraste).</p>
+      <div id="chips" class="linha"></div>
+      <div id="caixas" class="caixas"></div>
+    </div>
+    <div class="cartao">
+      <h3>2. Complete a frase</h3>
+      <p class="exemplo" id="c-frase"></p>
+      <div id="c-ops" class="linha"></div>
+    </div>
+  </section>
+  <section id="quiz" hidden>
+    <h2 id="q-tit"></h2>
+    <div class="cartao">
+      <p class="exemplo" id="q-frase"></p>
+      <button class="btn peq" id="q-ouvir">🔊 Ouvir</button>
+      <div id="q-ops" class="linha"></div>
+      <button class="btn" id="q-prox" hidden>Próxima ▶</button>
+    </div>
+  </section>
+  <section id="resultado" hidden>
+    <h2>Seu resultado</h2>
+    <div class="herói" aria-hidden="true">🐺🎉</div>
+    <p class="estrelas" id="r-est" aria-live="polite"></p>
+    <p class="grande" id="r-msg"></p>
+    <p class="mini" id="r-rec"></p>
+    <button class="btn" id="r-again">Jogar novamente</button>
+  </section>
+</main>
+<aside id="lupi" aria-live="polite"><span id="lp" aria-hidden="true">🐺</span><p id="fala"></p></aside>
+<script src="js/script.js"></script>
+</body>
+</html>
