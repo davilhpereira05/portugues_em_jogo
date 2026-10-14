@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Português em Jogo — Grupo 14</title>
+<style>
+:root{
+  --paper:#FAF6EC; --ink:#221F1C; --plum:#7A2E4D; --plum-dk:#5B2138;
+  --gold:#C9932B; --teal:#2E6F68; --line:#E4DCC9; --err:#B3452F;
+  --r:14px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--paper:#1B1815;--ink:#F1EADD;--line:#3A342C;}
+}
+:root[data-theme="dark"]{--paper:#1B1815;--ink:#F1EADD;--line:#3A342C;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%;}
+*{box-sizing:border-box;}
+body{margin:0;height:100%;background:var(--paper);color:var(--ink);font-family:-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;}
+h1,h2,h3,.serif{font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;}
+.wrap{max-width:760px;margin:0 auto;padding:20px 18px 60px;}
+.topbar{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);padding:10px env(safe-area-inset-top,0px) 10px;z-index:5;}
+.topbar-in{max-width:760px;margin:0 auto;display:flex;align-items:center;gap:10px;overflow-x:auto;padding:0 18px;}
+.step{flex:0 0 auto;font-size:12.5px;padding:6px 10px;border-radius:20px;border:1px solid var(--line);color:var(--ink);opacity:.55;white-space:nowrap;}
+.step.active{opacity:1;background:var(--plum);color:#fff;border-color:var(--plum);}
+.progress{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:8px;max-width:760px;margin-left:auto;margin-right:auto;}
+.progress i{display:block;height:100%;background:var(--gold);transition:width .4s ease;}
+.card{background:color-mix(in srgb, var(--paper) 92%, var(--ink) 3%);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:14px;}
+.btn{display:inline-block;background:var(--plum);color:#fff;border:none;padding:12px 20px;border-radius:10px;font-size:15px;cursor:pointer;font-weight:600;}
+.btn:hover{background:var(--plum-dk);}
+.btn.ghost{background:transparent;color:var(--plum);border:1.5px solid var(--plum);}
+.btn.gold{background:var(--gold);color:#241a00;}
+.pill{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:20px;padding:3px 10px;margin-right:6px;color:var(--teal);}
+.sign{font-size:30px;color:var(--gold);font-weight:700;font-family:Georgia,serif;}
+.grid{display:grid;gap:12px;grid-template-columns:1fr;}
+@media(min-width:560px){.grid.cols2{grid-template-columns:1fr 1fr;}}
+.opt{display:block;width:100%;text-align:left;background:transparent;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;font-size:15px;color:var(--ink);}
+.opt:hover{border-color:var(--plum);}
+.opt.correct{border-color:var(--teal);background:color-mix(in srgb, var(--teal) 15%, transparent);}
+.opt.wrong{border-color:var(--err);background:color-mix(in srgb, var(--err) 15%, transparent);}
+.opt[disabled]{cursor:default;}
+.explain{margin-top:10px;padding:12px;border-left:3px solid var(--gold);background:color-mix(in srgb, var(--gold) 10%, transparent);border-radius:6px;font-size:14.5px;}
+.hidden{display:none !important;}
+.score-badge{font-size:14px;font-weight:700;color:var(--plum);}
+.ex-item{cursor:pointer;}
+.ex-toggle{display:none;}
+.ex-toggle:target,.ex-toggle.open{display:block;}
+.center{text-align:center;}
+.small{font-size:13px;opacity:.75;}
+.achv{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;padding:6px 12px;border-radius:20px;font-size:13px;margin:4px 6px 0 0;opacity:.35;}
+.achv.on{opacity:1;}
+footer{text-align:center;padding:30px 0 10px;font-size:12.5px;opacity:.6;}
+.mindmap{width:100%;height:auto;}
+.mm-node{cursor:pointer;}
+.infocard{border:1px solid var(--line);border-radius:12px;padding:14px;background:color-mix(in srgb, var(--paper) 90%, var(--ink) 4%);}
+input[type=text]{width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;font-size:15px;background:transparent;color:var(--ink);}
+::selection{background:var(--gold);color:#241a00;}
+a{color:var(--plum);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in" id="steps"></div>
+  <div class="progress"><i id="progressBar" style="width:0%"></i></div>
+</div>
+
+<div class="wrap" id="app"></div>
+<footer>Português em Jogo — Grupo 14 — Bernardo C. e Enzo · Pontuação e efeitos de sentido</footer>
+
+<script>
+/* ---------- DATA ---------- */
+const SIGNS = [
+ {nome:"Vírgula", fx:"Marca pausas breves e separa elementos da frase.",
+  regra:"Separa itens de uma enumeração, isola o vocativo, isola apostos e expressões explicativas, marca a inversão de ordem de termos e isola orações intercaladas. Nunca separa sujeito de predicado ou verbo de complemento.",
+  exemplo:"Maria, venha almoçar agora.",
+  explicacao:"A vírgula isola o vocativo 'Maria', indicando que alguém está sendo chamado — sem ela, a frase poderia ser lida como se Maria fosse quem vai almoçar."},
+ {nome:"Dois-pontos", fx:"Anuncia algo que vem a seguir: uma explicação, uma enumeração ou uma fala.",
+  regra:"Introduz citações e falas em discurso direto, enumerações, explicações ou conclusões do que foi dito antes.",
+  exemplo:"Faltam três ingredientes: farinha, ovos e leite.",
+  explicacao:"Os dois-pontos anunciam a enumeração que detalha quais são os ingredientes citados."},
+ {nome:"Ponto e vírgula", fx:"Separa partes de um texto com pausa maior que a vírgula e menor que o ponto.",
+  regra:"Separa orações coordenadas longas ou que já contêm vírgulas internamente, e separa itens de uma lista quando esses itens são mais extensos ou complexos.",
+  exemplo:"Na sala, havia dois sofás; na cozinha, uma mesa de madeira.",
+  explicacao:"O ponto e vírgula separa duas orações independentes que descrevem cômodos diferentes, cada uma já usando vírgula internamente."},
+ {nome:"Travessão", fx:"Marca a fala de um personagem, isola uma explicação com ênfase ou indica mudança de interlocutor.",
+  regra:"Introduz a fala de um personagem no discurso direto, substitui a vírgula ou os parênteses para destacar uma explicação, e pode indicar interrupção ou hesitação.",
+  exemplo:"— Você viu o resultado? — perguntou o professor.",
+  explicacao:"Os travessões demarcam a fala do professor, deixando claro que aquele trecho é uma fala e não parte da narração."},
+ {nome:"Parênteses", fx:"Isola uma informação acessória, uma explicação ou um comentário do autor.",
+  regra:"Usados para inserir dados, datas, explicações, comentários do autor ou indicações cênicas, sem alterar o sentido principal da frase.",
+  exemplo:"Machado de Assis (1839-1908) é considerado o maior escritor brasileiro.",
+  explicacao:"Os parênteses isolam a informação sobre as datas de nascimento e morte, um dado complementar que não é essencial à frase principal."}
+];
+
+const EXAMPLES = [
+ {frase:"\"Vamos comer, filho!\"", contraste:"\"Vamos comer filho!\"",
+  exp:"Com a vírgula, a mãe chama o filho para comer juntos. Sem a vírgula, a frase sugere canibalismo — o vocativo se transforma em objeto direto."},
+ {frase:"\"Não, espere aqui.\"", contraste:"\"Não espere aqui.\"",
+  exp:"Com a vírgula, alguém nega algo e pede para a pessoa esperar. Sem a vírgula, a frase vira uma ordem para não esperar naquele lugar — sentido oposto."},
+ {frase:"\"O professor disse: o aluno é o culpado.\"", contraste:"\"O professor disse o aluno é o culpado.\" (sem pontuação, ambíguo)",
+  exp:"Os dois-pontos deixam claro que o que segue é a fala do professor. Sem eles, o leitor pode confundir quem está afirmando o quê."},
+ {frase:"João, o médico, chegou.", contraste:"João, o médico chegou.",
+  exp:"No primeiro caso, 'o médico' é aposto: João É o médico. No segundo, é um aviso dado a João de que o médico chegou — dois fatos diferentes."},
+ {frase:"Ele saiu — apressado — sem se despedir.", contraste:"Ele saiu apressado sem se despedir.",
+  exp:"Os travessões destacam 'apressado' como uma observação à parte do narrador, dando ênfase à pressa; sem eles, a informação se funde ao restante da frase, com efeito mais neutro."}
+];
+
+const QUIZ = [
+ {t:"mc", q:"Em qual frase a vírgula separa corretamente um vocativo?",
+  op:["Pedro, feche a porta.","Pedro fechou, a porta.","A porta, foi fechada por Pedro.","Pedro fechou a porta, rapidamente"],
+  c:0, exp:"Em 'Pedro, feche a porta', a vírgula isola o vocativo Pedro, a quem se dirige o pedido."},
+ {t:"vf", q:"(Certo ou Errado) A vírgula pode ser usada para separar o sujeito do predicado de uma oração.",
+  op:["Certo","Errado"], c:1, exp:"É uma regra fixa da norma culta: nunca se separa sujeito de predicado por vírgula, exceto em casos de intercalação."},
+ {t:"mc", q:"Qual frase usa os dois-pontos corretamente para introduzir uma enumeração?",
+  op:["Comprei: pão, leite e café.","Comprei pão: leite e café.","Comprei pão, leite: e café.","Comprei pão, leite e café:"],
+  c:0, exp:"Os dois-pontos, logo após o verbo 'comprei', anunciam a lista que vem a seguir: pão, leite e café."},
+ {t:"mc", q:"Assinale a frase em que o ponto e vírgula está bem empregado.",
+  op:["Na primeira sala, os móveis eram antigos; na segunda, tudo era moderno.","Comprei; pão e leite.","Ele correu; muito rápido.","Vou; ao mercado agora."],
+  c:0, exp:"O ponto e vírgula separa duas orações independentes e mais longas, cada uma já com vírgula interna — uso clássico do sinal."},
+ {t:"comp", q:"Complete: o travessão pode introduzir a fala de um personagem, substituindo ____.",
+  op:["as aspas de discurso direto","o ponto final obrigatório","a letra maiúscula","o parágrafo"], c:0,
+  exp:"Em textos narrativos brasileiros, o travessão é a forma mais comum de marcar a fala de um personagem, cumprindo papel semelhante ao das aspas em outros contextos."},
+ {t:"mc", q:"Os parênteses em 'A Revolução Francesa (1789) mudou a história' servem para:",
+  op:["Isolar uma informação acessória (a data)","Introduzir uma fala","Separar itens de uma lista","Substituir a vírgula obrigatoriamente"],
+  c:0, exp:"Os parênteses isolam um dado complementar — a data — sem o qual a frase principal ainda faz sentido completo."},
+ {t:"analise", q:"Leia: 'O réu, disse o advogado, é inocente.' Qual é o efeito das vírgulas isolando 'disse o advogado'?",
+  op:["Indicam que é uma oração intercalada, interrompendo a fala principal","Indicam uma enumeração","Indicam uma dúvida do advogado","Não têm função alguma"],
+  c:0, exp:"As vírgulas isolam 'disse o advogado' como uma oração intercalada dentro da fala principal, comum em discurso direto sem travessão."},
+ {t:"mc", q:"Qual par de frases demonstra mudança de sentido causada apenas pela pontuação?",
+  op:["\"Vamos, comer!\" / \"Vamos comer!\"","\"Ele correu rápido.\" / \"Ele correu, rápido.\"","\"Chove muito hoje.\" / \"Chove, muito hoje.\"","Todas as anteriores"],
+  c:3, exp:"Em todos os pares, a simples inserção ou remoção da vírgula altera o ritmo e, em alguns casos, o próprio sentido da frase."},
+ {t:"vf", q:"(Certo ou Errado) O ponto e vírgula tem o mesmo valor de pausa que a vírgula.",
+  op:["Certo","Errado"], c:1, exp:"O ponto e vírgula indica uma pausa intermediária, maior que a da vírgula e menor que a do ponto final."},
+ {t:"mc", q:"Em 'Chegou o professor — todos ficaram em silêncio', o travessão indica:",
+  op:["Uma explicação/consequência inserida com ênfase","Uma enumeração","Uma citação direta de terceiros","Erro de pontuação"],
+  c:0, exp:"O travessão aqui destaca a consequência (o silêncio) de forma mais expressiva do que uma simples vírgula faria."},
+ {t:"comp", q:"Complete corretamente: 'Precisamos de três coisas ____ tempo, dinheiro e paciência.'",
+  op:[":",";",",","—"], c:0, exp:"Os dois-pontos são o sinal adequado para anunciar a enumeração que detalha 'três coisas'."},
+ {t:"mc", q:"Qual frase apresenta um aposto corretamente isolado por vírgulas?",
+  op:["Brasília, capital do Brasil, é uma cidade planejada.","Brasília capital, do Brasil é uma cidade planejada.","Brasília, capital do Brasil é, uma cidade planejada.","Brasília capital do, Brasil, é uma cidade planejada."],
+  c:0, exp:"'Capital do Brasil' é um aposto explicativo de 'Brasília' e deve ser isolado por vírgulas dos dois lados."},
+ {t:"analise", q:"No texto 'Ana perguntou: — Você vem? Pedro respondeu: — Ainda não sei.', qual a função combinada dos dois-pontos e do travessão?",
+  op:["Dois-pontos anunciam a fala; travessão marca o início de cada fala de personagem","Ambos indicam apenas pausa","Servem apenas para separar frases longas","Não têm relação entre si"],
+  c:0, exp:"Os dois-pontos anunciam que uma fala está por vir, e o travessão sinaliza graficamente onde cada fala começa — uso combinado típico de diálogos."},
+ {t:"vf", q:"(Certo ou Errado) Os parênteses podem ser usados no lugar do travessão para isolar uma explicação, com efeito de sentido mais discreto.",
+  op:["Certo","Errado"], c:0, exp:"É verdade: enquanto o travessão dá destaque/ênfase à informação isolada, os parênteses tendem a rebaixar a importância da informação, tornando-a mais secundária."},
+ {t:"mc", q:"Assinale a alternativa em que a pontuação evita ambiguidade.",
+  op:["\"O jogador, machucado, saiu de campo.\" (deixa claro que o jogador estava machucado)","\"O jogador machucado saiu de campo\" sem contexto algum adicional","\"O, jogador machucado saiu de campo.\"","\"O jogador machucado, saiu, de campo.\""],
+  c:0, exp:"As vírgulas isolando 'machucado' como aposto explicativo deixam claro que essa é uma informação sobre o único jogador em questão, evitando a ambiguidade de existir mais de um jogador."}
+];
+
+const FINAL = {
+ texto:"Escolha a pontuação correta para a frase: \"O professor perguntou ___ vocês estudaram para a prova ___\"",
+ op:["Dois-pontos após 'perguntou' e ponto de interrogação no final: 'O professor perguntou: vocês estudaram para a prova?'",
+     "Vírgula após 'perguntou' e ponto final: 'O professor perguntou, vocês estudaram para a prova.'",
+     "Nenhuma pontuação é necessária",
+     "Ponto e vírgula em ambos os espaços"],
+ c:0,
+ exp:"Os dois-pontos anunciam a pergunta direta feita pelo professor, e o ponto de interrogação fecha a pergunta transcrita — combinação correta para introduzir uma fala interrogativa."
+};
+
+/* ---------- STATE ---------- */
+const STEPS = ["home","aprenda","exemplos","explore","desafio","gabarito","final","resultado"];
+const LABELS = {home:"Início",aprenda:"Aprenda",exemplos:"Exemplos",explore:"Explore",desafio:"Desafie-se",gabarito:"Gabarito",final:"Desafio Final",resultado:"Resultado"};
+let state = {step:"home", qIndex:0, score:0, correct:0, wrong:0, answered:[], achievements:{primeiro:false, virgula:false, mestre:false}};
+
+function go(step){ state.step = step; render(); window.scrollTo({top:0,behavior:"smooth"}); }
+
+function renderSteps(){
+  const el = document.getElementById("steps");
+  const visible = ["home","aprenda","exemplos","explore","desafio","final"];
+  el.innerHTML = visible.map(s=>`<div class="step ${state.step===s?'active':(state.step==='gabarito'&&s==='desafio')||(state.step==='resultado'&&s==='desafio')?'active':''}" onclick="go('${s}')">${LABELS[s]}</div>`).join("");
+  const idx = STEPS.indexOf(state.step);
+  document.getElementById("progressBar").style.width = Math.round((idx/(STEPS.length-1))*100)+"%";
+}
+
+/* ---------- VIEWS ---------- */
+function viewHome(){
+  return `
+  <div class="card center">
+    <p class="pill">GRUPO 14</p>
+    <h1 class="serif" style="font-size:34px;margin:6px 0;">Português em Jogo</h1>
+    <p class="serif" style="font-size:18px;color:var(--plum);margin-top:0;">Pontuação e efeitos de sentido</p>
+    <p class="small">Bernardo C. e Enzo</p>
+    <p style="margin:18px 0;">Um pequeno sinal pode mudar o sentido inteiro de uma frase. Nesta jornada você vai aprender os sinais de pontuação, ver exemplos reais de como eles mudam o sentido do texto e testar seus conhecimentos em um desafio gamificado.</p>
+    <button class="btn" onclick="go('aprenda')">Começar desafio</button>
+  </div>
+  <div class="grid cols2">
+    ${["Aprenda — domine as regras","Explore — mapa mental e infográfico","Desafie-se — quiz com 15 questões","Desafio final — coloque tudo em prática"]
+      .map((t,i)=>`<div class="infocard"><span class="sign">${i+1}</span><p style="margin:6px 0 0;font-weight:600;">${t}</p></div>`).join("")}
+  </div>`;
+}
+
+function viewAprenda(){
+  return `<h2 class="serif">Aprenda</h2>
+  <p>A pontuação organiza as ideias de um texto: ela marca pausas, entonações e a relação entre as partes de uma frase. Mais do que isso, a escolha do sinal certo pode mudar completamente o sentido do que se quer dizer — por isso, escrever bem exige entender cada sinal a fundo.</p>
+  ${SIGNS.map(s=>`
+    <div class="card">
+      <span class="sign">${s.nome}</span>
+      <p><strong>Função:</strong> ${s.fx}</p>
+      <p><strong>Regra principal:</strong> ${s.regra}</p>
+      <p><strong>Exemplo:</strong> <em>${s.exemplo}</em></p>
+      <p class="explain">${s.explicacao}</p>
+    </div>`).join("")}
+  <div class="center"><button class="btn" onclick="go('exemplos')">Ir para exemplos →</button></div>`;
+}
+
+function viewExemplos(){
+  return `<h2 class="serif">Exemplos: o mesmo texto, sentidos diferentes</h2>
+  <p>Clique em cada exemplo para ver a explicação do efeito de sentido causado pela pontuação.</p>
+  ${EXAMPLES.map((e,i)=>`
+    <div class="card ex-item" onclick="this.querySelector('.explain').classList.toggle('open')">
+      <p><strong>A:</strong> ${e.frase}</p>
+      <p><strong>B:</strong> ${e.contraste}</p>
+      <p class="small">(toque para ver a explicação)</p>
+      <div class="explain ex-toggle">${e.exp}</div>
+    </div>`).join("")}
+  <div class="center"><button class="btn" onclick="go('explore')">Ir para Explore →</button></div>`;
+}
+
+function viewExplore(){
+  return `<h2 class="serif">Explore</h2>
+  <div class="card">
+    <h3>Mapa mental interativo</h3>
+    <p class="small">Toque em cada sinal para ver sua função.</p>
+    <svg class="mindmap" viewBox="0 0 340 340">
+      <circle cx="170" cy="170" r="46" fill="var(--plum)"/>
+      <text x="170" y="175" text-anchor="middle" fill="white" font-size="13" font-weight="700">PONTUAÇÃO</text>
+      ${SIGNS.map((s,i)=>{
+        const ang = (i/SIGNS.length)*2*Math.PI - Math.PI/2;
+        const x = 170+130*Math.cos(ang), y=170+130*Math.sin(ang);
+        return `<line x1="170" y1="170" x2="${x}" y2="${y}" stroke="var(--line)" stroke-width="2"/>
+        <g class="mm-node" onclick="alert('${s.nome}: ${s.fx.replace(/'/g,"")}')">
+        <circle cx="${x}" cy="${y}" r="40" fill="var(--paper)" stroke="var(--gold)" stroke-width="2"/>
+        <text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" fill="var(--ink)">${s.nome}</text>
+        </g>`;
+      }).join("")}
+    </svg>
+  </div>
+  <div class="card">
+    <h3>Infográfico das funções</h3>
+    <div class="grid cols2">
+      ${SIGNS.map(s=>`<div class="infocard"><span class="sign">${s.nome[0]}</span><p style="font-weight:600;margin:4px 0;">${s.nome}</p><p class="small">${s.fx}</p></div>`).join("")}
+    </div>
+  </div>
+  <div class="card">
+    <h3>Recursos multimídia</h3>
+    <p class="small">🎬 Espaço reservado para vídeo — cole aqui o link do YouTube sobre pontuação.</p>
+    <input type="text" placeholder="Cole o link do vídeo do YouTube aqui">
+    <p class="small" style="margin-top:12px;">🖼️ Espaço reservado para imagem ilustrativa (ex: charge sobre pontuação).</p>
+    <p class="small">🔊 Espaço reservado para áudio (ex: leitura dramatizada de um exemplo).</p>
+  </div>
+  <div class="center"><button class="btn" onclick="go('desafio')">Ir para o desafio →</button></div>`;
+}
+
+function viewQuiz(){
+  if(state.qIndex >= QUIZ.length) return viewResultado();
+  const q = QUIZ[state.qIndex];
+  const answered = state.answered[state.qIndex] !== undefined;
+  return `
+  <p class="small">QUESTÃO ${state.qIndex+1} DE ${QUIZ.length} &nbsp;·&nbsp; <span class="score-badge">${state.score} pts</span></p>
+  <div class="card">
+    <p style="font-weight:600;">${q.q}</p>
+    ${q.op.map((o,i)=>`<button class="opt" id="opt${i}" ${answered?'disabled':''} onclick="answerQuiz(${i})">${o}</button>`).join("")}
+    <div id="quizExplain" class="explain ${answered?'':'hidden'}">${answered? (state.answered[state.qIndex]===q.c? "✅ Você acertou! " : "❌ Resposta correta: "+q.op[q.c]+". ") + q.exp : ""}</div>
+  </div>
+  ${answered?`<div class="center"><button class="btn" onclick="nextQuiz()">${state.qIndex+1<QUIZ.length?'Próxima questão →':'Ver resultado →'}</button></div>`:""}
+  `;
+}
+function answerQuiz(i){
+  if(state.answered[state.qIndex]!==undefined) return;
+  const q = QUIZ[state.qIndex];
+  state.answered[state.qIndex]=i;
+  const correct = i===q.c;
+  if(correct){ state.score+=100; state.correct++; state.achievements.primeiro=true;
+    if(state.qIndex===0) state.achievements.virgula=true; }
+  else state.wrong++;
+  render();
+}
+function nextQuiz(){ state.qIndex++; render(); }
+
+function viewGabarito(){
+  return `<h2 class="serif">Gabarito comentado</h2>
+  ${QUIZ.map((q,i)=>`<div class="card"><p><strong>Questão ${i+1}:</strong> ${q.q}</p>
+    <p><strong>Resposta correta:</strong> ${q.op[q.c]}</p>
+    <p class="explain">${q.exp}</p></div>`).join("")}
+  <div class="center"><button class="btn" onclick="go('final')">Ir para o Desafio Final →</button></div>`;
+}
+
+function viewFinal(){
+  const answered = state.finalAnswer !== undefined;
+  return `<h2 class="serif">Desafio Final</h2>
+  <div class="card">
+    <p>${FINAL.texto}</p>
+    ${FINAL.op.map((o,i)=>`<button class="opt" ${answered?'disabled':''} onclick="answerFinal(${i})">${o}</button>`).join("")}
+    ${answered?`<div class="explain">${state.finalAnswer===FINAL.c?"✅ Muito bem! ":"❌ Resposta correta: "+FINAL.op[FINAL.c]+". "}${FINAL.exp}</div>`:""}
+  </div>
+  ${answered?`<div class="center"><button class="btn" onclick="go('resultado')">Ver resultado final →</button></div>`:""}`;
+}
+function answerFinal(i){ if(state.finalAnswer!==undefined) return; state.finalAnswer=i;
+  if(i===FINAL.c) state.score+=100;
+  if(state.correct===QUIZ.length) state.achievements.mestre=true;
+  render(); }
+
+function viewResultado(){
+  const pct = Math.round((state.correct/QUIZ.length)*100);
+  if(state.correct===QUIZ.length) state.achievements.mestre=true;
+  let msg = pct>=80?"Excelente! Você domina a pontuação.":pct>=50?"Bom trabalho! Revise os pontos que errou.":"Continue praticando — releva a página Aprenda.";
+  return `<h2 class="serif center">Desafio concluído!</h2>
+  <div class="card center">
+    <p style="font-size:28px;font-weight:700;color:var(--plum);">${state.score} pontos</p>
+    <p>${state.correct} acertos · ${state.wrong} erros · ${pct}% de aproveitamento</p>
+    <p>${msg}</p>
+  </div>
+  <div class="card">
+    <h3>Conquistas</h3>
+    <span class="achv ${state.achievements.primeiro?'on':''}">🏅 Primeiro acerto</span>
+    <span class="achv ${state.achievements.virgula?'on':''}">✏️ Dominador da vírgula</span>
+    <span class="achv ${state.achievements.mestre?'on':''}">👑 Mestre da pontuação</span>
+  </div>
+  <div class="center"><button class="btn ghost" onclick="go('gabarito')">Ver gabarito</button> <button class="btn gold" onclick="resetQuiz()">Refazer desafio</button></div>`;
+}
+function resetQuiz(){ state.qIndex=0; state.score=0; state.correct=0; state.wrong=0; state.answered=[]; state.finalAnswer=undefined; go('desafio'); }
+
+function render(){
+  renderSteps();
+  const views = {home:viewHome, aprenda:viewAprenda, exemplos:viewExemplos, explore:viewExplore, desafio:viewQuiz, gabarito:viewGabarito, final:viewFinal, resultado:viewResultado};
+  document.getElementById("app").innerHTML = views[state.step]();
+}
+render();
+</script>
+</body>
+</html>
